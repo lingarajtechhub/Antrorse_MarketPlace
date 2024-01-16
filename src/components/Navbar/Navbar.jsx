@@ -1,10 +1,9 @@
 import React from "react";
-
 const Navbar = () => {
   return (
-    <header class="header sticky top-0  bg-white shadow-sm flex items-center justify-between">
-      <section className="relative mx-auto">
-        <nav className="flex justify-between  w-screen">
+    <header className="header sticky top-0 bg-white shadow-sm flex items-center justify-between  z-10">
+      <section className="relative mx-auto flex flex-1 ">
+        <nav className="flex justify-between w-full ">
           <div className="px-5 xl:px-12 py-6 flex w-full items-center">
             <a className="text-3xl font-bold font-heading" href="#">
               <img
@@ -15,53 +14,128 @@ const Navbar = () => {
             </a>
             <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
               <li>
-                <a className="hover:text-gray-200" href="#">
+                <a className="" href="#">
                   Home
                 </a>
               </li>
+              <li className="relative group">
+                <a className="hover:underline" href="#">
+                  Mens
+                </a>
+                <ul
+                  className="absolute hidden mt-2 space-y-2 bg-white border rounded-md group-hover:block"
+                  style={{ width: "180px" }}
+                >
+                  <li>
+                    <a className="block px-4 py-2 text-gray-800" href="#">
+                      T-shirt
+                    </a>
+                  </li>
+                  <li>
+                    <a className="block px-4 py-2 text-gray-800" href="#">
+                      causal Shirts
+                    </a>
+                  </li>
+                  <li>
+                    <a className="block px-4 py-2 text-gray-800" href="#">
+                      Hoodies
+                    </a>
+                  </li>
+                  <li>
+                    <a className="block px-4 py-2 text-gray-800" href="#">
+                      Formals shirts
+                    </a>
+                  </li>
+                  <li>
+                    <a className="block px-4 py-2 text-gray-800" href="#">
+                      Uppers
+                    </a>
+                  </li>
+                  <li>
+                    <a className="block px-4 py-2 text-gray-800" href="#">
+                      jackets
+                    </a>
+                  </li>
+                </ul>
+                <span className="ml-1 text-gray-500">&#9662;</span>
+              </li>
+              <li className="relative group">
+                <a className="" href="#">
+                  Womens
+                </a>
+                <ul
+                  className="absolute hidden mt-2 space-y-2  bg-white border rounded-md group-hover:block"
+                  style={{ width: "180px" }}
+                >
+                  <li>
+                    <a className="block px-4 py-2 text-gray-800" href="#">
+                      T-shirt
+                    </a>
+                  </li>
+                  <li>
+                    <a className="block px-4 py-2 text-gray-800" href="#">
+                      causal Shirts
+                    </a>
+                  </li>
+                  <li>
+                    <a className="block px-4 py-2 text-gray-800" href="#">
+                      Hoodies
+                    </a>
+                  </li>
+                  <li>
+                    <a className="block px-4 py-2 text-gray-800" href="#">
+                      Formals shirts
+                    </a>
+                  </li>
+                  <li>
+                    <a className="block px-4 py-2 text-gray-800" href="#">
+                      Uppers
+                    </a>
+                  </li>
+                  <li>
+                    <a className="block px-4 py-2 text-gray-800" href="#">
+                      jackets
+                    </a>
+                  </li>
+                </ul>
+                <span className="ml-1 text-gray-500">&#9662;</span>
+              </li>
               <li>
-                <a className="hover:text-gray-200" href="#">
-                  Category
+                <a className="" href="#">
+                  Trending Products
                 </a>
               </li>
               <li>
-                <a className="hover:text-gray-200" href="#">
-                  Collections
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-gray-200" href="#">
-                  Contact Us
+                <a className="" href="#">
+                  Shops
                 </a>
               </li>
             </ul>
-
-            <div class="flex items-center">
+            <div className="flex items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 pt-0.5 text-gray-600"
+                className="h-5 w-5 pt-0.5 text-gray-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 />
               </svg>
               <input
-                class="ml-2 outline-none bg-transparent font-"
+                className="ml-2 outline-none bg-transparent border  rounded-md p-2 mr-2"
                 type="text"
                 name="search"
                 id="search"
                 placeholder="Search..."
               />
             </div>
-            {/* Header Icons */}
-            <div className="hidden xl:flex items-center space-x-5 ">
-              <a className="hover:text-gray-200" href="#">
+            <div className="hidden xl:flex items-center space-x-5">
+              <a className="" href="#">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -77,7 +151,7 @@ const Navbar = () => {
                   />
                 </svg>
               </a>
-              <a className="flex items-center hover:text-gray-200" href="#">
+              <a className="flex items-center" href="#">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -97,11 +171,10 @@ const Navbar = () => {
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
                 </span>
               </a>
-              {/* Sign In / Register */}
-              <a className="flex items-center hover:text-gray-200" href="#">
+              <a className="flex items-center" href="#">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 hover:text-gray-200"
+                  className="h-6 w-6 "
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -114,13 +187,18 @@ const Navbar = () => {
                   />
                 </svg>
               </a>
+              <button
+                className="bg-blue-500 text-sm py-3 text-white px-5  rounded-md "
+                style={{ whiteSpace: "nowrap" }}
+              >
+                Become a seller
+              </button>
             </div>
           </div>
-          {/* Responsive navbar */}
           <a className="xl:hidden flex mr-6 items-center" href="#">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 hover:text-gray-200"
+              className="h-6 w-6 "
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -158,5 +236,4 @@ const Navbar = () => {
     </header>
   );
 };
-
 export default Navbar;
