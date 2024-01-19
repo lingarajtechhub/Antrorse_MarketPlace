@@ -1,3 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;600&family=Noto+Sans:wght@300;400&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-lato font-normal text-base text-gray-800 bg-gray-100 relative;
+  }
+}
+
+.slick-dots {
+  top: 85%;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: gray;
+}
