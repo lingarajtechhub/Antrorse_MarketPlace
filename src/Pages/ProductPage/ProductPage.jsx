@@ -1,183 +1,221 @@
-
+import { useState } from "react";
+import Mergereview from "../../components/Review/Mergereview";
 
 const ProductPage = () => {
+  // Define available sizes for the product
+  const sizes = ["XS", "S", "M", "L", "XL"];
+
+  // State to track the selected size
+  const [selectedSize, setSelectedSize] = useState("");
+
+  // Function to handle size selection
+  const handleSizeClick = (size) => {
+    setSelectedSize(size);
+  };
+
   return (
-    <div>
-        <section className="py-12 sm:py-16"> 
-  <div className="container mx-auto px-4">
-    <nav className="flex">
-      <ol role="list" className="flex items-center">
-        <li className="text-left">
-          <div className="-m-1">
-            <a href="#" className="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800"> Home </a>
-          </div>
-        </li>
+    <div className="bg-gray-100 min-h-screen p-4">
+      {/* Container for product information */}
+      <div className="max-w-6xl   shadow-md p-4 mx-auto">
+        {/* Product layout with images, details, and actions */}
+        <div className="flex flex-col md:flex-row  justify-between">
+          {/* Product Images and Large Image */}
+          <div className="flex p-2 gap-5">
+            {/* Small Product Images */}
+            <div className="flex flex-col w-1/4 gap-2 ">
+              {/* Small product image placeholders */}
+              {Array.from({ length: 5 }, (_, index) => (
+                <div className=" w-24 h-24">
+                  <img
+                    key={index}
+                    src="https://i.postimg.cc/PqYpFTfy/pexels-melvin-buezo-2529148.jpg"
+                    alt={`Product ${index + 1}`}
+                    className="w-full h-full  bg-white object-cover shadow rounded-md cursor-pointer"
+                  />
+                </div>
+              ))}
+            </div>
 
-        <li className="text-left">
-          <div className="flex items-center">
-            <span className="mx-2 text-gray-400">/</span>
-            <div className="-m-1">
-              <a href="#" className="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800"> Products </a>
+            {/* Large Product Image */}
+            <img
+              src="https://i.postimg.cc/PqYpFTfy/pexels-melvin-buezo-2529148.jpg"
+              alt="Product"
+              className="w-[30rem] h-[80vh] bg-white flex-1 rounded-md"
+            />
+          </div>
+
+          {/* Product Details */}
+          <div className="w-[30rem] p-2 h-[90vh] overflow-auto overflow-x-hidden   mt-4 md:mt-0 md:ml-4">
+            <div className="flex flex-col gap-6">
+              {/* Product Title */}
+              <p className="text-3xl font-bold mb-2">Shoes</p>
+
+              {/* Product Ratings */}
+              <div className="flex items-center mb-6">
+                <ul className="flex mr-2">
+                  <li>
+                    <a href="#">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="w-4 mr-1 text-red-500 dark:text-gray-400 bi bi-star "
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="w-4 mr-1 text-red-500 dark:text-gray-400 bi bi-star "
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="w-4 mr-1 text-red-500 dark:text-gray-400 bi bi-star "
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                      </svg>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="w-4 mr-1 text-red-500 dark:text-gray-400 bi bi-star "
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                      </svg>
+                    </a>
+                  </li>
+                </ul>
+                <p className="text-xs dark:text-gray-400 ">
+                  (2 customer reviews)
+                </p>
+              </div>
+
+              {/* Product Price */}
+              <p className="inline-block text-4xl font-bold text-gray-700 dark:text-gray-400 ">
+                <span>₹1000.99</span>
+                <span className="text-base font-normal text-gray-500 line-through dark:text-gray-400">
+                  ₹1500.99
+                </span>
+              </p>
+
+              {/* Product Description */}
+              <p className="text-gray-600 mb-4">
+                Product description goes here. Add any relevant details about
+                the product.
+              </p>
+
+              {/* Product Colors */}
+              <div className="flex items-center mb-4">
+                <h2 className="w-16 mr-6 text-xl font-bold dark:text-gray-400">
+                  Colors:
+                </h2>
+                <div className="flex flex-wrap -mx-2 -mb-2">
+                  {/* Color buttons */}
+                  <button className="p-1 mb-2 mr-2 border border-transparent hover:border-blue-400 dark:border-gray-800 dark:hover:border-gray-400">
+                    <div className="w-6 h-6 bg-cyan-300"></div>
+                  </button>
+                  <button className="p-1 mb-2 mr-2 border border-transparent hover:border-blue-400 dark:border-gray-800 dark:hover:border-gray-400">
+                    <div className="w-6 h-6 bg-green-300 "></div>
+                  </button>
+                  <button className="p-1 mb-2 border border-transparent hover:border-blue-400 dark:border-gray-800 dark:hover:border-gray-400">
+                    <div className="w-6 h-6 bg-red-200 "></div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Product Size Selection */}
+              <div>
+                <p className="w-full text-xl font-semibold text-gray-700 dark:text-gray-400">
+                  Select Size
+                </p>
+                {/* Size buttons */}
+                <div className="flex justify-start gap-2 w-full mt-2">
+                  {sizes.map((size) => (
+                    <span
+                      key={size}
+                      onClick={() => handleSizeClick(size)}
+                      className={`p-2 text-center cursor-pointer w-16 border rounded-md ${
+                        selectedSize === size
+                          ? " ring-2 ring-blue-500"
+                          : "bg-gray-200"
+                      }`}
+                    >
+                      {size}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Quantity Selection */}
+              <div className="w-32 mb-6">
+                <label
+                  htmlFor=""
+                  className="w-full text-xl font-semibold text-gray-700 dark:text-gray-400"
+                >
+                  Quantity
+                </label>
+                {/* Quantity input with buttons */}
+                <div className="relative flex flex-row w-full h-10 mt-4 bg-transparent rounded-lg">
+                  <button className="w-20 h-full text-gray-600 bg-gray-300 rounded-l outline-none cursor-pointer dark:hover:bg-gray-700 dark:text-gray-400 hover:text-gray-700 dark:bg-gray-900 hover:bg-gray-400">
+                    <span className="m-auto text-2xl font-thin">-</span>
+                  </button>
+                  <input
+                    type="number"
+                    className="flex items-center w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-300 outline-none dark:text-gray-400 dark:placeholder-gray-400 dark:bg-gray-900 focus:outline-none text-md hover:text-black"
+                    placeholder="1"
+                  />
+                  <button className="w-20 h-full text-gray-600 bg-gray-300 rounded-r outline-none cursor-pointer dark:hover:bg-gray-700 dark:text-gray-400 dark:bg-gray-900 hover:text-gray-700 hover:bg-gray-400">
+                    <span className="m-auto text-2xl font-thin">+</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Add to Cart and Buy Now Buttons */}
+              <div className="flex flex-wrap items-center  -mx-4 ">
+                <div className="w-full px-4 mb-4 lg:w-1/2 lg:mb-0">
+                  <button className="flex items-center justify-center w-full p-4 text-blue-500 border border-blue-500 rounded-md dark:text-gray-200 dark:border-blue-600 hover:bg-blue-600 hover:border-blue-600 hover:text-gray-100 dark:bg-blue-600 dark:hover:bg-blue-700 dark:hover:border-blue-700 dark:hover:text-gray-300">
+                    Add to Cart
+                  </button>
+                </div>
+                <div className="w-full px-4 lg:mb-0 lg:w-1/2">
+                  <button className="flex items-center justify-center w-full p-4 text-blue-500 border border-blue-500 rounded-md dark:text-gray-200 dark:border-blue-600 hover:bg-blue-600 hover:border-blue-600 hover:text-gray-100 dark:bg-blue-600 dark:hover:bg-blue-700 dark:hover:border-blue-700 dark:hover:text-gray-300">
+                    Buy Now
+                  </button>
+                </div>
+              </div>
+
+              <Mergereview />
             </div>
           </div>
-        </li>
-
-        <li className="text-left">
-          <div className="flex items-center">
-            <span className="mx-2 text-gray-400">/</span>
-            <div className="-m-1">
-              <a href="#" className="rounded-md p-1 text-sm font-medium text-gray-600 focus:text-gray-900 focus:shadow hover:text-gray-800" aria-current="page"> Coffee </a>
-            </div>
-          </div>
-        </li>
-      </ol>
-    </nav>
-
-    <div className="lg:col-gap-12 xl:col-gap-16 mt-8 grid grid-cols-1 gap-12 lg:mt-12 lg:grid-cols-5 lg:gap-16">
-      <div className="lg:col-span-3 lg:row-end-1">
-        <div className="lg:flex lg:items-start">
-          <div className="lg:order-2 lg:ml-5">
-            <div className="max-w-xl overflow-hidden rounded-lg">
-              <img className="h-full w-full max-w-full object-cover" src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg" alt="" />
-            </div>
-          </div>
-
-          <div className="mt-2 w-full lg:order-1 lg:w-32 lg:flex-shrink-0">
-            <div className="flex flex-row items-start lg:flex-col">
-              <button type="button" className="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-gray-900 text-center">
-                <img className="h-full w-full object-cover" src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg" alt="" />
-              </button>
-              <button type="button" className="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
-                <img className="h-full w-full object-cover" src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg" alt="" />
-              </button>
-              <button type="button" className="flex-0 aspect-square mb-3 h-20 overflow-hidden rounded-lg border-2 border-transparent text-center">
-                <img className="h-full w-full object-cover" src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg" alt="" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="lg:col-span-2 lg:row-span-2 lg:row-end-2">
-        <h1 className="sm: text-2xl font-bold text-gray-900 sm:text-3xl">Men T-shirt</h1>
-
-        <div className="mt-5 flex items-center">
-          <div className="flex items-center">
-            <svg className="block h-4 w-4 align-middle text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" className=""></path>
-            </svg>
-            <svg className="block h-4 w-4 align-middle text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" className=""></path>
-            </svg>
-            <svg className="block h-4 w-4 align-middle text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" className=""></path>
-            </svg>
-            <svg className="block h-4 w-4 align-middle text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" className=""></path>
-            </svg>
-            <svg className="block h-4 w-4 align-middle text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" className=""></path>
-            </svg>
-          </div>
-          <p className="ml-2 text-sm font-medium text-gray-500">1,209 Reviews</p>
-        </div>
-
-        <h2 className="mt-8 text-base text-gray-900">Choose Colour</h2>
-        <div className="mt-3 flex select-none flex-wrap items-center gap-1">
-          <label className="">
-            <input type="radio" name="type" value="Powder" className="peer sr-only" checked />
-            <p className="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">Black</p>
-          </label>
-          <label className="">
-            <input type="radio" name="type" value="Whole Bean" className="peer sr-only" />
-            <p className="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">Gray</p>
-          </label>
-          <label className="">
-            <input type="radio" name="type" value="Groud" className="peer sr-only" />
-            <p className="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">Blue</p>
-          </label>
-        </div>
-
-        <h2 className="mt-8 text-base text-gray-900">Choose Size</h2>
-        <div className="mt-3 flex select-none flex-wrap items-center gap-1">
-          <label className="">
-            <input type="radio" name="subscription" value="4 Months" className="peer sr-only" />
-            <p className="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">L</p>
-            <span className="mt-1 block text-center text-xs">$80/mo</span>
-          </label>
-          <label className="">
-            <input type="radio" name="subscription" value="8 Months" className="peer sr-only" checked />
-            <p className="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">XL</p>
-            <span className="mt-1 block text-center text-xs">$60/mo</span>
-          </label>
-          <label className="">
-            <input type="radio" name="subscription" value="12 Months" className="peer sr-only" />
-            <p className="peer-checked:bg-black peer-checked:text-white rounded-lg border border-black px-6 py-2 font-bold">XXL</p>
-            <span className="mt-1 block text-center text-xs">$40/mo</span>
-          </label>
-        </div>
-
-        <div className="mt-10 flex flex-col items-center justify-between space-y-4 border-t border-b py-4 sm:flex-row sm:space-y-0">
-          <div className="flex items-end">
-            <h1 className="text-3xl font-bold">$60.50</h1>
-            <span className="text-base">/month</span>
-          </div>
-
-          <button type="button" className="inline-flex items-center justify-center rounded-md border-2 border-transparent bg-gray-900 bg-none px-12 py-3 text-center text-base font-bold text-white transition-all duration-200 ease-in-out focus:shadow hover:bg-gray-800">
-            <svg xmlns="http://www.w3.org/2000/svg" className="shrink-0 mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-            </svg>
-            Add to cart
-          </button>
-        </div>
-
-        <ul className="mt-8 space-y-2">
-          <li className="flex items-center text-left text-sm font-medium text-gray-600">
-            <svg className="mr-2 block h-5 w-5 align-middle text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" className=""></path>
-            </svg>
-            Free shipping worldwide
-          </li>
-
-          <li className="flex items-center text-left text-sm font-medium text-gray-600">
-            <svg className="mr-2 block h-5 w-5 align-middle text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" className=""></path>
-            </svg>
-            Cancel Anytime
-          </li>
-        </ul>
-      </div>
-
-      <div className="lg:col-span-3">
-        <div className="border-b border-gray-300">
-          <nav className="flex gap-4">
-            <a href="#" title="" className="border-b-2 border-gray-900 py-4 text-sm font-medium text-gray-900 hover:border-gray-400 hover:text-gray-800"> Description </a>
-
-            <a href="#" title="" className="inline-flex items-center border-b-2 border-transparent py-4 text-sm font-medium text-gray-600">
-              Reviews
-              <span className="ml-2 block rounded-full bg-gray-500 px-2 py-px text-xs font-bold text-gray-100"> 1,209 </span>
-            </a>
-          </nav>
-        </div>
-
-        <div className="mt-8 flow-root sm:mt-12">
-          <h1 className="text-3xl font-bold">Delivered To Your Door</h1>
-          <p className="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia accusantium nesciunt fuga.</p>
-          <h1 className="mt-8 text-3xl font-bold">From the Fine Farms of Brazil</h1>
-          <p className="mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio numquam enim facere.</p>
-          <p className="mt-4">Amet consectetur adipisicing elit. Optio numquam enim facere. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolore rerum nostrum eius facere, ad neque.</p>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-    </div>
-  )
-}
+  );
+};
 
 export default ProductPage;
-
-
-
-  
