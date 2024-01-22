@@ -44,6 +44,7 @@ function App() {
         <Route path="/orderCompleted" element={<OrderCompleted />} />
         <Route path="/Orders" element={<Orders />} />
         <Route path="/SellerAccount" element={<SellerAccount />} />
+        <Route path="/AddProduct" element={<AddProduct />} />
         <Route />
       </Routes>
       {location === "/admin" ? null : <Footer />}

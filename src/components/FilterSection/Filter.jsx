@@ -492,7 +492,7 @@ const Filter = () => {
                 </form>
 
                 {/* Product grid */}
-                <div className="lg:col-span-3">
+                <div className="lg:col-span-3 bg-red-800">
                   <ProductList />
                 </div>
               </div>

@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "../../components/Navbar/Navbar";
 import FeaturedProduct from "../../components/FeaturedProduct/FeaturedProduct";
 import CTA from "../../components/CTA/CTA";
 import Hero from "../../components/Hero/Hero";
