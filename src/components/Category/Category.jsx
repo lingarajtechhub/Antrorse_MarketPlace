@@ -62,8 +62,8 @@ const Category = () => {
   };
 
   return (
-    <div className="flex  flex-col items-center justify-center gap-4 bg-slate-200  ">
-      <h3 class="text-lg md:text-xl lg:text-2xl 2xl:text-3xl font-bold text-left w-full pt-5 pl-20">
+    <div className="flex  flex-col items-center justify-center gap-4  py-6  ">
+      <h3 className="text-lg md:text-xl lg:text-2xl 2xl:text-3xl font-bold text-left w-full pt-5 pl-20">
         Shop By Category
       </h3>
 
@@ -71,16 +71,16 @@ const Category = () => {
         {categoryList.map((category) => (
           <div
             key={category.id}
-            className="w-[10rem] h-[15rem] cursor-pointer transition-opacity duration-300 group-hover:bg-opacity-0"
+            className=" w-[15rem] h-[15rem]  cursor-pointer transition-opacity duration-300 group-hover:bg-opacity-0"
           >
             <div className="opacity-80 flex items-center justify-center  hover:opacity-100 rounded-md h-full">
               <img
                 alt={category.title}
                 src={category.img}
-                className="rounded-md w-[12rem] bg-gray-300 object-cover h-full"
+                className="rounded-md w-[12rem] bg-gray-200 object-cover h-full"
               />
             </div>
-            <h4 className="text-heading pl-4 text-lg font-semibold capitalize">
+            <h4 className="text-heading pl-4 mt-2 text-lg font-semibold capitalize">
               {category.title}
             </h4>
           </div>

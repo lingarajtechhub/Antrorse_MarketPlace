@@ -6,7 +6,7 @@ import { FaWallet } from "react-icons/fa";
 
 const ServiceBar = () => {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 xl:gap-8 py-5 md:py-8 xl:px-20 gap-2 p-2 md:gap-4 md:px-4">
+    <div className="grid grid-cols-2 md:grid-cols-4 xl:gap-8 py-5 md:py-8 xl:px-20 gap-2 p-2 md:gap-4 md:px-4 ">
       <div className="div bg-gray-200 rounded-lg flex p-3 xl:py-4 xl:pl-6 gap-4 xl:gap-8 items-center">
         <Ri24HoursFill className="xl:text-4xl md:text-2xl text-xl" />
         <div>

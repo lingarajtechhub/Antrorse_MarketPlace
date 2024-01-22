@@ -1,22 +1,23 @@
 import React from "react";
+import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <header className="header sticky top-0 bg-white shadow-sm flex items-center justify-between  z-10">
       <section className="relative mx-auto flex flex-1 ">
         <nav className="flex justify-between w-full ">
           <div className="px-5 xl:px-12 py-6 flex w-full items-center">
-            <a className="text-3xl font-bold font-heading" href="#">
+            <Link to="/" className="text-3xl font-bold font-heading">
               <img
                 className="h-9"
                 src="https://antrorse.org/img/logo.png"
                 alt="logo"
               />
-            </a>
+            </Link>
             <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
               <li>
-                <a className="" href="#">
+                <Link to="/" className="" >
                   Home
-                </a>
+                </Link>
               </li>
               <li className="relative group">
                 <a className="hover:underline" href="#">
@@ -151,7 +152,7 @@ const Navbar = () => {
                   />
                 </svg>
               </a>
-              <a className="flex items-center" href="#">
+              <Link to="/Orders" className="flex items-center" href="#">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -170,7 +171,7 @@ const Navbar = () => {
                   <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-pink-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
                 </span>
-              </a>
+              </Link>
               <a className="flex items-center" href="#">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

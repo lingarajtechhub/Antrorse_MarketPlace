@@ -133,7 +133,10 @@ const Filter = () => {
                       >
                         {subCategories.map((category) => (
                           <li key={category.name}>
-                            <a href={category.href} className="block px-2 py-3">
+                            <a
+                              href={category.href}
+                              className="block font-bold px-2 py-3"
+                            >
                               {category.name}
                             </a>
                           </li>
@@ -150,7 +153,7 @@ const Filter = () => {
                             <>
                               <h3 className="-mx-2 -my-3 flow-root">
                                 <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                                  <span className="font-medium text-gray-900">
+                                  <span className="font-bold text-5x text-gray-900">
                                     {section.name}
                                   </span>
                                   <span className="ml-6 flex items-center">
@@ -273,7 +276,7 @@ const Filter = () => {
             </Dialog>
           </Transition.Root>
 
-          <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <main className="mx-auto max-w-9xl px-4 sm:px-6 lg:px-8">
             <div className="flex items-baseline justify-between border-b border-gray-200 py-6">
               <h1 className="text-4xl font-bold tracking-tight text-gray-900">
                 New Arrivals
@@ -348,9 +351,9 @@ const Filter = () => {
                 Products
               </h2>
 
-              <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+              <div className="grid grid-cols-1 gap-y-10 lg:grid-cols-4">
                 {/* Filters */}
-                <form className="hidden lg:block">
+                <form className="hidden  lg:block p-4 border-r-2 border-slate-200">
                   <h3 className="sr-only">Categories</h3>
                   <ul
                     role="list"
@@ -492,7 +495,7 @@ const Filter = () => {
                 </form>
 
                 {/* Product grid */}
-                <div className="lg:col-span-3 bg-red-800">
+                <div className="lg:col-span-3">
                   <ProductList />
                 </div>
               </div>

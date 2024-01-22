@@ -18,6 +18,7 @@ import OrderCompleted from "./Pages/OrderComplete/OrderCompleted";
 import ProductListDisplay from "./Pages/ProductListDisplay/ProductListDisplay";
 import Orders from "./Pages/Order/Order";
 import SellerAccount from "./Pages/sellerAccount/SellerAcount";
+import AddProd from "./Pages/addProduct/Addprod";
 
 function App() {
   const location = window.location.pathname;
@@ -44,7 +45,7 @@ function App() {
         <Route path="/orderCompleted" element={<OrderCompleted />} />
         <Route path="/Orders" element={<Orders />} />
         <Route path="/SellerAccount" element={<SellerAccount />} />
-        <Route path="/AddProduct" element={<AddProduct />} />
+        <Route path="/AddProd" element={<AddProd />} />
         <Route />
       </Routes>
       {location === "/admin" ? null : <Footer />}
