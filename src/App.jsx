@@ -19,6 +19,7 @@ import ProductListDisplay from "./Pages/ProductListDisplay/ProductListDisplay";
 import Orders from "./Pages/Order/Order";
 import SellerAccount from "./Pages/sellerAccount/SellerAcount";
 import AddProd from "./Pages/addProduct/Addprod";
+import CartPage from "./Pages/CartPage/CartPage";
 
 function App() {
   const location = window.location.pathname;
@@ -29,6 +30,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/account" element={<Account />} />
 
         <Route path="/productPage" element={<ProductPage />} />
         <Route path="/ProductListDisplay" element={<ProductListDisplay />} />
@@ -46,6 +48,7 @@ function App() {
         <Route path="/Orders" element={<Orders />} />
         <Route path="/SellerAccount" element={<SellerAccount />} />
         <Route path="/AddProd" element={<AddProd />} />
+        <Route path="/cartPage" element={<CartPage />} />
         <Route />
       </Routes>
       {location === "/admin" ? null : <Footer />}

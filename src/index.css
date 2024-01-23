@@ -21,7 +21,7 @@
 
 .slick-prev,
 .slick-next {
-  background-color: rgb(208, 224, 236) !important;
+  background-color: rgb(255, 255, 255) !important;
   overflow: hidden;
   z-index: 50;
   position: absolute;
@@ -29,10 +29,10 @@
 }
 
 .slick-prev {
-  transform: translate(+1.5rem, -2.5rem);
+  transform: translate(+0.5rem, -2.5rem);
 }
 .slick-next {
-  transform: translate(-1.5rem, -2.5rem);
+  transform: translate(-0.5rem, -2.5rem);
 }
 .slick-prev:before {
   content: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik02ODUuMjQ4IDEwNC43MDRhNjQgNjQgMCAwIDEgMCA5MC40OTZMMzY4LjQ0OCA1MTJsMzE2LjggMzE2LjhhNjQgNjQgMCAwIDEtOTAuNDk2IDkwLjQ5NkwyMzIuNzA0IDU1Ny4yNDhhNjQgNjQgMCAwIDEgMC05MC40OTZsMzYyLjA0OC0zNjIuMDQ4YTY0IDY0IDAgMCAxIDkwLjQ5NiAwIi8+PC9zdmc+");

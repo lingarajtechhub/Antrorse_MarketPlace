@@ -132,13 +132,11 @@ const Filter = () => {
                         className="px-2 py-3 font-medium text-gray-900"
                       >
                         {subCategories.map((category) => (
-                          <li key={category.name}>
-                            <a
-                              href={category.href}
-                              className="block font-bold px-2 py-3"
-                            >
-                              {category.name}
-                            </a>
+                          <li
+                            key={category.name}
+                            className="block font-bold px-2 py-3 text-3xl"
+                          >
+                            <a href={category.href}>{category.name}</a>
                           </li>
                         ))}
                       </ul>
@@ -346,7 +344,7 @@ const Filter = () => {
               </div>
             </div>
 
-            <section aria-labelledby="products-heading" className="pb-24 pt-6">
+            <section aria-labelledby="products-heading" className="pb-24 pt-6 ">
               <h2 id="products-heading" className="sr-only">
                 Products
               </h2>

@@ -11,7 +11,7 @@ export const CartSlice = createSlice({
     addToCart(state, action) {
       const product = action.payload;
 
-      console.log(product)
+      console.log(product);
       //check if product exists
       const itemExist = state.cartItems.find(
         (item) =>

@@ -52,7 +52,7 @@ const Category = () => {
     arrows: true,
     infinite: true,
     speed: 800,
-    slidesToShow: 6,
+    slidesToShow: 7,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,
@@ -73,7 +73,7 @@ const Category = () => {
             key={category.id}
             className=" w-[15rem] h-[15rem]  cursor-pointer transition-opacity duration-300 group-hover:bg-opacity-0"
           >
-            <div className="opacity-80 flex items-center justify-center  hover:opacity-100 rounded-md h-full">
+            <div className="opacity-80 flex mr-2 items-center justify-center  hover:opacity-100 rounded-md h-full">
               <img
                 alt={category.title}
                 src={category.img}

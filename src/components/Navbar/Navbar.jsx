@@ -14,11 +14,11 @@ const Navbar = () => {
               />
             </Link>
             <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
-              <li>
-                <Link to="/" className="" >
+              {/* <li>
+                <Link to="/" className="">
                   Home
                 </Link>
-              </li>
+              </li> */}
               <li className="relative group">
                 <a className="hover:underline" href="#">
                   Mens
@@ -112,7 +112,7 @@ const Navbar = () => {
                 </a>
               </li>
             </ul>
-            <div className="flex items-center">
+            <div className="flex items-center border-2 mr-2 border-slate-200 rounded-md px-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 pt-0.5 text-gray-600"
@@ -128,7 +128,7 @@ const Navbar = () => {
                 />
               </svg>
               <input
-                className="ml-2 outline-none bg-transparent border  rounded-md p-2 mr-2"
+                className="ml-2 outline-none border-none bg-transparent border  rounded-md p-2 "
                 type="text"
                 name="search"
                 id="search"
@@ -136,7 +136,7 @@ const Navbar = () => {
               />
             </div>
             <div className="hidden xl:flex items-center space-x-5">
-              <a className="" href="#">
+              <Link to="/wishlist" className="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -151,8 +151,8 @@ const Navbar = () => {
                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                   />
                 </svg>
-              </a>
-              <Link to="/Orders" className="flex items-center" href="#">
+              </Link>
+              <Link to="/cart" className="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"

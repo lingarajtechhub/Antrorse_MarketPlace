@@ -1,5 +1,3 @@
-import "./Acc.css";
-
 const Account = () => {
   return (
     <div>
