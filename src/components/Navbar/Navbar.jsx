@@ -1,6 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 const Navbar = () => {
+
+
+  const routes = [
+    {
+      name : "t-shirt",
+      routes : "/ProductListDisplay"
+    },
+    {
+      name : "t-shirt",
+      routes : "/ProductListDisplay"
+    }
+  ]
   return (
     <header className="header sticky top-0 bg-white shadow-sm flex items-center justify-between  z-10">
       <section className="relative mx-auto flex flex-1 ">
@@ -30,6 +42,9 @@ const Navbar = () => {
                   <li>
                     <a className="block px-4 py-2 text-gray-800" href="#">
                       T-shirt
+
+
+                      
                     </a>
                   </li>
                   <li>
