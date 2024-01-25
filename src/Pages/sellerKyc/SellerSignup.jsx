@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
-// import KYCForm from "./SellerKyc";
 
 const SellerSignUp = () => {
   const [isVerificationSuccessful, setIsVerificationSuccessful] =
@@ -270,15 +269,23 @@ const SellerSignUp = () => {
               {isVerificationSuccessful && (
                 <div className={`popup ${isKycPopupVisible ? "visible" : ""}`}>
                   <div className="popup-content">
-                    <p>
+                    <p className="py-2 px-2">
                       Verification successfully! You can now proceed. However,
                       KYC is pending. Please complete your KYC before
                       proceeding.
                     </p>
-                    <Link to="/kycform">
-                      <button onClick={closeKycPopup}>Go to KYC Page</button>
+                    <Link
+                      to="/kycform"
+                      className={`bg-blue-500 text-white py-2 px-4 rounded mt-4 ${
+                        window.location.pathname === "/kycform"
+                          ? "bg-blue-700"
+                          : ""
+                      }`}
+                      onClick={closeKycPopup}
+                    >
+                      Go to KYC Page
                     </Link>
-                    <button onClick={closeKycPopup}>Close</button>
+                    {/* <button onClick={closeKycPopup}>Close</button> */}
                   </div>
                 </div>
               )}

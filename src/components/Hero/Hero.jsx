@@ -45,7 +45,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="max-w-[1300px] m-auto grid  lg:grid-cols-4 gap-4 mb-5 mt-4 p-2">
+    <div className="max-w-[1380px] m-auto grid  lg:grid-cols-4 gap-4 mb-5 mt-4 p-2">
       <div className="row-span-2 col-span-2  rounded-lg overflow-hidden ">
         <Slider {...settings} className="">
           {ImageList.map((item) => (

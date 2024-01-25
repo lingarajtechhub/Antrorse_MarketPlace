@@ -263,7 +263,7 @@ const Sidebar = ({ handleActiveDashboard }) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  Tables
+                  Orders
                 </li>
                 {/* <!-- Menu Item Tables --> */}
 

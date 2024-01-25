@@ -23,9 +23,14 @@ import CartPage from "./Pages/CartPage/CartPage";
 import Login from "./Pages/Login/Login";
 import SignUp from "./Pages/SignUpPage/SignUp";
 import Viewproducts from "./Pages/viewproducts/viewproducts";
+import { useEffect } from "react";
 
 function App() {
   const location = window.location.pathname;
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+  }, []);
 
   return (
     <Router>

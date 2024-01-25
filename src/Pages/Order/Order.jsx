@@ -14,7 +14,7 @@ const Orders = () => {
   ];
 
   return (
-    <div className="py-2 m-20 mt-3 border px-10 md:px-20 bg-slate-50 2xl:px-20 2xl:mx-auto shadow-sm ">
+    <div className=" flex flex-col items-start py-2 m-20 mt-3 border px-10 md:px-20 bg-slate-50 2xl:px-20 2xl:mx-auto shadow-sm ">
       <p className="text-2xl text-center font-bold text-gray-800 mb-6">
         Order History
       </p>
@@ -22,7 +22,7 @@ const Orders = () => {
       {orders &&
         orders.map((order) => (
           <div
-            className="   flex flex-col justify-center items-stretch mt-2  rounded-md border shadow-sm"
+            className="flex flex-col w-full justify-center items-stretch mt-2  rounded-md border shadow-sm"
             key={order.id}
           >
             <div className="flex flex-col justify-start items-start w-full space-y-2 ">
