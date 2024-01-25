@@ -98,7 +98,7 @@ const AddProd = () => {
           {/* topsection */}
 
           <div className="flex w-full justify-between p-2">
-            <div className="w-full   flex flex-col p-6 gap-y-2 border shadow-lg rounded-md ">
+            <div className="w-full  bg-white  flex flex-col p-6 gap-y-2 border shadow-lg rounded-md ">
               <div>
                 <h1 className="font-bold text-lg m-3">Product Info</h1>
                 <hr className="border-t-2 border-gray-300" />

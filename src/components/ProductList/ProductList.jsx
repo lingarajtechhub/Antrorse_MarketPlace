@@ -13,14 +13,13 @@ const ProductList = () => {
 
   const itemsInCart = useSelector((state) => state.cart.cartItems);
   const itemsInWishlist = useSelector((state) => state.wishlist.wishlistItems);
+  const sorting = useSelector((state) => state.sort.sorting);
 
   const fetchCartItemsId = () => {
     const cartItemIds = itemsInCart.map((item) => item.id) || [];
     const wishlistItemIds = itemsInWishlist.map((item) => item.id) || [];
     setItemsInCartId(() => cartItemIds);
     setItemsInWishlistId(() => wishlistItemIds);
-    console.log(cartItemIds, "cartItemIds");
-    console.log(wishlistItemIds, "wishlistItemIds");
   };
 
   const fetchData = async () => {
@@ -34,10 +33,55 @@ const ProductList = () => {
     }
   };
 
+  const sortProducts = () => {
+    const sortedProducts = [...products];
+
+    switch (sorting) {
+      case 1:
+        sortedProducts.sort((a, b) => b.rating.count - a.rating.count);
+        break;
+      case 2:
+        sortedProducts.sort((a, b) => {
+          if (b.rating.rate === a.rating.rate) {
+            return b.rating.count - a.rating.count;
+          } else {
+            return b.rating.rate - a.rating.rate;
+          }
+        });
+        break;
+      case 3:
+        // sortedProducts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        break;
+      case 4:
+        sortedProducts.sort((a, b) => a.price - b.price);
+        break;
+      case 5:
+        sortedProducts.sort((a, b) => b.price - a.price);
+        break;
+      default:
+        break;
+    }
+
+    setProducts(sortedProducts);
+  };
+
+  const handleSort = () => {
+    sortProducts();
+  };
+
   useEffect(() => {
     fetchData();
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     fetchCartItemsId();
+    handleSort();
   }, [itemsInCart, itemsInWishlist]);
+
+  useEffect(() => {
+    handleSort();
+  }, [sorting]);
 
   return (
     <>

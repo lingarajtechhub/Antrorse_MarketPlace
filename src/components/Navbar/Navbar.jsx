@@ -1,20 +1,87 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { RiArrowDropDownLine } from "react-icons/ri";
+
+import { CiLogout } from "react-icons/ci";
+import { useDispatch, useSelector } from "react-redux";
+import { auth } from "../../redux/features/User/UserSlice";
+
+const SubMenu = ({ items }) => (
+  <ul className="absolute left-0 hidden mt-1 space-y-1 bg-white border rounded-md group-hover:block">
+    {items.map((item) => (
+      <li key={item.path}>
+        <NavLink
+          to={item.path}
+          className="block px-4 py-2 text-gray-800 whitespace-nowrap hover:bg-slate-200 "
+        >
+          {item.label}
+        </NavLink>
+      </li>
+    ))}
+  </ul>
+);
+
 const Navbar = () => {
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const isUserLoggedIn = useSelector((state) => state.user.authorized);
 
-
-  const routes = [
+  const mainMenu = [
     {
-      name : "t-shirt",
-      routes : "/ProductListDisplay"
+      path: "/men",
+      label: "Men",
+      subMenu: [
+        { path: "/men", label: "T-shirt" },
+        { path: "/men", label: "Causal Shirts" },
+        { path: "/men", label: "Hoodies" },
+        { path: "/men", label: "Formals shirts" },
+        { path: "/men", label: "Uppers" },
+        { path: "/men", label: "jackets" },
+      ],
     },
     {
-      name : "t-shirt",
-      routes : "/ProductListDisplay"
-    }
-  ]
+      path: "/women",
+      label: "Women",
+      subMenu: [
+        { path: "/women", label: "T-shirt" },
+        { path: "/women", label: "Causal Shirts" },
+        { path: "/women", label: "Hoodies" },
+        { path: "/women", label: "Formals shirts" },
+        { path: "/women", label: "Uppers" },
+        { path: "/women", label: "jackets" },
+      ],
+    },
+    { path: "/trending-products", label: "Trending Products" },
+    { path: "/shops", label: "Shops" },
+  ];
+
+  const dispatch = useDispatch();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(auth(false));
+  };
+
+  const UserProfileDropdown = () => (
+    <div className="absolute  mt-40 ml-3 w-32 space-y-2 bg-white border rounded-md">
+      {/* Add menu items for the user profile dropdown */}
+      <Link to="/account" className="block px-4 py-1 text-gray-800">
+        My Profile
+      </Link>
+      <Link to="/account" className="block px-4 py-1 text-gray-800">
+        Settings
+      </Link>
+
+      <button
+        onClick={handleLogout}
+        className=" border-t px-4 py-1 justify-between flex gap-y-1 text-gray-800"
+      >
+        <CiLogout className="mt-1" /> Logout
+      </button>
+    </div>
+  );
+
   return (
-    <header className="header sticky top-0 bg-white shadow-sm flex items-center justify-between  z-10">
+    <header className="header sticky top-0 bg-white shadow-sm flex items-center justify-between  z-[90000]">
       <section className="relative mx-auto flex flex-1 ">
         <nav className="flex justify-between w-full ">
           <div className="px-5 xl:px-12 py-6 flex w-full items-center">
@@ -25,107 +92,21 @@ const Navbar = () => {
                 alt="logo"
               />
             </Link>
-            <ul className="hidden md:flex px-4 mx-auto font-semibold font-heading space-x-12">
-              {/* <li>
-                <Link to="/" className="">
-                  Home
-                </Link>
-              </li> */}
-              <li className="relative group">
-                <a className="hover:underline" href="#">
-                  Mens
-                </a>
-                <ul
-                  className="absolute hidden mt-2 space-y-2 bg-white border rounded-md group-hover:block"
-                  style={{ width: "180px" }}
-                >
-                  <li>
-                    <a className="block px-4 py-2 text-gray-800" href="#">
-                      T-shirt
 
-
-                      
-                    </a>
-                  </li>
-                  <li>
-                    <a className="block px-4 py-2 text-gray-800" href="#">
-                      causal Shirts
-                    </a>
-                  </li>
-                  <li>
-                    <a className="block px-4 py-2 text-gray-800" href="#">
-                      Hoodies
-                    </a>
-                  </li>
-                  <li>
-                    <a className="block px-4 py-2 text-gray-800" href="#">
-                      Formals shirts
-                    </a>
-                  </li>
-                  <li>
-                    <a className="block px-4 py-2 text-gray-800" href="#">
-                      Uppers
-                    </a>
-                  </li>
-                  <li>
-                    <a className="block px-4 py-2 text-gray-800" href="#">
-                      jackets
-                    </a>
-                  </li>
-                </ul>
-                <span className="ml-1 text-gray-500">&#9662;</span>
-              </li>
-              <li className="relative group">
-                <a className="" href="#">
-                  Womens
-                </a>
-                <ul
-                  className="absolute hidden mt-2 space-y-2  bg-white border rounded-md group-hover:block"
-                  style={{ width: "180px" }}
-                >
-                  <li>
-                    <a className="block px-4 py-2 text-gray-800" href="#">
-                      T-shirt
-                    </a>
-                  </li>
-                  <li>
-                    <a className="block px-4 py-2 text-gray-800" href="#">
-                      causal Shirts
-                    </a>
-                  </li>
-                  <li>
-                    <a className="block px-4 py-2 text-gray-800" href="#">
-                      Hoodies
-                    </a>
-                  </li>
-                  <li>
-                    <a className="block px-4 py-2 text-gray-800" href="#">
-                      Formals shirts
-                    </a>
-                  </li>
-                  <li>
-                    <a className="block px-4 py-2 text-gray-800" href="#">
-                      Uppers
-                    </a>
-                  </li>
-                  <li>
-                    <a className="block px-4 py-2 text-gray-800" href="#">
-                      jackets
-                    </a>
-                  </li>
-                </ul>
-                <span className="ml-1 text-gray-500">&#9662;</span>
-              </li>
-              <li>
-                <a className="" href="#">
-                  Trending Products
-                </a>
-              </li>
-              <li>
-                <a className="" href="#">
-                  Shops
-                </a>
-              </li>
+            <ul className="hidden md:flex px-3 mx-auto font-semibold font-heading space-x-12">
+              {mainMenu.map((menuItem) => (
+                <li key={menuItem.path} className="relative group py-4 text-nowrap">
+                  {menuItem.subMenu ? (
+                    <>
+                      <NavLink to={menuItem.path}>{menuItem.label}</NavLink>
+                      <SubMenu items={menuItem.subMenu} />
+                      <span className="ml-1 text-black">&#9662;</span>
+                    </>
+                  ) : (
+                    <Link to={menuItem.path}>{menuItem.label}</Link>
+                  )}
+                </li>
+              ))}
             </ul>
             <div className="flex items-center border-2 mr-2 border-slate-200 rounded-md px-2">
               <svg
@@ -143,14 +124,14 @@ const Navbar = () => {
                 />
               </svg>
               <input
-                className="ml-2 outline-none border-none bg-transparent border  rounded-md p-2 "
+                className="ml-2 outline-none bg-transparent border-none  rounded-md p-2 mr-2"
                 type="text"
                 name="search"
                 id="search"
                 placeholder="Search..."
               />
             </div>
-            <div className="hidden xl:flex items-center space-x-5">
+            <div className="hidden xl:flex items-center space-x-5 ">
               <Link to="/wishlist" className="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +148,7 @@ const Navbar = () => {
                   />
                 </svg>
               </Link>
-              <Link to="/cart" className="flex items-center">
+              <Link to="/viewcart" className="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -187,28 +168,50 @@ const Navbar = () => {
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
                 </span>
               </Link>
-              <a className="flex items-center" href="#">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 "
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+              {/* userProfile or login */}
+              <div className="flex items-center justify-center gap-2">
+                {isUserLoggedIn ? (
+                  <>
+                    <span className="flex items-center gap-0">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-6 w-6 "
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <RiArrowDropDownLine
+                        className="w-6   h-6 cursor-pointer"
+                        onClick={() =>
+                          setIsProfileDropdownOpen(!isProfileDropdownOpen)
+                        }
+                      />
+                      {isProfileDropdownOpen && <UserProfileDropdown />}
+                    </span>
+                  </>
+                ) : (
+                  <Link
+                    className=" text-black px-4 py-1  flex flex-1 h-full border  border-black rounded-sm"
+                    to="/login"
+                  >
+                    login
+                  </Link>
+                )}
+
+                <Link
+                  to="/sellersignup"
+                  className=" text-black px-4 py-1  rounded-sm  border border-black"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-              </a>
-              <button
-                className="bg-blue-500 text-sm py-3 text-white px-5  rounded-md "
-                style={{ whiteSpace: "nowrap" }}
-              >
-                Become a seller
-              </button>
+                  Become a seller
+                </Link>
+              </div>
             </div>
           </div>
           <a className="xl:hidden flex mr-6 items-center" href="#">

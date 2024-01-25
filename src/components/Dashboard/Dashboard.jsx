@@ -5,6 +5,7 @@ import Calendar from "../Calendar/Calendar";
 import Tables from "../../Pages/table/Tables";
 import TableThree from "../../Pages/table/TableThree";
 import AddProd from "../../Pages/addProduct/Addprod";
+import SellerAccount from "../../Pages/sellerAccount/SellerAcount";
 
 const Dashboard = ({ activeComponent }) => {
   let componentToRender;
@@ -19,8 +20,11 @@ const Dashboard = ({ activeComponent }) => {
     case "seller":
       componentToRender = <TableThree activeComponent={activeComponent} />;
       break;
-    case "forms":
-      componentToRender = <AddProd  />;
+    case "addproduct":
+      componentToRender = <AddProd />;
+      break;
+    case "settings":
+      componentToRender = <SellerAccount />;
       break;
     default:
       componentToRender = <Metric />;

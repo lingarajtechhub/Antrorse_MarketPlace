@@ -26,18 +26,19 @@ const TableThree = ({ activeComponent }) => {
             <tr>
               <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-slate-800 xl:pl-11">
                 <h5 className="font-medium text-black dark:text-white">
-                  Free Package
+                  {activeComponent === "seller" ? "Antrorse" : "Free Package"}
                 </h5>
                 {activeComponent !== "seller" ? (
                   <p className="text-sm">&#8377;0.00</p>
                 ) : null}
               </td>
+
               <td className="border-b border-[#eee] py-5 px-4 dark:border-slate-800">
                 <p className="text-black dark:text-white">Jan 13,2023</p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-slate-800">
                 <p className="inline-flex rounded-full bg-green-600 bg-opacity-10 py-1 px-3 text-sm font-medium text-green-600">
-                  Paid
+                  {activeComponent === "seller" ? "active" : "Paid"}
                 </p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-slate-800">
@@ -113,18 +114,19 @@ const TableThree = ({ activeComponent }) => {
             <tr>
               <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-slate-800 xl:pl-11">
                 <h5 className="font-medium text-black dark:text-white">
-                  Standard Package
+                  {activeComponent === "seller" ? "Antrorse" : "Free Package"}
                 </h5>
                 {activeComponent !== "seller" ? (
-                  <p className="text-sm">&#8377;59.00</p>
+                  <p className="text-sm">&#8377;0.00</p>
                 ) : null}
               </td>
+
               <td className="border-b border-[#eee] py-5 px-4 dark:border-slate-800">
                 <p className="text-black dark:text-white">Jan 13,2023</p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-slate-800">
                 <p className="inline-flex rounded-full bg-green-600 bg-opacity-10 py-1 px-3 text-sm font-medium text-green-600">
-                  Paid
+                  {activeComponent === "seller" ? "active" : "Paid"}
                 </p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-slate-800">
@@ -200,7 +202,7 @@ const TableThree = ({ activeComponent }) => {
             <tr>
               <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-slate-800 xl:pl-11">
                 <h5 className="font-medium text-black dark:text-white">
-                  Business Package
+                  {activeComponent === "seller" ? "Antrorse" : "Free Package"}
                 </h5>
                 {activeComponent !== "seller" ? (
                   <p className="text-sm">&#8377;99.00</p>
@@ -211,7 +213,7 @@ const TableThree = ({ activeComponent }) => {
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-slate-800">
                 <p className="inline-flex rounded-full bg-rose-600 bg-opacity-10 py-1 px-3 text-sm font-medium text-rose-600">
-                  Unpaid
+                  {activeComponent === "seller" ? "rejected" : "UnPaid"}
                 </p>
               </td>
               <td className="border-b border-[#eee] py-5 px-4 dark:border-slate-800">
@@ -287,7 +289,7 @@ const TableThree = ({ activeComponent }) => {
             <tr>
               <td className="py-5 px-4 pl-9 xl:pl-11">
                 <h5 className="font-medium text-black dark:text-white">
-                  Standard Package
+                  {activeComponent === "seller" ? "Antrorse" : "Free Package"}
                 </h5>
                 {activeComponent !== "seller" ? (
                   <p className="text-sm">&#8377;59.00</p>
@@ -298,7 +300,7 @@ const TableThree = ({ activeComponent }) => {
               </td>
               <td className="py-5 px-4">
                 <p className="inline-flex rounded-full bg-amber-600 bg-opacity-10 py-1 px-3 text-sm font-medium text-amber-600">
-                  Pending
+                  {activeComponent === "seller" ? "pending" : "pending"}
                 </p>
               </td>
               <td className="py-5 px-4">

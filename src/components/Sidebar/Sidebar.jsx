@@ -173,7 +173,7 @@ const Sidebar = ({ handleActiveDashboard }) => {
                 </li>
                 {/* <!-- Menu Item Profile --> */}
 
-                {/* <!-- Menu Item Forms --> */}
+                {/* <!-- Menu Item addproduct --> */}
                 <SidebarLinkGroup>
                   {(handleClick, open) => {
                     return (
@@ -183,7 +183,7 @@ const Sidebar = ({ handleActiveDashboard }) => {
                           className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-200 duration-300 ease-in-out hover:bg-gray-600 dark:hover:bg-gray-600-4 text-lg  `}
                           onClick={(e) => {
                             e.preventDefault();
-                            handleActiveDashboard("forms");
+                            handleActiveDashboard("addproduct");
                           }}
                         >
                           <svg
@@ -215,7 +215,7 @@ const Sidebar = ({ handleActiveDashboard }) => {
                               fill="white"
                             />
                           </svg>
-                          Forms
+                          Add product
                         </NavLink>
                         {/* <!-- Dropdown Menu Start --> */}
                         <div
@@ -228,7 +228,7 @@ const Sidebar = ({ handleActiveDashboard }) => {
                     );
                   }}
                 </SidebarLinkGroup>
-                {/* <!-- Menu Item Forms --> */}
+                {/* <!-- Menu Item addproduct --> */}
 
                 {/* <!-- Menu Item Tables --> */}
                 <li

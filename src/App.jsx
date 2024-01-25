@@ -15,11 +15,14 @@ import SellerSignUp from "./Pages/sellerKyc/SellerSignup";
 import AddProduct from "./Pages/addProduct/AddProduct";
 import NotFound from "./components/404/NotFound";
 import OrderCompleted from "./Pages/OrderComplete/OrderCompleted";
-import ProductListDisplay from "./Pages/ProductListDisplay/ProductListDisplay";
+import viewproducts from "./Pages/viewproducts/viewproducts";
 import Orders from "./Pages/Order/Order";
 import SellerAccount from "./Pages/sellerAccount/SellerAcount";
 import AddProd from "./Pages/addProduct/Addprod";
 import CartPage from "./Pages/CartPage/CartPage";
+import Login from "./Pages/Login/Login";
+import SignUp from "./Pages/SignUpPage/SignUp";
+import Viewproducts from "./Pages/viewproducts/viewproducts";
 
 function App() {
   const location = window.location.pathname;
@@ -29,26 +32,30 @@ function App() {
       {location === "/admin" ? null : <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/viewproducts" element={<Viewproducts />} />
+
+        <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/viewcart" element={<CartPage />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/orderCompleted" element={<OrderCompleted />} />
+
+        <Route path="/orders" element={<Orders />} />
         <Route path="/account" element={<Account />} />
 
         <Route path="/productPage" element={<ProductPage />} />
-        <Route path="/ProductListDisplay" element={<ProductListDisplay />} />
         <Route path="/account" element={<Account />} />
         <Route path="/Invoice" element={<Invoice />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/sellerSupport" element={<SellerSupport />} />
         <Route path="/profile" element={<AdminProfile />} />
         <Route path="/sellersignup" element={<SellerSignUp />} />
         <Route path="/kycform" element={<KYCForm />} />
         <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/404" element={<NotFound />} />
-        <Route path="/orderCompleted" element={<OrderCompleted />} />
-        <Route path="/Orders" element={<Orders />} />
         <Route path="/SellerAccount" element={<SellerAccount />} />
         <Route path="/AddProd" element={<AddProd />} />
-        <Route path="/cartPage" element={<CartPage />} />
         <Route />
       </Routes>
       {location === "/admin" ? null : <Footer />}

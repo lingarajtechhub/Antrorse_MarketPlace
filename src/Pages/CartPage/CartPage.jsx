@@ -2,6 +2,7 @@
 import { useState } from "react";
 
 import Emptycart from "./emptycart";
+import { Link } from "react-router-dom";
 // Initial products data
 const initialProducts = [
   {
@@ -296,15 +297,18 @@ const CartPage = () => {
             <hr className="my-2" />
 
             {/* Total and Checkout button */}
-            <div className="flex justify-between mb-2">
+            <div className="flex justify-between mb-4">
               <span className="font-semibold">Total</span>
               <span className="font-semibold">
                 ₹{calculateSubtotal() + 1} {/* Taxes */}
               </span>
             </div>
-            <button className="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">
+            <Link
+              to="/checkout"
+              className="bg-blue-500 flex flex-1 text-center justify-center text-white py-2 px-4 rounded-lg "
+            >
               Checkout
-            </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const OrderCompleted = () => {
   return (
     <section className="flex items-center py-4 bg-gray-200 font-poppins dark:bg-gray-800 ">
@@ -211,14 +213,14 @@ const OrderCompleted = () => {
             </div>
           </div>
           <div className="flex flex-wrap items-center justify-between gap-4 ">
-            <button className="w-full px-6 py-3 text-blue-500 border border-blue-500 rounded-md md:w-auto hover:text-gray-100 hover:bg-blue-600 dark:border-gray-800 dark:hover:bg-gray-800 dark:text-gray-300">
+            <Link to="/viewproducts" className="w-full px-6 py-3 text-blue-500 border border-blue-500 rounded-md md:w-auto hover:text-gray-100 hover:bg-blue-600 dark:border-gray-800 dark:hover:bg-gray-800 dark:text-gray-300">
               Go back shopping
-            </button>
+            </Link>
             <button className="w-full px-6 py-3 text-gray-100 bg-blue-500 rounded-md md:w-auto dark:text-gray-300 hover:bg-blue-600 dark:hover:bg-gray-800 dark:bg-gray-700">
               Download Invoice
             </button>
           </div>
-        </div>
+        </div>  
       </div>
     </section>
   );

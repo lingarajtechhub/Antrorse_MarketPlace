@@ -2,6 +2,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Link } from "react-router-dom";
 
 const Category = () => {
   const categoryList = [
@@ -69,7 +70,8 @@ const Category = () => {
 
       <Slider {...settings} className="w-[90vw] h-fit ">
         {categoryList.map((category) => (
-          <div
+          <Link
+            to="/viewproducts"
             key={category.id}
             className=" w-[15rem] h-[15rem]  cursor-pointer transition-opacity duration-300 group-hover:bg-opacity-0"
           >
@@ -83,7 +85,7 @@ const Category = () => {
             <h4 className="text-heading pl-4 mt-2 text-lg font-semibold capitalize">
               {category.title}
             </h4>
-          </div>
+          </Link>
         ))}
       </Slider>
     </div>

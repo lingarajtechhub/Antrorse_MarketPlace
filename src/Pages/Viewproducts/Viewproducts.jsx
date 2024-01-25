@@ -1,7 +1,7 @@
 import React from "react";
 import Filter from "../../components/FilterSection/Filter"; 
 
-const ProductListDisplay = () => {
+const Viewproducts = () => {
   return (
     <div>
       <Filter />
@@ -9,4 +9,4 @@ const ProductListDisplay = () => {
   );
 };
 
-export default ProductListDisplay;
+export default Viewproducts;

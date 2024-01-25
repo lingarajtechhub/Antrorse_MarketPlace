@@ -1,4 +1,70 @@
+import { useState } from "react";
+import { BiHide, BiShow } from "react-icons/bi";
+import { Link } from "react-router-dom";
+
 const Account = () => {
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [emailEditable, setEmailEditable] = useState(false);
+  const [mobileEditable, setMobileEditable] = useState(false);
+  const [email, setEmail] = useState("john.doe@company.com");
+  const [mobileNumber, setMobileNumber] = useState("123-456-7890");
+  const [showNotification, setShowNotification] = useState(false);
+  const [emailSavedNotification, setEmailSavedNotification] = useState(false);
+  const [mobileSavedNotification, setMobileSavedNotification] = useState(false);
+  const [passwordSavedNotification, setPasswordSavedNotification] =
+    useState(false);
+
+  const togglePasswordVisibility = (passwordType) => {
+    if (passwordType === "current") {
+      setShowCurrentPassword(!showCurrentPassword);
+    } else {
+      setShowNewPassword(!showNewPassword);
+    }
+  };
+
+  const toggleEmailEditable = () => {
+    setEmailEditable(!emailEditable);
+  };
+
+  const toggleMobileEditable = () => {
+    setMobileEditable(!mobileEditable);
+  };
+
+  const saveChanges = (section) => {
+    switch (section) {
+      case "email":
+        if (email !== "john.doe@company.com") {
+          setEmailSavedNotification(true);
+          setTimeout(() => {
+            setEmailSavedNotification(false);
+          }, 3000);
+        }
+        break;
+      case "mobile":
+        if (mobileNumber !== "123-456-7890") {
+          setMobileSavedNotification(true);
+          setTimeout(() => {
+            setMobileSavedNotification(false);
+          }, 3000);
+        }
+        break;
+      case "password":
+        setPasswordSavedNotification(true);
+        setTimeout(() => {
+          setPasswordSavedNotification(false);
+        }, 3000);
+        break;
+      default:
+        break;
+    }
+
+    setShowNotification(true);
+    setTimeout(() => {
+      setShowNotification(false);
+    }, 3000);
+  };
+
   return (
     <div>
       <link
@@ -7,7 +73,13 @@ const Account = () => {
       />
 
       <div className="mx-4 min-h-screen max-w-screen-xl sm:mx-8 xl:mx-auto">
-        <h1 className="border-b py-6 text-4xl font-semibold">Settings</h1>
+        <h1 className="border-b py-6 text-4xl font-semibold text-left">
+          Settings
+        </h1>
+        {/* Common Notification */}
+        {showNotification && (
+          <div className="mt-2 text-green-500">Changes Saved Successfully!</div>
+        )}
         <div className="grid grid-cols-8 pt-3 sm:grid-cols-10">
           <div className="relative my-4 w-56 sm:hidden">
             <input
@@ -20,7 +92,7 @@ const Account = () => {
               htmlFor="select-1"
               className="flex w-full cursor-pointer select-none rounded-lg border p-2 px-3 text-sm text-gray-700 ring-blue-700 peer-checked:ring"
             >
-              Accounts{" "}
+              Accounts
             </label>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -52,90 +124,180 @@ const Account = () => {
           <div className="col-span-2 hidden sm:block">
             <ul>
               <li className="mt-5 cursor-pointer border-l-2 border-transparent px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700">
-                Teams
-              </li>
-              <li className="mt-5 cursor-pointer border-l-2 border-l-blue-700 px-2 py-2 font-semibold text-blue-700 transition hover:border-l-blue-700 hover:text-blue-700">
-                Accounts
-              </li>
-              <li className="mt-5 cursor-pointer border-l-2 border-transparent px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700">
-                Users
-              </li>
-              <li className="mt-5 cursor-pointer border-l-2 border-transparent px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700">
                 Profile
               </li>
+              <li className="mt-5 cursor-pointer border-l-2 border-l-blue-700 px-2 py-2 font-semibold text-blue-700 transition hover:border-l-blue-700 hover:text-blue-700">
+                Account Setting
+              </li>
+
+              <Link to="/orders">
+                <li className="mt-5 cursor-pointer border-l-2  px-2 py-2 font-semibold  transition hover:border-l-blue-700 hover:text-blue-700">
+                  Orders
+                </li>
+              </Link>
               <li className="mt-5 cursor-pointer border-l-2 border-transparent px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700">
-                Billing
+                Payment Method
+              </li>
+              <li className="mt-5 cursor-pointer border-l-2 border-transparent px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700">
+                Address
               </li>
               <li className="mt-5 cursor-pointer border-l-2 border-transparent px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700">
                 Notifications
               </li>
               <li className="mt-5 cursor-pointer border-l-2 border-transparent px-2 py-2 font-semibold transition hover:border-l-blue-700 hover:text-blue-700">
-                Integrations
+                Help & Support
               </li>
             </ul>
           </div>
 
           <div className="col-span-8 overflow-hidden rounded-xl sm:bg-gray-50 sm:px-8 sm:shadow">
             <div className="pt-4">
-              <h1 className="py-2 text-2xl font-semibold">Account settings</h1>
+              <h1 className="py-2 text-2xl font-semibold text-left">
+                Account settings
+              </h1>
               <p className="font- text-slate-600">
                 Lorem ipsum dolor, sit amet consectetur adipisicing elit.
               </p>
             </div>
             <hr className="mt-4 mb-8" />
-            <p className="py-2 text-xl font-semibold">Email Address</p>
+
+            {/* Email Section */}
+            <p className="py-2 text-xl font-semibold text-left">
+              Email Address
+            </p>
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-gray-600">
-                Your email address is <strong>john.doe@company.com</strong>
-              </p>
-              <button className="inline-flex text-sm font-semibold text-blue-600 underline decoration-2">
-                Change
+              {emailEditable ? (
+                <input
+                  type="text"
+                  className="border-2 border-gray-300 py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              ) : (
+                <p className="text-gray-600">
+                  Your email address is <strong>{email}</strong>
+                </p>
+              )}
+              <button
+                onClick={() => {
+                  setEmailEditable(!emailEditable);
+                  saveChanges("email");
+                }}
+                className="inline-flex text-sm font-semibold text-blue-600 underline decoration-2"
+              >
+                {emailEditable ? "Save" : "Edit"}
               </button>
             </div>
+            {emailSavedNotification && (
+              <div className="mt-2 text-green-500">
+                Email Saved Successfully!
+              </div>
+            )}
             <hr className="mt-4 mb-8" />
-            <p className="py-2 text-xl font-semibold">Password</p>
-            <div className="flex items-center">
+
+            {/* Mobile Number Section */}
+            <p className="py-2 text-xl font-semibold text-left">
+              Mobile Number
+            </p>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+              {mobileEditable ? (
+                <input
+                  type="text"
+                  className="border-2 border-gray-300 py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none"
+                  value={mobileNumber}
+                  onChange={(e) => setMobileNumber(e.target.value)}
+                />
+              ) : (
+                <p className="text-gray-600">
+                  Your mobile number is <strong>{mobileNumber}</strong>
+                </p>
+              )}
+              <button
+                onClick={() => {
+                  setMobileEditable(!mobileEditable);
+                  saveChanges("mobile");
+                }}
+                className="inline-flex text-sm font-semibold text-blue-600 underline decoration-2"
+              >
+                {mobileEditable ? "Save" : "Edit"}
+              </button>
+            </div>
+            {mobileSavedNotification && (
+              <div className="mt-2 text-green-500">
+                Mobile Number Saved Successfully!
+              </div>
+            )}
+            <hr className="mt-4 mb-8" />
+
+            <p className="py-2 text-xl font-semibold text-left">
+              Manage Password
+            </p>
+            <div className="flex items-start">
               <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-3">
-                <label htmlFor="login-password">
+                <label htmlFor="current-password">
                   <span className="text-sm text-gray-500">
                     Current Password
                   </span>
                   <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
                     <input
-                      type="password"
-                      id="login-password"
+                      type={showCurrentPassword ? "text" : "password"}
+                      id="current-password"
                       className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none"
                       placeholder="*****"
                     />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                      <button
+                        onClick={() => togglePasswordVisibility("current")}
+                        className="text-gray-500 focus:outline-none"
+                      >
+                        {showCurrentPassword ? (
+                          <BiHide className="w-5 h-5" />
+                        ) : (
+                          <BiShow className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </label>
-                <label htmlFor="login-password">
+                <label htmlFor="new-password">
                   <span className="text-sm text-gray-500">New Password</span>
                   <div className="relative flex overflow-hidden rounded-md border-2 transition focus-within:border-blue-600">
                     <input
-                      type="password"
-                      id="login-password"
+                      type={showNewPassword ? "text" : "password"}
+                      id="new-password"
                       className="w-full flex-shrink appearance-none border-gray-300 bg-white py-2 px-4 text-base text-gray-700 placeholder-gray-400 focus:outline-none"
                       placeholder="*****"
                     />
+                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5">
+                      <button
+                        onClick={() => togglePasswordVisibility("new")}
+                        className="text-gray-500 focus:outline-none"
+                      >
+                        {showNewPassword ? (
+                          <BiHide className="w-5 h-5" />
+                        ) : (
+                          <BiShow className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </label>
               </div>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="mt-5 ml-2 h-6 w-6 cursor-pointer text-sm font-semibold text-gray-600 underline decoration-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
-                />
-              </svg>
             </div>
+
+            <button
+              onClick={() => {
+                saveChanges("password");
+              }}
+              className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white"
+            >
+              Save Password
+            </button>
+            {passwordSavedNotification && (
+              <div className="mt-2 text-green-500">
+                Password Saved Successfully!
+              </div>
+            )}
             <p className="mt-2">
               Can't remember your current password.{" "}
               <a
@@ -145,9 +307,9 @@ const Account = () => {
                 Recover Account
               </a>
             </p>
-            <button className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white">
-              Save Password
-            </button>
+            <hr className="mt-4 mb-8" />
+
+            {/* ... existing code ... */}
             <hr className="mt-4 mb-8" />
 
             <div className="mb-10">
@@ -168,9 +330,10 @@ const Account = () => {
                 Proceed with caution
               </p>
               <p className="mt-2">
-                Make sure you have taken backup of your account in case you ever
-                need to get access to your data. We will completely wipe your
-                data. There is no way to access your account after this action.
+                Make sure you have taken a backup of your account in case you
+                ever need to get access to your data. We will completely wipe
+                your data. There is no way to access your account after this
+                action.
               </p>
               <button className="ml-auto text-sm font-semibold text-rose-600 underline decoration-2">
                 Continue with deletion

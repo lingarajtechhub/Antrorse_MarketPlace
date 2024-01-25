@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Checkout = () => {
   const addressOptions = [
@@ -232,9 +233,9 @@ const Checkout = () => {
               </p>
             </div>
           </div>
-          <button className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">
+          <Link to="/orderCompleted" className=" flex flex-1 my-4 justify-center items-center w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">
             Place Order
-          </button>
+          </Link>
         </div>
       </div>
     </div>
