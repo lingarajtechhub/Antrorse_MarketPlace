@@ -1,11 +1,13 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import SidebarLinkGroup from "./SidebarLinkGroup";
+import { BiSupport } from "react-icons/bi";
+import { TbReportAnalytics } from "react-icons/tb";
 
 const Sidebar = ({ handleActiveDashboard }) => {
   return (
     <div className="h-[100%]">
-      <aside className="absolute left-0 top-0 z-9999  h-full flex  bg-slate-800  flex-col overflow-y-hidden  duration-300 ease-linear dark:bg-slate-800 lg:static lg:translate-x-0    w-60">
+      <aside className="absolute left-0 top-0 z-9999 h-full flex bg-slate-800 flex-col overflow-hidden duration-300 ease-linear dark:bg-slate-800 lg:static lg:translate-x-0 w-60">
         <div className="flex items-center justify-between gap-2 mt-2 text-white px-6  py-[1.375rem] lg:py-[1.625rem] ">
           <NavLink to="/">
             <img
@@ -19,9 +21,11 @@ const Sidebar = ({ handleActiveDashboard }) => {
         </div>
         {/* <!-- SIDEBAR HEADER --> */}
 
-        <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
+        {/* <div className="no-scrollbar overflow-y-hidden flex flex-col duration-300 ease-linear"> */}
+        <div className="no-scrollbar overflow-y-hidden flex flex-col duration-300 ease-linear">
           {/* <!-- Sidebar Menu --> */}
-          <nav className="py-4 px-4  lg:px-6">
+          {/* <nav className="py-4 px-4  lg:px-6"> */}
+          <nav className="py-4 px-4 lg:px-6">
             {/* <!-- Menu Group --> */}
             <div>
               <h3 className="mb-4 ml-4 text-sm font-semibold text-slate-100">
@@ -29,6 +33,8 @@ const Sidebar = ({ handleActiveDashboard }) => {
               </h3>
 
               <ul className="mb-6 flex flex-col gap-1.5">
+                {/* <ul className="flex flex-col gap-1.5"> */}
+                {/* <ul className="flex flex-col gap-1.5"> */}
                 {/* <!-- Menu Item Dashboard --> */}
                 <SidebarLinkGroup>
                   {(handleClick, open) => {
@@ -68,22 +74,6 @@ const Sidebar = ({ handleActiveDashboard }) => {
                             />
                           </svg>
                           Dashboard
-                          {/* <svg
-                          className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${open &&
-                            "rotate-180"}`}
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M4.41107 6.9107C4.73651 6.58527 5.26414 6.58527 5.58958 6.9107L10.0003 11.3214L14.4111 6.91071C14.7365 6.58527 15.2641 6.58527 15.5896 6.91071C15.915 7.23614 15.915 7.76378 15.5896 8.08922L10.5896 13.0892C10.2641 13.4147 9.73651 13.4147 9.41107 13.0892L4.41107 8.08922C4.08563 7.76378 4.08563 7.23614 4.41107 6.9107Z"
-                            fill=""
-                          />
-                        </svg> */}
                         </NavLink>
                         {/* <!-- Dropdown Menu Start --> */}
 
@@ -307,6 +297,51 @@ const Sidebar = ({ handleActiveDashboard }) => {
                   Settings
                 </li>
                 {/* <!-- Menu Item Settings --> */}
+                {/* Menu Item Help & Support */}
+                <SidebarLinkGroup>
+                  {(handleClick, open) => {
+                    return (
+                      <React.Fragment>
+                        <li
+                          className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-200 duration-300 ease-in-out hover:bg-gray-600 dark:hover:bg-gray-600-4 text-lg ${
+                            open ? "bg-gray-600 dark:bg-gray-600-4" : ""
+                          }`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleActiveDashboard("help-support");
+                          }}
+                        >
+                          <BiSupport className="fill-current" />
+                          Help & Support
+                        </li>
+                      </React.Fragment>
+                    );
+                  }}
+                </SidebarLinkGroup>
+
+                {/* Menu Item Product & Report */}
+                <SidebarLinkGroup>
+                  {(handleClick, open) => {
+                    return (
+                      <React.Fragment>
+                        <li
+                          className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-gray-200 duration-300 ease-in-out hover:bg-gray-600 dark:hover:bg-gray-600-4 text-lg ${
+                            open ? "bg-gray-600 dark:bg-gray-600-4" : ""
+                          }`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleActiveDashboard("product-report");
+                          }}
+                        >
+                          <TbReportAnalytics className="fill-current" />
+                          <span className="truncate flex-grow">
+                            Product & Report
+                          </span>
+                        </li>
+                      </React.Fragment>
+                    );
+                  }}
+                </SidebarLinkGroup>
               </ul>
             </div>
 

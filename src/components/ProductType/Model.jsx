@@ -1,13 +1,10 @@
-
-import React, { useState } from 'react';
-import { CiMobile3 } from 'react-icons/ci';
-import { MdLaptopMac } from 'react-icons/md';
-import { IoShirtOutline, IoWatchOutline } from 'react-icons/io5';
+import React, { useState } from "react";
+import { CiMobile3 } from "react-icons/ci";
 
 const Model = ({ handleToggleModal, handleAddProductCategory }) => {
   const [newCategory, setNewCategory] = useState({
-    name: '',
-    items: '',
+    name: "",
+    items: "",
     logo: <CiMobile3 />,
   });
 
@@ -33,7 +30,10 @@ const Model = ({ handleToggleModal, handleAddProductCategory }) => {
       <div className="p-4 md:p-5">
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            <label
+              htmlFor="name"
+              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            >
               Category Name
             </label>
             <input
@@ -47,7 +47,7 @@ const Model = ({ handleToggleModal, handleAddProductCategory }) => {
               required
             />
           </div>
-         
+
           {/* You can add more input fields for additional category details */}
           <button
             type="submit"

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { FaFacebook } from "react-icons/fa";
+// Import the necessary dependencies
+import React from "react";
+import { FaFacebook, FaTwitter } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { FaXTwitter } from "react-icons/fa6";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import OTP from "./OTP";
 
 const SignUp = () => {
   const initialValues = {
@@ -13,50 +13,64 @@ const SignUp = () => {
     email: "",
     mobile: "",
   };
+
   const signUpSchema = Yup.object({
-    name: Yup.string().min(3).required("please enter your username"),
-    email: Yup.string().email().required("please enter your email"),
-    mobile: Yup.number()
-      .typeError("That doesn't look like a phone number")
-      .negative("A phone number can't start with a minus")
-      .integer("A phone number can't include a decimal point")
-      .min(10)
-      .max(13)
+    name: Yup.string().min(3).required("Please enter your username"),
+    email: Yup.string().email().required("Please enter your email"),
+    mobile: Yup.string()
+      .matches(/^\d{10}$/, "Mobile number must be 10 digits")
       .required("A phone number is required"),
   });
+
+  const navigate = useNavigate();
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: initialValues,
       validationSchema: signUpSchema,
-      onSubmit: (values) => {
-        console.log(values);
+      onSubmit: async (values) => {
+        try {
+          // Make a fetch request to your backend API to send OTP
+          const response = await fetch(
+            "http://localhost:3000/app/user/sendOtpForRegistration",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                name: values.name,
+                email: values.email,
+                mobile: values.mobile,
+              }),
+            }
+          );
+
+          if (response.ok) {
+            // Redirect to OTP page if OTP is successfully sent
+            navigate("/otp", { state: { userData: values } });
+          } else {
+            // Handle the case where OTP sending failed
+            console.error("Failed to send OTP");
+          }
+        } catch (error) {
+          console.error("Error sending OTP:", error);
+        }
       },
     });
 
-  const navigate = useNavigate();
   const handleCancel = () => {
     // Redirect to the home page
-    // window.location.href = '/';
     navigate("/");
   };
+
   return (
     <div className="flex flex-col">
-      <section className="bg-gray-50 h-screen flex-1 ">
-        <div className="flex flex-col items-center justify-center  px-6 py-8 mx-auto ">
-          {/* <a
-          href="#"
-          className="flex flex-col items-center mb-6 gap-2 text-2xl font-semibold text-gray-900 "
-        >
-          <img
-            className="w-48"
-            src="https://technosoft.antrorse.org/assets/img/logo.png"
-            alt="Antrorse logo"
-          />
-        </a> */}
-          <div className="w-full bg-white rounded-lg shadow  sm:max-w-md ">
+      <section className="bg-gray-50 h-screen flex-1">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto">
+          <div className="w-full bg-white rounded-lg shadow sm:max-w-md">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                 Create your Account
               </h1>
 
@@ -68,7 +82,7 @@ const SignUp = () => {
                 <div className="flex flex-col gap-1">
                   <label
                     htmlFor="text"
-                    className=" text-sm font-medium text-gray-900 "
+                    className="text-sm font-medium text-gray-900"
                   >
                     Name
                   </label>
@@ -76,7 +90,7 @@ const SignUp = () => {
                     type="text"
                     name="name"
                     id="text"
-                    className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5  "
+                    className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5"
                     placeholder="John Doe"
                     value={values.name}
                     onChange={handleChange}
@@ -91,7 +105,7 @@ const SignUp = () => {
                 <div className="flex flex-col gap-1">
                   <label
                     htmlFor="email"
-                    className=" text-sm font-medium text-gray-900 "
+                    className="text-sm font-medium text-gray-900"
                   >
                     Email ID
                   </label>
@@ -99,7 +113,7 @@ const SignUp = () => {
                     type="email"
                     name="email"
                     id="email"
-                    className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5  "
+                    className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5"
                     placeholder="name@company.com "
                     value={values.email}
                     onChange={handleChange}
@@ -115,7 +129,7 @@ const SignUp = () => {
                 <div className="flex flex-col gap-1">
                   <label
                     htmlFor="mobile"
-                    className=" text-sm font-medium text-gray-900 "
+                    className="text-sm font-medium text-gray-900"
                   >
                     Mobile Number
                   </label>
@@ -123,7 +137,7 @@ const SignUp = () => {
                     type="text"
                     name="mobile"
                     id="mobile"
-                    className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5  "
+                    className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5"
                     placeholder="+911234567890"
                     value={values.mobile}
                     onChange={handleChange}
@@ -135,38 +149,6 @@ const SignUp = () => {
                     </p>
                   ) : null}
                 </div>
-                {/* <div className="flex flex-col gap-1">
-                <label
-                  htmlFor="password"
-                  className=" text-sm font-medium text-gray-900 "
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-md focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5  "
-                  required
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <label
-                  htmlFor="confirm-password"
-                  className=" text-sm font-medium text-gray-900 "
-                >
-                  Confirm password
-                </label>
-                <input
-                  type="confirm-password"
-                  name="confirm-password"
-                  id="confirm-password"
-                  placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-md focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required
-                />
-              </div> */}
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <input
@@ -177,11 +159,11 @@ const SignUp = () => {
                       required
                     />
                   </div>
-                  <div className="ml-3 text-sm ">
+                  <div className="ml-3 text-sm">
                     <label htmlFor="terms" className="font-light text-gray-500">
                       I accept the{" "}
                       <a
-                        className="font-medium text-red-600 hover:underline "
+                        className="font-medium text-red-600 hover:underline"
                         href="#"
                       >
                         Terms and Conditions
@@ -190,23 +172,13 @@ const SignUp = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-row  justify-center ">
+                <div className="flex flex-row justify-center">
                   <div className="w-3/4">
                     <button
                       type="submit"
-                      className="w-full text-slate-200 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5  py-2.5 text-center"
+                      className="w-full text-slate-200 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center"
                     >
                       Create an account
-                    </button>
-                  </div>
-
-                  <div className=" flex justify-center">
-                    <button
-                      type="submit"
-                      className=" text-black bg-gray-200  focus:ring-3 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 "
-                      onClick={handleCancel}
-                    >
-                      cancel
                     </button>
                   </div>
                 </div>
@@ -235,7 +207,7 @@ const SignUp = () => {
                     href="#"
                     className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
                   >
-                    <FaXTwitter size={"1.5rem"} />
+                    <FaTwitter size={"1.5rem"} />
                   </a>
                 </div>
                 <div>
@@ -248,20 +220,20 @@ const SignUp = () => {
                 </div>
               </div>
 
-              <p className="text-sm  text-gray-500   font-medium">
+              <p className="text-sm text-gray-500 font-medium">
                 Already have an account?{" "}
-                <Link to="/login" className=" text-red-600 hover:underline ">
+                <Link to="/login" className="text-red-600 hover:underline">
                   Login here
                 </Link>
               </p>
             </div>
-            <div className=" flex justify-end mb-3 p-2">
+            <div className="flex justify-end mb-3 p-2">
               <button
-                type="submit"
-                className=" text-black bg-gray-200  focus:ring-3 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 "
+                type="button"
+                className="text-black bg-gray-200 focus:ring-3 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5"
                 onClick={handleCancel}
               >
-                cancel
+                Cancel
               </button>
             </div>
           </div>

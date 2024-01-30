@@ -64,6 +64,11 @@ const filters = [
   },
 ];
 
+const initialSelectedFilter = {
+  color: "",
+  category: "",
+  size: "",
+};
 const initialStateSections = {
   color: false,
   category: false,
@@ -71,6 +76,7 @@ const initialStateSections = {
 };
 
 const Filter = () => {
+  const [selectedFilter, setSelectedFilter] = useState(initialSelectedFilter);
   const [isFixed, setIsFixed] = useState(false);
   const [openSections, setOpenSections] = useState(initialStateSections);
   const [selectedColor, setSelectedColor] = useState("indigo");
@@ -85,11 +91,13 @@ const Filter = () => {
 
   const handleColorSelect = (value) => {
     setSelectedColor(value);
+    setSelectedFilter((previous) => ({ ...previous, color: value }));
   };
 
+  // console.log(selectedFilter);
   const handleScroll = () => {
     const navbarHeight = 100; //"6.25rem";
-    const bottomScreenHeight = 1500;
+    const bottomScreenHeight = 1280; //"80rem"
     const scrollTop = window.scrollY;
     setIsFixed(scrollTop > navbarHeight && scrollTop < bottomScreenHeight);
   };
@@ -241,6 +249,12 @@ const Filter = () => {
                               defaultValue={option.value}
                               type="checkbox"
                               defaultChecked={option.checked}
+                              onChange={() => {
+                                setSelectedFilter((previous) => ({
+                                  ...previous,
+                                  [section.name]: option.value,
+                                }));
+                              }}
                               className="h-4 w-4 rounded-full border-gray-300 text-indigo-600 focus:ring-indigo-500"
                             />
                             <label

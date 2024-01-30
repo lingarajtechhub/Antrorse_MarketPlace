@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Checkout = () => {
@@ -17,6 +18,23 @@ const Checkout = () => {
   ];
 
   const [selectedAddress, setSelectedAddress] = useState(null);
+
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const quantitiesInCart = useSelector((state) => state.cart.quantities);
+
+  const calculateSubtotal = () => {
+    const totalItems = cartItems.map((item) => ({
+      price: item.price,
+      quantity: quantitiesInCart.find((product) => product.id === item.id)
+        ?.quantity,
+    }));
+
+    const totalPrice = totalItems.reduce((acc, value) => {
+      return acc + value.price * value.quantity;
+    }, 0);
+
+    return totalPrice.toFixed(2);
+  };
 
   return (
     <div>
@@ -102,7 +120,7 @@ const Checkout = () => {
 
           {/* order section */}
           <div className="mt-4 space-y-3 rounded-lg border  bg-white px-2 py-2 sm:px-6">
-            <div className="flex flex-col rounded-lg bg-white sm:flex-row">
+            {/* <div className="flex flex-col rounded-lg bg-white sm:flex-row">
               <img
                 className="m-2 h-16 w-16 rounded-md border object-cover object-center"
                 src="https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
@@ -134,7 +152,37 @@ const Checkout = () => {
                 </span>
                 <p className="mt-auto text-sm font-bold ">&#8377;238.99</p>
               </div>
-            </div>
+            </div> */}
+
+            {cartItems?.map((item) => {
+              return (
+                <div
+                  key={item.id}
+                  className="flex flex-col rounded-lg bg-white sm:flex-row"
+                >
+                  <img
+                    className="m-2 h-16 w-16 rounded-md border object-cover object-center"
+                    src={item.image}
+                    alt={item.title}
+                  />
+                  <div className="flex w-full flex-col px-4 py-2">
+                    <span className="font-semibold text-sm">{item.title}</span>
+                    <span className="float-right text-gray-400 text-sm">
+                      42EU - 8.5US
+                    </span>
+                    <p className="mt-auto text-sm font-bold ">
+                      &#8377;
+                      {item.price *
+                        (
+                          quantitiesInCart.find(
+                            (product) => item.id === product.id
+                          )?.quantity || 1
+                        ).toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -176,17 +224,13 @@ const Checkout = () => {
                         id={`radio_${address.id}`}
                         type="radio"
                         name="radio"
-                        checked={
-                          selectedAddress && selectedAddress.id === address.id
-                        }
-                        onChange={() => handleAddressChange(address)}
+                        checked={selectedAddress === address.id}
+                        onClick={() => setSelectedAddress(address.id)}
                       />
-                      <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                      <span className="peer-checked:ring-2 peer-checked:ring-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
                       <label
-                        className={`peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-2 ${
-                          selectedAddress && selectedAddress.id === address.id
-                            ? "bg-gray-50"
-                            : ""
+                        className={`peer-checked:ring-2 peer-checked:ring-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-2 ${
+                          selectedAddress === address.id ? "bg-gray-50" : ""
                         }`}
                         htmlFor={`radio_${address.id}`}
                       >
@@ -210,7 +254,7 @@ const Checkout = () => {
               <div className="flex items-center justify-between">
                 <p className="text-lg font-medium text-gray-900">Subtotal</p>
                 <p className="font-semibold text-lg  text-gray-900">
-                  &#8377;399.00
+                  &#8377;{calculateSubtotal()}
                 </p>
               </div>
               <div className="flex items-center justify-between">
@@ -233,9 +277,22 @@ const Checkout = () => {
               </p>
             </div>
           </div>
-          <Link to="/orderCompleted" className=" flex flex-1 my-4 justify-center items-center w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">
-            Place Order
-          </Link>
+
+          {selectedAddress === null ? (
+            <button
+              disabled
+              className=" flex flex-1 my-4 justify-center items-center w-full rounded-md  bg-gray-200 text-gray-900 px-6 py-3 font-medium ring-2 ring-gray-900"
+            >
+              Place Order
+            </button>
+          ) : (
+            <Link
+              to="/orderCompleted"
+              className=" flex flex-1 my-4 justify-center items-center w-full rounded-md  bg-gray-900 px-6 py-3 font-medium text-white"
+            >
+              Place Order
+            </Link>
+          )}
         </div>
       </div>
     </div>

@@ -1,172 +1,92 @@
-import { useState } from "react";
-import { RxCrossCircled } from "react-icons/rx";
-
-const initialProducts = [
-  {
-    id: 1,
-    brand: "Nike",
-    type: "Nike Air MX Super 2500-Red",
-    img1: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60?a=b",
-    img2: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 499,
-    maxprice: 699,
-    discount: 20,
-  },
-  {
-    id: 2,
-    brand: "Nike",
-    type: "Nike Air MX Super 2500-Red",
-    img1: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60?a=b",
-    img2: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 499,
-    maxprice: 699,
-    discount: 20,
-  },
-  {
-    id: 3,
-    brand: "Nike",
-    type: "Nike Air MX Super 2500-Red",
-    img1: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60?a=b",
-    img2: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 499,
-    maxprice: 699,
-    discount: 20,
-  },
-  {
-    id: 4,
-    brand: "Nike",
-    type: "Nike Air MX Super 2500-Red",
-    img1: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60?a=b",
-    img2: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 499,
-    maxprice: 699,
-    discount: 20,
-  },
-  {
-    id: 5,
-    brand: "Nike",
-    type: "Nike Air MX Super 2500-Red",
-    img1: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60?a=b",
-    img2: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 499,
-    maxprice: 699,
-    discount: 20,
-  },
-  {
-    id: 6,
-    brand: "Nike",
-    type: "Nike Air MX Super 2500-Red",
-    img1: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60?a=b",
-    img2: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 499,
-    maxprice: 699,
-    discount: 20,
-  },
-  {
-    id: 7,
-    brand: "Nike",
-    type: "Nike Air MX Super 2500-Red",
-    img1: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60?a=b",
-    img2: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 499,
-    maxprice: 699,
-    discount: 20,
-  },
-  {
-    id: 8,
-    brand: "Nike",
-    type: "Nike Air MX Super 2500-Red",
-    img1: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60?a=b",
-    img2: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 499,
-    maxprice: 699,
-    discount: 20,
-  },
-];
-
-function formatPrice(price) {
-  return "₹" + price.toLocaleString("en-IN");
-}
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart } from "../../redux/features/Cart/CartSlice";
+import { removeFromWishlist } from "../../redux/features/Wishlist/WishlistSlice";
+import toast, { Toaster } from "react-hot-toast";
+import StarRating from "../../components/StartRating/StartRating"; // Make sure to import your StarRating component
 
 const Wishlist = () => {
-  const [products, setProducts] = useState(initialProducts);
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state.wishlist.wishlistItems);
 
-  const removeProduct = (id) => {
-    setProducts((oldProducts) =>
-      oldProducts.filter((product) => product.id !== id)
-    );
+  const removeItemFromWishlist = (product) => {
+    dispatch(removeFromWishlist(product));
+    toast.success("Item Removed from the wishlist ");
   };
 
+  function formatPrice(price) {
+    return "₹" + price.toLocaleString("en-IN");
+  }
+
+  const addItemToCart = (product) => {
+    dispatch(addToCart(product));
+    dispatch(removeFromWishlist(product));
+    toast.success("Moved to the cart ");
+  };
+
+  // useEffect(() => {
+  //   const storedWishItems = JSON.parse(localStorage.getItem("wishlist")) || [];
+  //   dispatch(setWishlistItems(storedWishItems));
+  // }, [dispatch]);
+
   return (
-    <div className="container mx-auto p-4 sm:px-6 lg:px-8 ">
+    <div className="container mx-auto p-4 sm:px-6 lg:px-8">
       <h1 className="text-2xl font-bold my-4 sm:text-3xl">
-        My Wishlist {products.length} items
+        My Wishlist {wishlistItems.length} items
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {products.map((product) => (
-          <div
-            className="container mx-auto p-4 sm:px-6 lg:px-8 "
-            key={product.id}
-          >
-            <div className="group my-10 flex w-full  max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
-              <div className="relative">
-                <a
-                  className="mx-3 mt-3 flex h-60 overflow-hidden rounded-xl"
-                  href="#"
-                >
-                  <img
-                    className="peer absolute top-0 right-0 h-full w-full object-cover"
-                    src={product.img1}
-                    alt="product image"
-                  />
-                  <img
-                    className="peer absolute top-0 -right-96 h-full w-full object-cover transition-all delay-100 duration-1000 hover:right-0 peer-hover:right-0"
-                    src={product.img2}
-                    alt="product image"
-                  />
-                  <span className="absolute top-1 right-0 m-2 rounded-full  px-2 text-center text-sm font-medium text-white">
-                    <RxCrossCircled
-                      className="text-xl"
-                      onClick={() => removeProduct(product.id)}
-                    />
-                  </span>
-                </a>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        {wishlistItems.map((product) => (
+          <div className="border border-gray-200 rounded-md" key={product.id}>
+            <div className="">
+              <a href="#" className="object-contain">
+                <img
+                  src={product.image}
+                  alt=""
+                  className="object-fill w-[100%] h-52 "
+                />
+              </a>
+            </div>
+
+            <div className="p-3 bg-gray-50">
+              <h5 className="text-lg font-bold tracking-tight h-16 line-clamp-2">
+                {product.title}
+              </h5>
+              <div className="mb-2 flex justify-between">
+                <h2 className="text-sm overflow-hidden overflow-ellipsis whitespace-nowrap">
+                  {product.description}
+                </h2>
               </div>
-              <div className="mt-4 px-5 pb-5">
-                <p className="text-sm font-semibold text-gray-700">
-                  {product.brand}
+
+              <div className="mb-2 flex justify-between">
+                <StarRating rating={3} />
+                <p className="text-md font-semibold text-green-600">
+                  <span>{formatPrice(product.price)}</span>
+                  <span className="px-2 line-through text-sm text-gray-500">
+                    {formatPrice(999)}
+                  </span>
                 </p>
-                <a href="#">
-                  <h5 className="text-lg tracking-tight text-slate-900">
-                    {product.type}
-                  </h5>
-                </a>
-                <div className="mt-2 mb-5 flex items-center justify-between">
-                  <p>
-                    <span className="text-2xl font-semibold text-slate-900 mr-1">
-                      {formatPrice(product.price)}
-                    </span>
-                    <span className="text-sm text-slate-900 line-through">
-                      {formatPrice(product.maxprice)}{" "}
-                    </span>
-                    {product.discount > 0 && (
-                      <span className="text-sm text-red-500">
-                        ({product.discount}% OFF)
-                      </span>
-                    )}
-                  </p>
-                </div>
+              </div>
+              <div className="flex gap-3">
                 <a
                   href="#"
-                  className="flex items-center justify-center rounded-md backdrop-sepia-0 bg-black px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+                  className="flex justify-center px-2 py-2 text-blue-600 border border-blue-300 rounded-md hover:bg-blue-700 hover:text-gray-100 dark:hover:bg-gray-800 dark:hover:border-gray-900"
+                  onClick={() => addItemToCart(product)}
                 >
                   Move to cart
+                </a>
+                <a
+                  href="#"
+                  className="flex justify-center px-4 py-2 bg-blue-100 text-blue-600 border border-blue-300 rounded-md hover:bg-blue-700 hover:border-none hover:text-gray-100 dark:hover:bg-red-600"
+                  onClick={() => removeItemFromWishlist(product)}
+                >
+                  Remove
                 </a>
               </div>
             </div>
           </div>
         ))}
       </div>
+      <Toaster position="top-right" containerStyle={{ zIndex: "99999" }} />
     </div>
   );
 };

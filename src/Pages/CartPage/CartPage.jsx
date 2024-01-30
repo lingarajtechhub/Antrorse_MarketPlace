@@ -1,179 +1,76 @@
 // Importing the 'useState' hook from React for managing state in functional components
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Emptycart from "./emptycart";
 import { Link } from "react-router-dom";
-// Initial products data
-const initialProducts = [
-  {
-    id: 1,
-    seller: "SneakersMafia",
-    brand: "Nike",
-    type: "Nike Air MX Super 2500-Red",
-    img: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60?a=b",
-    color: ["white", "orange", "black", "red", "green", "blue", "yellow"],
-    size: ["s", "m", "L", "xL", "xxl"],
-    price: 1900,
-    maxprice: 2699,
-    discount: 20,
-  },
-  {
-    id: 2,
-    seller: "ShoesAdda",
-    brand: "Adidas",
-    type: "Adidas Air MX Super 2600-Red",
-    img: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 1499,
-    color: ["white", "orange", "black", "red", "green", "blue", "yellow"],
-    size: ["s", "m", "L", "xL", "xxl"],
-    maxprice: 1699,
-    discount: 20,
-  },
-  {
-    id: 3,
-    seller: "SneakersMafia",
-    brand: "Nike",
-    type: "Nike Air MX Super 2500-Red",
-    img: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60?a=b",
-    color: ["white", "orange", "black", "red", "green", "blue", "yellow"],
-    size: ["s", "m", "L", "xL", "xxl"],
-    price: 1900,
-    maxprice: 2699,
-    discount: 20,
-  },
-  {
-    id: 4,
-    seller: "ShoesAdda",
-    brand: "Adidas",
-    type: "Adidas Air MX Super 2600-Red",
-    img: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 1499,
-    color: ["white", "orange", "black", "red", "green", "blue", "yellow"],
-    size: ["s", "m", "L", "xL", "xxl"],
-    maxprice: 1699,
-    discount: 20,
-  },
-  {
-    id: 5,
-    seller: "SneakersMafia",
-    brand: "Nike",
-    type: "Nike Air MX Super 2500-Red",
-    img: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60?a=b",
-    color: ["white", "orange", "black", "red", "green", "blue", "yellow"],
-    size: ["s", "m", "L", "xL", "xxl"],
-    price: 1900,
-    maxprice: 2699,
-    discount: 20,
-  },
-  {
-    id: 6,
-    seller: "ShoesAdda",
-    brand: "Adidas",
-    type: "Adidas Air MX Super 2600-Red",
-    img: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 1499,
-    color: ["white", "orange", "black", "red", "green", "blue", "yellow"],
-    size: ["s", "m", "L", "xL", "xxl"],
-    maxprice: 1699,
-    discount: 20,
-  },
-  {
-    id: 7,
-    seller: "SneakersMafia",
-    brand: "Nike",
-    type: "Nike Air MX Super 2500-Red",
-    img: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60?a=b",
-    color: ["white", "orange", "black", "red", "green", "blue", "yellow"],
-    size: ["s", "m", "L", "xL", "xxl"],
-    price: 1900,
-    maxprice: 2699,
-    discount: 20,
-  },
-  {
-    id: 8,
-    seller: "ShoesAdda",
-    brand: "Adidas",
-    type: "Adidas Air MX Super 2600-Red",
-    img: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 1499,
-    color: ["white", "orange", "black", "red", "green", "blue", "yellow"],
-    size: ["s", "m", "L", "xL", "xxl"],
-    maxprice: 1699,
-    discount: 20,
-  },
-  {
-    id: 9,
-    seller: "SneakersMafia",
-    brand: "Nike",
-    type: "Nike Air MX Super 2500-Red",
-    img: "https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60?a=b",
-    color: ["white", "orange", "black", "red", "green", "blue", "yellow"],
-    size: ["s", "m", "L", "xL", "xxl"],
-    price: 1900,
-    maxprice: 2699,
-    discount: 20,
-  },
-  {
-    id: 10,
-    seller: "ShoesAdda",
-    brand: "Adidas",
-    type: "Adidas Air MX Super 2600-Red",
-    img: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 1499,
-    color: ["white", "orange", "black", "red", "green", "blue", "yellow"],
-    size: ["s", "m", "L", "xL", "xxl"],
-    maxprice: 1699,
-    discount: 20,
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import {
+  decrementQuantity,
+  incrementQuantity,
+  manualIncrementQuantity,
+  removeFromCart,
+} from "../../redux/features/Cart/CartSlice";
 
 // Functional component for the shopping cart page
 const CartPage = () => {
   // State for managing the products in the cart
-  const [products, setProducts] = useState(initialProducts);
 
-  // Function to remove a product from the cart based on its 'id'
-  const removeProduct = (id) => {
-    setProducts((oldProducts) =>
-      oldProducts.filter((product) => product.id !== id)
-    );
-  };
-  const [quantities, setQuantities] = useState({});
+  const [taxpercent, setTaxpercent] = useState(15);
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const quantitiesInCart = useSelector((state) => state.cart.quantities);
+
+  const dispatch = useDispatch();
 
   const increment = (productId) => {
-    setQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [productId]: (prevQuantities[productId] || 0) + 1,
-    }));
+    dispatch(incrementQuantity(productId));
   };
 
   const decrement = (productId) => {
-    if (quantities[productId] > 1) {
-      setQuantities((prevQuantities) => ({
-        ...prevQuantities,
-        [productId]: prevQuantities[productId] - 1,
-      }));
-    }
+    dispatch(decrementQuantity(productId));
+  };
+  const manualIncrement = (productId, quantity) => {
+    dispatch(
+      manualIncrementQuantity({
+        productId: productId,
+        quantity: Number(quantity),
+      })
+    );
+  };
+
+  const removeItemFromCart = (product) => {
+    console.log(product);
+    dispatch(removeFromCart(product));
   };
 
   // Function to calculate subtotal
   const calculateSubtotal = () => {
-    return products.reduce(
-      (acc, product) => acc + product.price * (quantities[product.id] || 1),
-      0
-    );
+    const totalItems = cartItems.map((item) => ({
+      price: item.price,
+      quantity: quantitiesInCart.find((product) => product.id === item.id)
+        ?.quantity,
+    }));
+
+    const totalPrice = totalItems.reduce((acc, value) => {
+      return acc + value.price * value.quantity;
+    }, 0);
+
+    return totalPrice.toFixed(2);
   };
+  function tax(totalPrice) {
+    const taxamt = ((taxpercent * totalPrice) / 100).toFixed(2);
+    return taxamt;
+  }
 
   // JSX code for the shopping cart page
 
-  return products.length === 0 ? (
+  return cartItems.length === 0 ? (
     <Emptycart />
   ) : (
     <div className="bg-gray-100 py-8 ">
       <div className="flex-auto">
         <div className="container mx-auto px-4 ">
           <h1 className="text-2xl font-semibold mb-4">
-            Your Cart {products.length} Items
+            Your Cart {cartItems.length} Items
           </h1>
         </div>
       </div>
@@ -181,7 +78,7 @@ const CartPage = () => {
         {/* Left side - Product list */}
         <div className="md:w-3/4">
           <div className="bg-white rounded-lg shadow-md p-6 mb-4">
-            <div className="max-h-[40rem] overflow-y-scroll ">
+            <div className="min-h-[20rem]">
               <table className="w-full">
                 {/* Table header */}
                 <thead>
@@ -196,36 +93,43 @@ const CartPage = () => {
 
                 {/* Table body - mapping through products */}
                 <tbody>
-                  {products.map((product) => (
+                  {cartItems.map((product) => (
                     <tr key={product.id}>
                       {/* Product details */}
-                      <td className="py-4">
+                      <td className="py-4 ">
                         <div className="flex items-center">
-                          <img className="h-16 w-16 mr-4" src={product.img} />
-                          <div className="flex-col">
+                          <img className="h-16 w-16 mr-4" src={product.image} />
+                          <div className="flex flex-col flex-1">
                             <p className="text-sm font-semibold text-gray-700">
-                              {product.brand}
+                              {product.title || "Brand name unavailable"}
                             </p>
                             <span className="font-semibold">
-                              {product.type}
+                              {product.category}
                             </span>
-                            <p className="text-md text-gray-500">
-                              Color: {product.color[0]} size: {product.size[0]}
+                            <p className="text-xs text-gray-500 flex flex-col">
+                              <span>
+                                Color:{" "}
+                                {product.color || "product color unavailable"}{" "}
+                              </span>
+                              <span>
+                                size:{" "}
+                                {product.size || "product size unavailable"}
+                              </span>
                             </p>
                           </div>
                           <div>
                             {/* Remove product button */}
                             <p
-                              className="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer"
-                              onClick={() => removeProduct(product.id)}
+                              className="text-xs leading-3 underline text-red-500 pr-5 cursor-pointer"
+                              onClick={() => removeItemFromCart(product)}
                             >
                               Remove
                             </p>
                           </div>
                         </div>
                       </td>
-                      <td className="py-4 text-md text-gray-500">
-                        {product.seller}
+                      <td className="py-4 text-sm  text-gray-500">
+                        {product.seller || "seller info unavailable"}
                       </td>
 
                       {/* Price, Quantity, and Total */}
@@ -233,25 +137,62 @@ const CartPage = () => {
                       <td className="py-4">
                         <div className="flex items-center">
                           <button
-                            className="border rounded-md py-2 px-4 mr-2"
+                            className={`border rounded-md py-2 px-4 mr-2 ${
+                              quantitiesInCart.find(
+                                (item) => item.id === product.id
+                              )?.quantity === 1
+                                ? "bg-slate-300"
+                                : ""
+                            } `}
                             onClick={() => decrement(product.id)}
+                            disabled={
+                              quantitiesInCart.find(
+                                (item) => item.id === product.id
+                              )?.quantity === 1
+                            }
                           >
                             -
                           </button>
-                          <span className="text-center w-8">
-                            {" "}
-                            {quantities[product.id] || 1}
-                          </span>
+                          <input
+                            className="text-center w-8"
+                            type="number"
+                            value={
+                              quantitiesInCart.find(
+                                (item) => item.id === product.id
+                              )?.quantity || 1
+                            }
+                            onChange={(e) =>
+                              manualIncrement(product.id, e.target.value)
+                            }
+                          />
+
                           <button
-                            className="border rounded-md py-2 px-4 ml-2"
+                            className={`border rounded-md py-2 px-4 mr-2 ${
+                              quantitiesInCart.find(
+                                (item) => item.id === product.id
+                              )?.quantity === 5
+                                ? "bg-slate-300"
+                                : ""
+                            } `}
                             onClick={() => increment(product.id)}
+                            disabled={
+                              quantitiesInCart.find(
+                                (item) => item.id === product.id
+                              )?.quantity === 5
+                            }
                           >
                             +
                           </button>
                         </div>
                       </td>
                       <td className="py-4">
-                        ₹{product.price * (quantities[product.id] || 1)}
+                        ₹
+                        {(
+                          product.price *
+                          (quantitiesInCart.find(
+                            (item) => item.id === product.id
+                          )?.quantity || 1)
+                        ).toFixed(2)}
                       </td>
                     </tr>
                   ))}
@@ -272,7 +213,7 @@ const CartPage = () => {
             </div>
             <div className="flex justify-between mb-2">
               <span>Taxes</span>
-              <span>₹1.00</span>
+              <span>₹{tax(calculateSubtotal())}</span>
             </div>
             <div className="flex justify-between mb-2">
               <span>Shipping</span>

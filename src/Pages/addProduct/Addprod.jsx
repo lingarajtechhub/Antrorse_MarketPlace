@@ -1,12 +1,12 @@
 import { useState } from "react";
-import TagsInput from "react-tagsinput";
-import { FaUpload } from "react-icons/fa";
+import Select from "react-select";
 import "react-tagsinput/react-tagsinput.css";
 import ProductType from "../../components/ProductType/ProductType";
-import AddProduct from "./AddProduct";
+
 
 const AddProd = () => {
   const [productImages, setProductImages] = useState([]);
+  const [tags, setTags] = useState([]);
 
   const handleMultiImageChange = (e) => {
     const files = e.target.files;
@@ -15,8 +15,7 @@ const AddProd = () => {
     // Check if the total number of images after selecting is within the limit
     if (productImages.length + files.length > maxAllowedImages) {
       alert(
-        `Please select up to ${
-          maxAllowedImages - productImages.length
+        `Please select up to ${maxAllowedImages - productImages.length
         } more images.`
       );
       // Optionally, you can clear the input to prevent exceeding the limit
@@ -51,41 +50,35 @@ const AddProd = () => {
 
   const MAX_IMAGES = 5;
 
-  const handleTagsChange = (tags) => {
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      tags: tags,
-    }));
+
+
+
+
+  const [suggestions, setSuggestions] = useState([
+    { value: "shirt", label: "Shirt" },
+    { value: "jeans", label: "Jeans" },
+    { value: "mobile", label: "Mobile" },
+    { value: "laptop", label: "Laotop" },
+    { value: "watch", label: "Watch" },
+    { value: "jacket", label: "Jeans" },
+    { value: "joggers", label: "Joogers" },
+    { value: "jeans", label: "Jeans" },
+    { value: "jeans", label: "Jeans" },
+    // Add more suggestions as needed
+  ]);
+  const handleChangetag = (selectedTags) => {
+    setTags(selectedTags);
   };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      setProduct((prevProduct) => ({
-        ...prevProduct,
-        coverimage: URL.createObjectURL(file),
-      }));
+  const handleCreateTag = (inputValue) => {
+    // Create a new tag if it doesn't exist in suggestions
+    if (!suggestions.some((suggestion) => suggestion.label.toLowerCase() === inputValue.toLowerCase())) {
+      setSuggestions((prevSuggestions) => [
+        ...prevSuggestions,
+        { value: inputValue.toLowerCase(), label: inputValue },
+      ]);
     }
-  };
-
-  const handleRemoveCoverImage = () => {
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      coverimage: "",
-    }));
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Product:", product);
-  };
-
-  const handleRemoveImage = (index) => {
-    setProductImages((prevImages) => {
-      const updatedImages = [...prevImages];
-      updatedImages.splice(index, 1);
-      return updatedImages;
-    });
+    // Add the newly created tag to the selected tags
+    setTags((prevTags) => [...prevTags, { value: inputValue.toLowerCase(), label: inputValue }]);
   };
 
   return (
@@ -95,6 +88,8 @@ const AddProd = () => {
       </h2>
       <div className="flex  w-full">
         <div className="w-1/2">
+
+
           {/* topsection */}
 
           <div className="flex w-full justify-between p-2">
@@ -104,81 +99,34 @@ const AddProd = () => {
                 <hr className="border-t-2 border-gray-300" />
               </div>
 
+              <label
+                className="block text-gray-700 text-md font-bold   mb-2"
+                htmlFor="productName"
+              >
+                Product Name
+              </label>
+              <input
+                type="text"
+                id="productType"
+                name="productType"
+                // value={product.productType}
+                onChange={handleChange}
+                className="w-full border border-gray-300 p-2 rounded-md placeholder:text-ls"
+                placeholder="Enter product Name"
+              />
+
               {/* tags */}
-              <div className="mb-4 w-full text-start text-gray-300">
-                <label
-                  className="block text-gray-700 text-md font-bold mb-2"
-                  htmlFor="tags"
-                >
-                  Tags{" "}
+              <div>
+                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="tags">
+                  Tags
                 </label>
-                <TagsInput
-                  className="border border-gray-300 focus:border-blue-500 rounded-md p-2 w-full"
-                  id="tags"
-                  name="tags"
-                  value={product.tags}
-                  onChange={handleTagsChange}
+                <Select
+                  isMulti
+                  options={suggestions}
+                  value={tags}
+                  onChange={handleChangetag}
+                  onCreateOption={handleCreateTag}
                 />
-              </div>
-
-              {/* Single Image */}
-
-              <div className="flex flex-col gap-y-4 " id="cover">
-                <div>
-                  <h1 className="font-bold text-gray-700 text-lg text-start">
-                    Cover image
-                  </h1>
-                </div>
-                {product.coverimage && (
-                  <div className="mb-4 w-full h-44 border-dashed border-2 border-gray-300 object-contain relative overflow-hidden rounded-md">
-                    <img
-                      src={product.coverimage}
-                      alt="Cover Image"
-                      className="w-screen h-full object-cover rounded-sm opacity-100"
-                    />
-                    <button
-                      className="absolute top-0 right-0   bg-red-500 text-white px-2 text-lg rounded-full cursor-pointer hover:bg-red-700"
-                      type="button"
-                      onClick={() => handleRemoveCoverImage()}
-                    >
-                      X
-                    </button>
-                    <input
-                      type="file"
-                      id="image"
-                      name="image"
-                      accept="image/*"
-                      style={{ display: "none" }}
-                      onChange={handleImageChange}
-                      className="hidden"
-                    />
-                  </div>
-                )}
-
-                <div className="text-start flex py-3 w-full">
-                  {!product.coverimage && (
-                    <label
-                      htmlFor="image"
-                      className="cursor-pointer w-full block bg-gray-100 border-dashed border-2 border-gray-300 p-4 rounded-md text-center"
-                    >
-                      <h2 className="mb-2 text-gray-700 text-lg font-semibold">
-                        Select your cover image here
-                      </h2>
-                      <span className="text-sm text-gray-600">
-                        or click to select
-                      </span>
-                      <input
-                        type="file"
-                        id="image"
-                        name="image"
-                        accept="image/*"
-                        // style={{ display: 'none' }}
-                        onChange={handleImageChange}
-                        className="hidden"
-                      />
-                    </label>
-                  )}
-                </div>
               </div>
 
               {/* //multiple image */}
@@ -194,9 +142,8 @@ const AddProd = () => {
                     <div className="text-start flex py-3 h-full w-full">
                       <label
                         htmlFor="multipleImages"
-                        className={`cursor-pointer w-full block bg-gray-100 border-dashed border-2 border-gray-300 p-4 rounded-md text-center ${
-                          productImages.length === MAX_IMAGES ? "" : ""
-                        }`}
+                        className={`cursor-pointer w-full block bg-gray-100 border-dashed border-2 border-gray-300 p-4 rounded-md text-center ${productImages.length === MAX_IMAGES ? "" : ""
+                          }`}
                       >
                         <h2 className="mb-2 text-ls font-semibold">
                           Select Multiple images here
@@ -218,6 +165,63 @@ const AddProd = () => {
                     </div>
                   </div>
                 )}
+              </div>
+
+
+              <div className="flex gap-x-2">
+                <div className="text-start w-1/2">
+                  <label
+                    className="block text-gray-700 text-md mb-2"
+                    htmlFor="warrantyStatus"
+                  >
+                    price
+                  </label>
+                  <input
+                    type="text"
+                    id="warrantyStatus"
+                    name="warrantyStatus"
+                    // value={product.warrantyStatus}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-md placeholder:text-xs"
+
+                  />
+                </div>
+
+
+                <div className="text-start w-1/2">
+                  <label
+                    className="block text-gray-700 text-md mb-2"
+                    htmlFor="material"
+                  >
+                    Discount
+                  </label>
+                  <input
+                    type="text"
+                    id="material"
+                    name="material"
+                    // value={product.productName}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-md"
+
+                  />
+                </div>
+                <div className="text-start w-1/2">
+                  <label
+                    className="block text-gray-700 text-md mb-2"
+                    htmlFor="material"
+                  >
+                    stocks
+                  </label>
+                  <input
+                    type="text"
+                    id="material"
+                    name="material"
+                    // value={product.productName}
+                    onChange={handleChange}
+                    className="w-full border border-gray-300 p-2 rounded-md"
+
+                  />
+                </div>
               </div>
 
               {/* //Description */}
@@ -251,137 +255,8 @@ const AddProd = () => {
           </div>
 
           <div className="">
-            <div>
-              <div className=" mx-auto mt-6 p-6   bg-white rounded-md shadow-sm  border ">
-                <h2 className="text-lg text-start font-bold mb-6">
-                  Product Information
-                </h2>
-                <form onSubmit={handleSubmit}>
-                  <div className="">
-                    <div>
-                      <label
-                        className="text-start block text-gray-700 text-md  mb-2"
-                        htmlFor="productName"
-                      >
-                        Product Name
-                      </label>
-                      <input
-                        type="text"
-                        id="productName"
-                        name="productName"
-                        value={product.productName}
-                        onChange={handleChange}
-                        className="w-full border border-gray-300 p-2 rounded-sm"
-                        required
-                      />
-                    </div>
-                    <label
-                      className="text-start block text-gray-700 text-md    mb-2"
-                      htmlFor="productName"
-                    >
-                      Product Type
-                    </label>
-                    <input
-                      type="text"
-                      id="productType"
-                      name="productType"
-                      value={product.productType}
-                      onChange={handleChange}
-                      className="w-full border border-gray-300 p-2 rounded-md placeholder:text-xs"
-                      required
-                    />
-                    <div className="flex gap-x-2">
-                      <div className="text-start flex flex-col">
-                        <label
-                          className="block text-gray-700 text-md   mb-2"
-                          htmlFor="productName"
-                        >
-                          Price
-                        </label>
-                        <input
-                          type="number"
-                          id="price"
-                          name="price"
-                          value={product.price}
-                          onChange={handleChange}
-                          className="w-full border border-gray-300 p-2 rounded-sm"
-                          required
-                        />
-                      </div>
-                      <div className="text-start flex flex-col">
-                        <label
-                          className="block text-gray-700 text-md  mb-2"
-                          htmlFor="productName"
-                        >
-                          Discount
-                        </label>
-                        <input
-                          type="text"
-                          id="discount"
-                          name="discount"
-                          value={product.discount}
-                          onChange={handleChange}
-                          className="w-full border border-gray-300 p-2 rounded-md"
-                          required
-                        />
-                      </div>
-                      <div className="text-start flex flex-col">
-                        <label
-                          className="block text-gray-700 text-md  mb-2"
-                          htmlFor="productName"
-                        >
-                          Discount Price
-                        </label>
-                        <input
-                          type="text"
-                          id="discountPrice"
-                          name="discountPrice"
-                          value={product.discountPrice}
-                          onChange={handleChange}
-                          className="w-full border border-gray-300 p-2 rounded-md"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <label
-                      className="block text-gray-700 text-md mb-2"
-                      htmlFor="productName"
-                    >
-                      Product Description
-                    </label>
 
-                    <input
-                      type="text"
-                      id="description"
-                      name="description"
-                      value={product.productName}
-                      onChange={handleChange}
-                      className="w-full border border-gray-300 p-2 rounded-md"
-                      required
-                    />
-                    <div className="flex gap-x-2">
-                      <div className="text-start flex flex-col">
-                        <label
-                          className="block text-gray-700 text-md   mb-2"
-                          htmlFor="productName"
-                        >
-                          Stock
-                        </label>
-                        <input
-                          type="number"
-                          id="price"
-                          name="price"
-                          value={product.price}
-                          onChange={handleChange}
-                          className="w-full border border-gray-300 p-2 rounded-md"
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
+          
 
             <div className="m-6 flex justify-center">
               <button
