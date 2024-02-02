@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import { NavLink } from "react-router-dom";
+import Paypal from "../../components/paypal/Paypal";
+import { FaArrowLeft } from "react-icons/fa";
+
 const Checkout = () => {
   const addressOptions = [
     {
@@ -38,52 +42,26 @@ const Checkout = () => {
 
   return (
     <div>
-      <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-15 xl:px-28">
-        <div className="mt-4 py-2 text-xs sm:mt-0 sm:ml-auto sm:text-base">
-          <div className="relative">
+      <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-15 xl:px-20">
+        <div className="flex justify-between w-full mt-4 p-2 text-xs  sm:text-base  ">
+          <div className="left-0">
+            <NavLink
+              to="/viewcart"
+              className="text-gray-900 font-bold ml-auto flex items-center gap-2"
+            >
+              <FaArrowLeft />
+              viewcart
+            </NavLink>
+          </div>
+
+          <div className=" relative">
             <ul className="relative flex w-fit h-fit items-center justify-between space-x-2 sm:space-x-4">
-              <li className="flex items-center space-x-3 text-left sm:space-x-4">
-                <a
-                  className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-200 text-xs font-semibold text-emerald-700"
-                  href="#"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </a>
-                <span className="font-semibold text-gray-900">Shop</span>
-              </li>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 text-gray-400"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
               <li className="flex items-center space-x-3 text-left sm:space-x-4">
                 <a
                   className="flex h-4 w-4 items-center justify-center rounded-full bg-gray-600 text-xs font-semibold text-white ring ring-gray-600 ring-offset-2"
                   href="#"
                 >
-                  2
+                  1
                 </a>
                 <span className="font-semibold text-gray-900">Shipping</span>
               </li>
@@ -93,11 +71,11 @@ const Checkout = () => {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
-                stroke-width="2"
+                strokeWidth="2"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M9 5l7 7-7 7"
                 />
               </svg>
@@ -106,7 +84,7 @@ const Checkout = () => {
                   className="flex h-6 w-6 items-center justify-center rounded-full bg-gray-400 text-xs font-semibold text-white"
                   href="#"
                 >
-                  3
+                  2
                 </a>
                 <span className="font-semibold text-gray-500">Payment</span>
               </li>
@@ -114,8 +92,9 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-      <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
-        <div className="px-4 pt-4">
+
+      <div className="grid sm:px-10 lg:grid-cols-3 lg:px-20 xl:px-20">
+        <div className="px-4 pt-4 col-span-2">
           <p className="text-lg font-medium">Order Summary</p>
 
           {/* order section */}
@@ -165,7 +144,7 @@ const Checkout = () => {
                     src={item.image}
                     alt={item.title}
                   />
-                  <div className="flex w-full flex-col px-4 py-2">
+                  <div className="flex max-w-5xl w-full flex-col px-4 py-2">
                     <span className="font-semibold text-sm">{item.title}</span>
                     <span className="float-right text-gray-400 text-sm">
                       42EU - 8.5US
@@ -187,7 +166,7 @@ const Checkout = () => {
         </div>
 
         {/* payment Details */}
-        <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0 ">
+        <div className="mt-10 bg-white px-4 pt-8 lg:mt-0 ">
           <div className="">
             <div className="container mx-auto">
               <h1 className="text-lg  mb-4">Select your Address</h1>
@@ -216,9 +195,12 @@ const Checkout = () => {
                 </div>
               </label>
             </div> */}
-                <div>
+                {/* <div className="grid grid-cols-2 gap-2">
                   {addressOptions.map((address) => (
-                    <div key={address.id} className="relative mb-2">
+                    <div
+                      key={address.id}
+                      className=" mb-2 flex flex-row-reverse rounded-md justify-between items-center ring-1 ring-gray-400 peer-checked:ring-2 peer-checked:ring-gray-700"
+                    >
                       <input
                         className="peer hidden"
                         id={`radio_${address.id}`}
@@ -227,14 +209,14 @@ const Checkout = () => {
                         checked={selectedAddress === address.id}
                         onClick={() => setSelectedAddress(address.id)}
                       />
-                      <span className="peer-checked:ring-2 peer-checked:ring-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                      <span className="peer-checked:ring-2 peer-checked:ring-gray-700 box-content block h-3 w-3 rounded-full border-8 border-gray-300 bg-white"></span>
                       <label
                         className={`peer-checked:ring-2 peer-checked:ring-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-2 ${
                           selectedAddress === address.id ? "bg-gray-50" : ""
                         }`}
                         htmlFor={`radio_${address.id}`}
                       >
-                        <div className="ml-10">
+                        <div>
                           <span className="mt-1 font-semibold text-sm">
                             {address.label}
                           </span>
@@ -243,6 +225,37 @@ const Checkout = () => {
                           </p>
                         </div>
                       </label>
+                    </div>
+                  ))}
+                </div> */}
+
+                <div className="grid grid-cols-2 gap-2">
+                  {addressOptions.map((address) => (
+                    <div
+                      key={address.id}
+                      className={`mb-2 flex flex-row-reverse rounded-md items-center justify-between px-2 ring-1 ring-gray-400 cursor-pointer ${
+                        selectedAddress === address.id
+                          ? "ring-2 ring-gray-700"
+                          : ""
+                      }`}
+                      onClick={() => setSelectedAddress(address.id)}
+                    >
+                      <span
+                        className={`box-content block h-3 w-3 rounded-full border-8 border-gray-300 bg-white ${
+                          selectedAddress === address.id
+                            ? "ring-2 ring-gray-700"
+                            : "peer-checked:ring-2 peer-checked:ring-gray-700"
+                        }`}
+                      ></span>
+
+                      <div>
+                        <span className="font-semibold text-sm">
+                          {address.label}
+                        </span>
+                        <p className="text-slate-500 text-sm leading-6">
+                          {address.deliveryTime}
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -293,6 +306,7 @@ const Checkout = () => {
               Place Order
             </Link>
           )}
+          <Paypal />
         </div>
       </div>
     </div>

@@ -24,6 +24,8 @@ import Login from "./Pages/Login/Login";
 import SignUp from "./Pages/SignUpPage/SignUp";
 import Viewproducts from "./Pages/viewproducts/viewproducts";
 import { useEffect } from "react";
+import OTP from "./Pages/SignUpPage/OTP";
+import ProductDetail from "./components/ProductDetail/ProductDetail";
 
 function App() {
   const location = window.location.pathname;
@@ -39,6 +41,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/otp" element={<OTP />} />
         <Route path="/viewproducts" element={<Viewproducts />} />
 
         <Route path="/wishlist" element={<Wishlist />} />
@@ -61,6 +64,7 @@ function App() {
         <Route path="/404" element={<NotFound />} />
         <Route path="/SellerAccount" element={<SellerAccount />} />
         <Route path="/AddProd" element={<AddProd />} />
+        <Route path="/productdetail" element={<ProductDetail />} />
         <Route />
       </Routes>
       {location === "/admin" ? null : <Footer />}

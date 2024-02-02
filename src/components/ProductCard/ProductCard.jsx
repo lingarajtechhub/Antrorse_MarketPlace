@@ -59,7 +59,8 @@ const ProductCard = ({ product, inCart, inWishlist }) => {
   };
 
   return (
-    <Link to="">
+    <Link to="/productdetail">
+
       <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md group">
         <div className="flex items-center justify-center h-[11.25rem] p-2 overflow-hidden group-hover:scale-105 transition-transform">
           <img

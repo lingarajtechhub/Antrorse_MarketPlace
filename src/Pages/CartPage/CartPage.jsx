@@ -68,16 +68,16 @@ const CartPage = () => {
   ) : (
     <div className="bg-gray-100 py-8 ">
       <div className="flex-auto">
-        <div className="container mx-auto px-4 ">
+        <div className="container mx-auto px-14 ">
           <h1 className="text-2xl font-semibold mb-4">
             Your Cart {cartItems.length} Items
           </h1>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row gap-4">
+      <div className="flex flex-col md:flex-row justify-between gap-4">
         {/* Left side - Product list */}
-        <div className="md:w-3/4">
-          <div className="bg-white rounded-lg shadow-md p-6 mb-4">
+        <div className="md:w-3/4 ">
+          <div className="bg-white rounded-lg shadow-md p-6  max-w-5xl mx-auto mb-4 ">
             <div className="min-h-[20rem]">
               <table className="w-full">
                 {/* Table header */}
@@ -99,7 +99,7 @@ const CartPage = () => {
                       <td className="py-4 ">
                         <div className="flex items-center">
                           <img className="h-16 w-16 mr-4" src={product.image} />
-                          <div className="flex flex-col flex-1">
+                          <div className="flex flex-col flex-1 max-w-[80%]">
                             <p className="text-sm font-semibold text-gray-700">
                               {product.title || "Brand name unavailable"}
                             </p>
