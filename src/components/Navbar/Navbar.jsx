@@ -58,9 +58,11 @@ const Navbar = () => {
 
   const dispatch = useDispatch();
 
-  const handleLogout = (e) => {
-    e.preventDefault();
-    dispatch(auth(false));
+  const handleLogout = () => {
+    // Dispatch the logout action to clear user data
+    dispatch(auth({ authorized: false, user: null }));
+    // Optionally, you can clear the user data from local storage
+    localStorage.removeItem("user");
   };
 
   const UserProfileDropdown = () => (

@@ -5,12 +5,13 @@ import { CiMobile3 } from "react-icons/ci";
 import { MdLaptopMac } from "react-icons/md";
 import { IoShirtOutline, IoWatchOutline } from "react-icons/io5";
 import { IoMdCloseCircle } from "react-icons/io";
-
+import { MdLocalGroceryStore } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 
 import ClothingForm from "../selllerform/ClothingForm";
 import ElectronicsForm from "../selllerform/ElectronicsForm";
 import DefaultForm from "../selllerform/Defaultform";
+import GroceryForm from "../selllerform/GroceryForm";
 
 // ProductType.jsx
 
@@ -43,7 +44,7 @@ const ProductType = () => {
     setCategory(updatedCategory);
   };
 
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("Clothing");
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
@@ -98,6 +99,19 @@ const ProductType = () => {
             <h1 className="text-md font-bold pr-4">Clothing</h1>
           </div>
         </div>
+        <div
+          className={`px-2 py-1 flex items-center justify-center rounded-md shadow-sm gap-2 ${
+            selectedCategory === "Grocery" ? "bg-blue-500" : "bg-slate-200"
+          }`}
+          onClick={() => handleCategoryClick("Grocery")}
+        >
+          <div className="font-bold w-6 h-8 flex items-center justify-center rounded-sm">
+            <MdLocalGroceryStore />
+          </div>
+          <div>
+            <h1 className="text-md font-bold pr-4">Grocery</h1>
+          </div>
+        </div>
 
         {Category &&
           Category.map((category) => (
@@ -148,6 +162,14 @@ const ProductType = () => {
 
         {selectedCategory === "Electronics" && (
           <ElectronicsForm
+            product={product}
+            handleChange={handleChange}
+            handleSubmit={handleSubmit}
+          />
+        )}
+
+        {selectedCategory === "Grocery" && (
+          <GroceryForm
             product={product}
             handleChange={handleChange}
             handleSubmit={handleSubmit}

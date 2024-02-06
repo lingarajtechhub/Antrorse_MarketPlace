@@ -11,31 +11,59 @@ import toast, { Toaster } from "react-hot-toast";
 import { auth } from "../../redux/features/User/UserSlice";
 
 const Login = () => {
-  const credentials = {
-    username: "admin123@gmail.com",
-    password: "123456",
-  };
+  // const credentials = {
+  //   username: "admin123@gmail.com",
+  //   password: "123456",
+  // };
 
   const initialValues = {
-    name: "",
+    mobile_number: "",
     password: "",
   };
 
   const loginSchema = Yup.object({
-    name: Yup.string().min(1).required("Please enter your username"),
+    // name: Yup.string().min(1).required("Please enter your username"),
     password: Yup.string().min(1).required("Please enter your password"),
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: initialValues,
       validationSchema: loginSchema,
-      onSubmit: () => {
-        Validation(values.name, values.password);
+
+      onSubmit: async () => {
+        try {
+          const res = await axios.post("http://localhost:3000/app/user/login", {
+            mobile_number: values.mobile_number,
+            password: values.password,
+          });
+
+          console.log(res.data);
+
+          console.log(res.data.result);
+          if (res.data.responseCode === 200) {
+            toast.success(res.data.responseMessage);
+            localStorage.setItem("authToken", res.data.result);
+            // Dispatch to Redux store if needed
+
+            dispatch(auth({ authorized: true, user: res.data.result }));
+            navigate("/");
+            // dispatch(auth(res))
+            // dispatch(auth({ authorized: true, user: res.data.result }));
+            navigate("");
+          } else {
+            toast.error(res.data.responseMessage);
+          }
+        } catch (error) {
+          console.log(error);
+          toast.error("An error occurred while trying to log in.");
+        }
       },
     });
+
   const Validation = (username, password) => {
     const status =
       username.toLowerCase() === credentials.username &&
@@ -52,8 +80,6 @@ const Login = () => {
       toast.error("Entered credentials is invalid");
     }
   };
-
-  const navigate = useNavigate();
 
   const handleCancel = () => {
     navigate("/");
@@ -79,24 +105,35 @@ const Login = () => {
             >
               <div className="flex flex-col gap-1">
                 <label
-                  htmlFor="text"
-                  className=" text-sm font-medium text-gray-900 "
+                  htmlFor="mobile"
+                  className=" text-sm  font-semibold text-gray-700"
                 >
-                  Username
+                  Mobile Number
                 </label>
-                <input
-                  type="text"
-                  name="name"
-                  id="text"
-                  className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5  "
-                  placeholder="username"
-                  value={values.name}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />{" "}
-                {errors.name && touched.name ? (
+                <div className="flex items-center">
+                  <select
+                    name="country_code"
+                    id="country_code"
+                    className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 p-2.5"
+                    value={values.country_code}
+                    onChange={handleChange}
+                  >
+                    <option value="+91">+91</option>
+                  </select>
+                  <input
+                    type="text"
+                    name="mobile_number"
+                    id="mobile_number"
+                    className="bg-gray-50 border w-full text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 p-2.5 ml-2"
+                    placeholder="Mobile no"
+                    value={values.mobile_number}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </div>
+                {errors.mobile_number && touched.mobile_number ? (
                   <p className="text-red-600 text-[0.75rem] capitalize">
-                    {errors.name}
+                    {errors.mobile_number}
                   </p>
                 ) : null}
               </div>
@@ -124,22 +161,6 @@ const Login = () => {
                   </p>
                 ) : null}
               </div>
-              {/* <div className="flex flex-col gap-1">
-              <label
-                htmlFor="confirm-password"
-                className=" text-sm font-medium text-gray-900 "
-              >
-                Confirm password
-              </label>
-              <input
-                type="confirm-password"
-                name="confirm-password"
-                id="confirm-password"
-                placeholder="••••••••"
-                className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-md focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
-              />
-            </div> */}
 
               <div className=" flex justify-end space-x-1 ">
                 <div>
@@ -184,9 +205,16 @@ const Login = () => {
               </div>
               <button
                 type="submit"
-                className="w-full text-slate-200 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center"
+                className="w-[50%] text-slate-200 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center"
               >
                 Login
+              </button>
+              <button
+                type="submit"
+                className="  w-[30%] text-black bg-gray-200  focus:ring-3 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 "
+                onClick={handleCancel}
+              >
+                cancel
               </button>
 
               <div className="flex">
@@ -240,7 +268,7 @@ const Login = () => {
               </Link>
             </p>
           </div>
-          <div className=" flex justify-end mb-3 p-2">
+          {/* <div className=" flex justify-end mb-3 p-2">
             <button
               type="submit"
               className=" text-black bg-gray-200  focus:ring-3 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 "
@@ -248,7 +276,7 @@ const Login = () => {
             >
               cancel
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
       <Toaster position="top-center" containerStyle={{ top: "8rem" }} />
