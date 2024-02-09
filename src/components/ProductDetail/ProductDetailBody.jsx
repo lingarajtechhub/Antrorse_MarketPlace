@@ -3,14 +3,9 @@ import { IoHeartOutline } from "react-icons/io5";
 
 import StarRating from "../StartRating/StartRating";
 
-const ProductDetailBody = () => {
+const ProductDetailBody = ({ product }) => {
+  const prodcutDetail = product;
   const [currentIndex, setCurrentIndex] = useState(0);
-  const images = [
-    "https://img.freepik.com/free-photo/handsome-young-man-sitting-isolated-grey_171337-10550.jpg?w=360&t=st=1706695667~exp=1706696267~hmac=ceea2df9b0b85787c697d8136b36dc588d22d6f64a3a3bab7d74fa08feaf6d97",
-    "https://img.freepik.com/free-photo/handsome-stylish-indian-model-man-casual-close-posing-pastel-wall_496169-1577.jpg?w=826&t=st=1706696003~exp=1706696603~hmac=f852393145793f46afeb81b90afb4baafa1754eec37c325e0733a7f7d451cb3a",
-    "https://img.freepik.com/free-photo/man-portrait_1296-626.jpg?size=626&ext=jpg&ga=GA1.1.669135044.1702274981&semt=ais",
-    "https://img.freepik.com/free-photo/portrait-handsome-smiling-stylish-young-man-model-dressed-red-checkered-shirt-fashion-man-posing_158538-4914.jpg?size=626&ext=jpg&ga=GA1.1.669135044.1702274981&semt=ais",
-  ];
   const [quantity, setQuantity] = useState(1);
 
   const prevImage = () => {
@@ -34,19 +29,21 @@ const ProductDetailBody = () => {
       <div className="grid grid-cols-2  gap-4 max-w-7xl max-h-[80vh] overflow-hidden ">
         <div className=" px-4 bg-white md:mb-0 flex  gap-2 ">
           <div className="flex flex-col    w-1/5 items-center gap-4 mx-2 md:flex">
-            {images.map((imageUrl, index) => (
-              <div
-                key={index}
-                className="w-20 h-28 flex items-center justify-center gap-4 hover:border-sky-400"
-                onClick={() => handleSmallImageClick(index)}
-              >
-                <img
-                  className="object-cover h-[100%] w-[100%] "
-                  src={imageUrl}
-                  alt={imageUrl}
-                />
-              </div>
-            ))}
+            {prodcutDetail.images
+              ? prodcutDetail.images.map((imageUrl, index) => (
+                  <div
+                    key={index}
+                    className="w-20 h-28 flex items-center justify-center gap-4 hover:border-sky-400"
+                    onClick={() => handleSmallImageClick(index)}
+                  >
+                    <img
+                      className="object-cover h-[100%] w-[100%] "
+                      src={imageUrl}
+                      alt={imageUrl}
+                    />
+                  </div>
+                ))
+              : null}
           </div>
 
           <div className="relative flex items-center justify-center h-full  w-4/5 ">
@@ -73,7 +70,7 @@ const ProductDetailBody = () => {
 
             <img
               className="object-cover max-h-full mx-auto transition-transform duration-500 ease-in-out transform scale-100 z-0"
-              src={images[currentIndex]}
+              src={prodcutDetail.images[currentIndex]}
               alt=""
             />
             <a
@@ -104,23 +101,20 @@ const ProductDetailBody = () => {
           <div className="lg:pl-6">
             <div className="mb-6 ">
               <h2 className="max-w-xl mt-6 mb-6 text-xl font-semibold leading-loose tracking-wide  md:text-2xl ">
-                Men Solid Bomber Jacket
+                {/* Men Solid Bomber Jacket */}
+                {prodcutDetail.product_name}
               </h2>
               <div className="flex flex-wrap items-center mb-6">
                 <StarRating rating={4} />
                 <span>(123)</span>
               </div>
               <p className="inline-block text-2xl font-semibold text-red-800  ">
-                <span>Rs 1200</span>
+                <span>Rs {prodcutDetail.price}</span>
                 <span className="ml-3 text-base font-normal text-gray-500 line-through ">
-                  Rs 10,000
+                  Rs {prodcutDetail.oldprice}
                 </span>
               </p>
-              <p className="pt-2 text-gray-500">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Et,
-                minima aperiam dolore nam quos ducimus, earum quod laboriosam
-                animi nulla expedita. Soluta, illum.
-              </p>
+              <p className="pt-2 text-gray-500">{prodcutDetail.description}</p>
             </div>
             {/* <div className="mb-6">
                   <h2 className="mb-2 text-lg font-bold text-gray-700 ">
@@ -258,7 +252,7 @@ const ProductDetailBody = () => {
                       className="flex items-center  w-full font-semibold text-center text-gray-700 placeholder-gray-700 bg-gray-100 outline-none  border  focus:outline-none text-md hover:text-black"
                       placeholder="1"
                       value={quantity}
-                      onChange={quantity}
+                      onChange={(event) => setQuantity(event.target.value)}
                     />
                     <button
                       className="w-20 h-full text-gray-600 bg-gray-100 border rounded-r outline-none cursor-pointer    hover:text-gray-700 hover:bg-gray-300"
@@ -298,7 +292,19 @@ const ProductDetailBody = () => {
             <div className="mb-4 flex">
               <h2 className="mb-1 mr-8 text-md font-bold ">Avilable Color :</h2>
               <div className="flex flex-wrap -mb-2">
-                <button className="p-1 mb-2 mr-1 border border-transparent rounded-full hover:border-gray-400 ">
+                {/* {prodcutDetail.spectification.clothing.color.map(
+                  (colorOption, index) => (
+                    <button
+                      key={colorOption}
+                      className="p-1 mb-2 mr-1 border border-transparent rounded-full hover:border-gray-400"
+                      style={{ backgroundColor: colorOption }}
+                    >
+                      <div className="w-4 h-4 rounded-full"></div>
+                    </button>
+                  )
+                )} */}
+
+                {/* <button className="p-1 mb-2 mr-1 border border-transparent rounded-full hover:border-gray-400 ">
                   <div className="w-6 h-6 bg-red-600 rounded-full"></div>
                 </button>
                 <button className="p-1 mb-2 mr-1 border border-transparent rounded-full hover:border-gray-400 ">
@@ -309,7 +315,7 @@ const ProductDetailBody = () => {
                 </button>
                 <button className="p-1 mb-2 border border-transparent rounded-full hover:border-gray-400">
                   <div className="w-6 h-6 rounded-full bg-sky-400"></div>
-                </button>
+                </button> */}
               </div>
             </div>
 

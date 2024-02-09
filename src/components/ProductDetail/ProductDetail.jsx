@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductDetailBody from "./ProductDetailBody";
 import ProductDescription from "./ProductDescription";
 import ProductMergeReview from "./ProductMergeReview";
@@ -6,36 +6,69 @@ import RelatedProducts from "../RelatedProducts/RelatedProducts";
 
 const ProductDetail = () => {
   // Define available sizes for the product
-  const sizes = ["XS", "S", "M", "L", "XL"];
+  // const sizes = ["XS", "S", "M", "L", "XL"];
 
-  // State to track the selected size
-  const [selectedSize, setSelectedSize] = useState("");
+  // // State to track the selected size
+  // const [selectedSize, setSelectedSize] = useState("");
 
-  // Function to handle size selection
-  const handleSizeClick = (size) => {
-    setSelectedSize(size);
-  };
+  // // Function to handle size selection
+  // const handleSizeClick = (size) => {
+  //   setSelectedSize(size);
+  // };
+
+  const [product, setproduct] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Fetch data when the component mounts
+    async function fetchData() {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/app/product/getProductById/65ae481ded57623de6f4a5fd?timestamp=${Date.now()}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setproduct(() => data.result); // Set product data in state
+        setIsLoading(() => false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    console.log("inside the usefeefect");
+    fetchData(); // Call the fetch function
+  }, []);
 
   return (
-    <div className="flex flex-col gap-4">
-      <ProductDetailBody />
+    <div>
+      {isLoading ? (
+        <div> hi </div>
+      ) : (
+        <div className="flex flex-col gap-4">
+          <ProductDetailBody product={product} />
 
-      <div className=" flex flex-col gap-2 ">
-        <h2 className="text-center text-4xl font-bold mt-4">
-          Product Details
-        </h2>
-        <ProductDescription />
-      </div>
+          <div className=" flex flex-col gap-2 ">
+            <h2 className="text-center text-4xl font-bold mt-4">
+              Product Details
+            </h2>
+            <ProductDescription product={product} />
+          </div>
 
-      <div className=" flex flex-col gap-2">
-        <h2 className="text-center text-4xl font-bold">Reviews</h2>
-        <ProductMergeReview />
-      </div>
+          <div className=" flex flex-col gap-2">
+            <h2 className="text-center text-4xl font-bold">Reviews</h2>
+            <ProductMergeReview product={product} />
+          </div>
 
-      <div className=" flex flex-col gap-2">
-        <h2 className="text-center text-4xl font-bold">RelatedProducts </h2>
-        <RelatedProducts />
-      </div>
+          <div className=" flex flex-col gap-2">
+            <h2 className="text-center text-4xl font-bold">
+              Similar Products{" "}
+            </h2>
+            <RelatedProducts />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

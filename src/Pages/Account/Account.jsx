@@ -297,7 +297,7 @@ const Account = () => {
                   onClick={() => {
                     saveChanges("password");
                   }}
-                  className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white"
+                  className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white w-fit"
                 >
                   Save Password
                 </button>

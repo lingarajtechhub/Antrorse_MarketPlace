@@ -1,28 +1,29 @@
-// Import the necessary dependencies
-import React from "react";
-import { FaFacebook, FaTwitter } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+import { FaFacebook } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { FcGoogle } from "react-icons/fc";
 import OTP from "./OTP";
 
 const SignUp = () => {
   const initialValues = {
     name: "",
-    email: "",
     mobile: "",
+    email: "",
   };
 
   const signUpSchema = Yup.object({
     name: Yup.string().min(3).required("Please enter your username"),
-    email: Yup.string().email().required("Please enter your email"),
     mobile: Yup.string()
       .matches(/^\d{10}$/, "Mobile number must be 10 digits")
       .required("A phone number is required"),
+    email: Yup.string().email().required("Please enter your email"),
   });
 
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -30,7 +31,6 @@ const SignUp = () => {
       validationSchema: signUpSchema,
       onSubmit: async (values) => {
         try {
-          // Make a fetch request to your backend API to send OTP
           const response = await fetch(
             "http://localhost:3000/app/user/sendOtpForRegistration",
             {
@@ -39,16 +39,26 @@ const SignUp = () => {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                name: values.name,
+                user_name: values.name,
                 email: values.email,
-                mobile: values.mobile,
+                mobile_number: values.mobile,
               }),
             }
           );
 
           if (response.ok) {
-            // Redirect to OTP page if OTP is successfully sent
-            navigate("/otp", { state: { userData: values } });
+            const responseData = await response.json();
+
+            if (responseData.responseCode === 409) {
+              // Set error message for existing user
+              setErrorMessage(responseData.responseMessage);
+            } else {
+              // Clear error message
+              setErrorMessage("");
+
+              // Redirect to OTP page if OTP is successfully sent
+              navigate("/otp", { state: { userData: values } });
+            }
           } else {
             // Handle the case where OTP sending failed
             console.error("Failed to send OTP");
@@ -102,6 +112,43 @@ const SignUp = () => {
                     </p>
                   ) : null}
                 </div>
+
+                <div className="flex flex-col gap-1">
+                  <label
+                    htmlFor="mobile"
+                    className="text-sm font-medium text-gray-900"
+                  >
+                    Mobile Number
+                  </label>
+                  <div className="flex items-center w-full">
+                    <select
+                      name="countryCode"
+                      id="countryCode"
+                      className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 p-2.5"
+                      value={values.countryCode}
+                      onChange={handleChange}
+                    >
+                      <option value="+91">+91</option>
+                      {/* Add more country codes as needed */}
+                    </select>
+                    <input
+                      type="text"
+                      name="mobile"
+                      id="mobile"
+                      className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 p-2.5 ml-2 flex flex-1"
+                      placeholder="1234567890"
+                      value={values.mobile}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                  </div>
+                  {errors.mobile && touched.mobile ? (
+                    <p className="text-red-600 text-[0.75rem] capitalize">
+                      {errors.mobile}
+                    </p>
+                  ) : null}
+                </div>
+
                 <div className="flex flex-col gap-1">
                   <label
                     htmlFor="email"
@@ -126,29 +173,6 @@ const SignUp = () => {
                   ) : null}
                 </div>
 
-                <div className="flex flex-col gap-1">
-                  <label
-                    htmlFor="mobile"
-                    className="text-sm font-medium text-gray-900"
-                  >
-                    Mobile Number
-                  </label>
-                  <input
-                    type="text"
-                    name="mobile"
-                    id="mobile"
-                    className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5"
-                    placeholder="+911234567890"
-                    value={values.mobile}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
-                  {errors.mobile && touched.mobile ? (
-                    <p className="text-red-600 text-[0.75rem] capitalize">
-                      {errors.mobile}
-                    </p>
-                  ) : null}
-                </div>
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <input
@@ -172,26 +196,30 @@ const SignUp = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-row justify-center">
-                  <div className="w-3/4">
-                    <button
-                      type="submit"
-                      className="w-full text-slate-200 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center"
-                    >
-                      Create an account
-                    </button>
-                  </div>
-                </div>
-              </form>
+                <div className="flex space-x-2">
+                  <button
+                    type="submit"
+                    className="w-full text-slate-200 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center mt-4"
+                  >
+                    Create an Account
+                  </button>
 
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300"></div>
+                  {/* Cancel Button */}
+                  <button
+                    type="button"
+                    onClick={() => navigate("/login")}
+                    className="w-full text-gray-600 border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center mt-4"
+                  >
+                    Cancel
+                  </button>
                 </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-gray-100">Or Register with</span>
-                </div>
-              </div>
+
+                {errorMessage && (
+                  <p className="text-red-600 text-[0.75rem] mt-2">
+                    {errorMessage}
+                  </p>
+                )}
+              </form>
 
               <div className="mt-6 grid grid-cols-3 gap-3">
                 <div>
@@ -207,7 +235,7 @@ const SignUp = () => {
                     href="#"
                     className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
                   >
-                    <FaTwitter size={"1.5rem"} />
+                    <FaXTwitter size={"1.5rem"} />
                   </a>
                 </div>
                 <div>
@@ -226,15 +254,6 @@ const SignUp = () => {
                   Login here
                 </Link>
               </p>
-            </div>
-            <div className="flex justify-end mb-3 p-2">
-              <button
-                type="button"
-                className="text-black bg-gray-200 focus:ring-3 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5"
-                onClick={handleCancel}
-              >
-                Cancel
-              </button>
             </div>
           </div>
         </div>

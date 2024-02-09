@@ -6,6 +6,17 @@ function ClothingForm({ product, handleChange }) {
   const [sizes, setSizes] = useState(["XS", "S", "M", "L", "XL"]);
   const [selectedSizes, setSelectedSizes] = useState([]);
 
+  const [suggestions, setSuggestions] = useState([
+    { value: "shirt", label: "Shirt" },
+    { value: "jeans", label: "Jeans" },
+    { value: "mobile", label: "Mobile" },
+    { value: "laptop", label: "Laotop" },
+    { value: "watch", label: "Watch" },
+    { value: "jacket", label: "Jeans" },
+    { value: "joggers", label: "Joogers" },
+    // Add more suggestions as needed
+  ]);
+
   const handleSizeClick = (size) => {
     // Toggle selection of sizes
     setSelectedSizes((prevSelectedSizes) =>
@@ -98,6 +109,17 @@ function ClothingForm({ product, handleChange }) {
                   onChange={handleChange}
                   className="w-full border border-gray-300 p-2 rounded-md"
                 />
+
+                {/* <CreatableSelect
+                  isMulti
+                  options={suggestions}
+                  value={product.tags || product.tags.value}
+                  styles={colourStyles}
+                  onChange={(selectedOptions) =>
+                    handleChangetag(selectedOptions)
+                  }
+                  onCreateOption={handleCreateTag}
+                /> */}
               </div>
             </div>
 

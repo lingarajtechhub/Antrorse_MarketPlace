@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import Paypal from "../../components/paypal/Paypal";
 import { FaArrowLeft } from "react-icons/fa";
+import PhonePe from "../../components/Phonepe/Phonepe";
 
 const Checkout = () => {
   const addressOptions = [
@@ -300,13 +301,12 @@ const Checkout = () => {
             </button>
           ) : (
             <Link
-              to="/orderCompleted"
+              to="/Payment"
               className=" flex flex-1 my-4 justify-center items-center w-full rounded-md  bg-gray-900 px-6 py-3 font-medium text-white"
             >
               Place Order
             </Link>
           )}
-          <Paypal />
         </div>
       </div>
     </div>

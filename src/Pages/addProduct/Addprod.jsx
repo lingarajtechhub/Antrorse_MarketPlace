@@ -1,24 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreatableSelect from "react-select/creatable";
 
 import "react-tagsinput/react-tagsinput.css";
 import ProductType from "../../components/ProductType/ProductType";
 
 const AddProd = () => {
-  const [productImages, setProductImages] = useState([]);
   const [product, setProduct] = useState({
     description: "",
     tags: [],
-    photos: [],
+    images: [],
     productName: "",
     productType: "",
     price: "",
     discountPercent: "",
     stock: "",
-    // variation : {
-
-    // }
+    variation: {},
   });
+
+  const maxAllowedImages = 5;
 
   const [suggestions, setSuggestions] = useState([
     { value: "shirt", label: "Shirt" },
@@ -33,29 +32,21 @@ const AddProd = () => {
 
   const handleMultiImageChange = (e) => {
     const files = e.target.files;
-    // Set the maximum allowed number of images
-    const maxAllowedImages = 5;
-    // Check if the total number of images after selecting is within the limit
-    if (productImages.length + files.length > maxAllowedImages) {
-      alert(
-        `Please select maximum ${
-          maxAllowedImages - productImages.length
-        }  images.`
-      );
-      // Optionally, you can clear the input to prevent exceeding the limit
-      e.target.value = null;
-      return;
-    }
 
-    if (files.length > 0) {
-      const newImages = Array.from(files).map((file) => ({
-        url: URL.createObjectURL(file),
-        file: file,
-      }));
-
-      setProductImages((prevImages) => [...prevImages, ...newImages]);
-    }
+    Array.from(files).forEach((file) => {
+      if (product.images.length < maxAllowedImages) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          setProduct((prev) => ({
+            ...prev,
+            images: [...prev.images, reader.result],
+          }));
+        };
+      }
+    });
   };
+  console.log(product.images);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -89,14 +80,12 @@ const AddProd = () => {
     }));
   };
 
-  const MAX_IMAGES = 5;
-
   const handleRemoveImage = (index) => {
-    setProductImages((prevImages) => {
-      const updatedImages = [...prevImages];
-      updatedImages.splice(index, 1);
-      return updatedImages;
-    });
+    console.log(index, "index");
+    const updatedImages = [...product.images];
+    updatedImages.splice(index, 1);
+
+    setProduct((prev) => ({ ...prev, images: updatedImages }));
   };
 
   const handleChangetag = (selectedOptions) => {
@@ -194,12 +183,12 @@ const AddProd = () => {
                   </h1>
                 </div>
 
-                {productImages.length > 0 && (
+                {product.images.length > 0 && (
                   <div className="flex flex-wrap  border-dashed border-2 border-gray-300 rounded-md ">
-                    {productImages.map((image, index) => (
+                    {product.images.map((image, index) => (
                       <div key={index} className=" w-1/6 m-2 relative">
                         <img
-                          src={image.url}
+                          src={image}
                           alt={`Product Image ${index + 1}`}
                           className="w-full h-32 object-cover rounded-md"
                         />
@@ -217,18 +206,16 @@ const AddProd = () => {
 
                 <div
                   className={`flex ${
-                    productImages.length === MAX_IMAGES ? "hidden" : ""
+                    product.images.length >= maxAllowedImages ? "hidden" : ""
                   }`}
                 >
                   <div
                     className="text-start flex py-3 h-full w-full"
-                    disabled={productImages.length === MAX_IMAGES}
+                    disabled={product.images.length >= maxAllowedImages}
                   >
                     <label
                       htmlFor="multipleImages"
-                      className={`cursor-pointer w-full block bg-gray-100 border-dashed border-2 border-gray-300 p-4 rounded-md text-center ${
-                        productImages.length === MAX_IMAGES ? "" : ""
-                      }`}
+                      className="cursor-pointer w-full block bg-gray-100 border-dashed border-2 border-gray-300 p-4 rounded-md text-center "
                     >
                       <h2 className="mb-2 text-ls font-semibold">
                         Select Multiple images here
@@ -243,7 +230,7 @@ const AddProd = () => {
                         accept="image/*"
                         multiple
                         onChange={handleMultiImageChange}
-                        disabled={productImages.length === MAX_IMAGES}
+                        disabled={product.images.length >= maxAllowedImages}
                         className="hidden"
                       />
                     </label>
@@ -360,11 +347,6 @@ const AddProd = () => {
                     handleChangetag(selectedOptions)
                   }
                   onCreateOption={handleCreateTag}
-                  // onKeyDown={(e) => {
-                  //   if (e.key === "Enter" && e.target.value) {
-                  //     handleCreateTag(e.target.value);
-                  //   }
-                  // }}
                 />
               </div>
             </div>
@@ -374,7 +356,9 @@ const AddProd = () => {
         {/* right section */}
         <div className="w-1/2">
           <div className="">
-            <ProductType />
+            <ProductType
+              handleChange={handleChange}
+            />
           </div>
 
           <div className="">

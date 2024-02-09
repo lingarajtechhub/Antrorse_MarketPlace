@@ -17,31 +17,19 @@ import GroceryForm from "../selllerform/GroceryForm";
 
 // ... (import statements)
 
-const ProductType = () => {
-  const Cat = [];
-
+const ProductType = ({ handleChange }) => {
   const [isModalVisible, setModalVisible] = useState(false);
-  const [Category, setCategory] = useState(Cat);
-
-  const handleToggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
+  const [category, setCategory] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Product:", product);
   };
   const handleAddProductCategory = (newCategory) => {
-    const updatedCategory = [
-      ...Category,
-      { id: Category.length + 1, ...newCategory },
-    ];
-    setCategory(updatedCategory);
+    setCategory(newCategory);
   };
-
-  const handleDelete = (id) => {
-    const updatedCategory = Category.filter((category) => category.id !== id);
-    setCategory(updatedCategory);
+  const handleDelete = () => {
+    setCategory(() => category.pop());
   };
 
   const [selectedCategory, setSelectedCategory] = useState("Clothing");
@@ -57,7 +45,7 @@ const ProductType = () => {
     photos: [],
   });
 
-  const handleChange = (e) => {
+  const handleVariation = (e) => {
     const { name, value } = e.target;
     setProduct((prevProduct) => ({
       ...prevProduct,
@@ -113,39 +101,39 @@ const ProductType = () => {
           </div>
         </div>
 
-        {Category &&
-          Category.map((category) => (
-            <div
-              key={category.id}
-              className={`px-2 py-1  flex items-center justify-center rounded-md shadow-sm gap-2 ${
-                selectedCategory === "default" ? "bg-blue-500" : "bg-slate-200"
-              }`}
-              onClick={() => handleCategoryClick("default")}
-            >
-              <div className="font-bold  w-6 h-8 flex items-center justify-center rounded-sm">
-                {category.logo}
-              </div>
-              <div>
-                <h1 className="text-md font-bold ">{category.name}</h1>
-              </div>
-              <IoMdCloseCircle
-                size={"1.5rem"}
-                className="text-red-600 "
-                onClick={() => handleDelete(category.id)}
-              />
+        {category.name ? (
+          <div
+            className={`px-2 py-1  flex items-center justify-center rounded-md shadow-sm gap-2 ${
+              selectedCategory === "default" ? "bg-blue-500" : "bg-slate-200"
+            }`}
+            onClick={() => handleCategoryClick("default")}
+          >
+            <div className="font-bold  w-6 h-8 flex items-center justify-center rounded-sm">
+              {category.logo}
             </div>
-          ))}
+            <div>
+              <h1 className="text-md font-bold ">{category.name}</h1>
+            </div>
+            <IoMdCloseCircle
+              size={"1.5rem"}
+              className="text-red-600 "
+              onClick={() => setCategory({})}
+            />
+          </div>
+        ) : null}
 
-        <button
-          className="flex gap-2 text-center font-semibold text-lg m-3 cursor-pointer "
-          onClick={handleToggleModal}
-        >
-          <FaPlus className="mt-1" /> Add Category
-        </button>
+        {!category.name ? (
+          <button
+            className="flex gap-2 text-center font-semibold text-lg m-3 cursor-pointer "
+            onClick={() => setModalVisible(true)}
+          >
+            <FaPlus className="mt-1" /> Add Category
+          </button>
+        ) : null}
       </div>
       {isModalVisible && (
         <Model
-          handleToggleModal={handleToggleModal}
+          setModalVisible={setModalVisible}
           handleAddProductCategory={handleAddProductCategory}
         />
       )}
@@ -155,7 +143,7 @@ const ProductType = () => {
         {selectedCategory === "Clothing" && (
           <ClothingForm
             product={product}
-            handleChange={handleChange}
+            handleVariation={handleVariation}
             handleSubmit={handleSubmit}
           />
         )}
@@ -163,7 +151,7 @@ const ProductType = () => {
         {selectedCategory === "Electronics" && (
           <ElectronicsForm
             product={product}
-            handleChange={handleChange}
+            handleVariation={handleVariation}
             handleSubmit={handleSubmit}
           />
         )}
@@ -171,7 +159,7 @@ const ProductType = () => {
         {selectedCategory === "Grocery" && (
           <GroceryForm
             product={product}
-            handleChange={handleChange}
+            handleVariation={handleVariation}
             handleSubmit={handleSubmit}
           />
         )}

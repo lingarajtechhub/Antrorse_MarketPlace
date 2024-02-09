@@ -212,10 +212,9 @@ export default {
       //   65: ".65",
       // },
       backgroundImage: {
-        Hero2: "url('./src/assets/images/catbanner.jpg')",
-        Hero3: "url('./src/assets/images/catbanner-02.jpg')",
-        Hero4: "url('./src/assets/images/catbanner-03.jpg')",
-        Hero5: "url('./src/assets/images/catbanner-04.jpg')",
+        Hero1: "url('./src/assets/images/catbanner.jpg')",
+        Hero2: "url('./src/assets/images/bg-watch.png')",
+        Hero3: "url('./src/assets/images/bg-head.png')",
       },
       // content: {
       //   "icon-copy": 'url("../images/icon/icon-copy-alt.svg")',

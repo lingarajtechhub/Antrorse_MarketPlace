@@ -2,9 +2,11 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Image1 from "../../assets/images/main-banner.jpg";
-import Image2 from "../../assets/images/main-banner-1.jpg";
-import Image3 from "../../assets/images/main-banner-2.jpg";
+import Image1 from "../../assets/images/main-banner.png";
+import Image2 from "../../assets/images/main-banner-2.png";
+import Image3 from "../../assets/images/main-banner-3.png";
+import Image4 from "../../assets/images/main-banner-5.png";
+import Image5 from "../../assets/images/main-banner-4.jpg";
 
 const ImageList = [
   {
@@ -16,14 +18,28 @@ const ImageList = [
   },
   {
     id: 2,
-    img: Image3,
+    img: Image2,
     title: "Special Sale",
     description: "From 1999 or 3999.",
     description2: "From Rs.1999 or Rs.3999.",
   },
   {
     id: 3,
-    img: Image2,
+    img: Image3,
+    title: "Special Sale",
+    description: "From 1999 or 3999.",
+    description2: "From Rs.1999 or Rs.3999.",
+  },
+  {
+    id: 4,
+    img: Image4,
+    title: "Special Sale",
+    description: "From 1999 or 3999.",
+    description2: "From Rs.1999 or Rs.3999.",
+  },
+  {
+    id: 5,
+    img: Image5,
     title: "Special Sale",
     description: "From 1999 or 3999.",
     description2: "From Rs.1999 or Rs.3999.",
@@ -72,7 +88,7 @@ const Hero = () => {
           ))}
         </Slider>
       </div>
-      <div className="col-span-2 bg-Hero2 bg-cover bg-center bg-no-repeat rounded-lg p-10 ">
+      <div className="col-span-2 bg-Hero1 bg-cover bg-center bg-no-repeat rounded-lg p-10 ">
         <p className="text-sm md:text-sm font-bold font-sans">
           Sale of the month
         </p>
@@ -81,11 +97,11 @@ const Hero = () => {
         </h3>
         <p className="text-sm font-sans">From Rs.29999</p>
       </div>
-      <div className="bg-Hero4 bg-cover bg-center bg-no-repeat rounded-lg min-h-40 sm:p-10 hidden sm:block">
+      <div className="bg-Hero2 bg-cover bg-center bg-no-repeat rounded-lg min-h-40 sm:p-10 hidden sm:block">
         <h3 className="text-lg lg:text-xl font-semibold">Smart Watch 7</h3>
         <p className="text-sm font-sans">From Rs.29999</p>
       </div>
-      <div className="bg-Hero5 bg-cover bg-center bg-no-repeat rounded-lg min-h-40 sm:p-10 hidden sm:block">
+      <div className="bg-Hero3 bg-cover bg-center bg-no-repeat rounded-lg min-h-40 sm:p-10 hidden sm:block">
         <h3 className="text-lg lg:text-xl font-semibold ">AirPods Max</h3>
         <p className="text-sm font-sans">From Rs.29999</p>
       </div>

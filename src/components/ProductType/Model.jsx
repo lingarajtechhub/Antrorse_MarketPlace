@@ -1,25 +1,21 @@
 import React, { useState } from "react";
 import { CiMobile3 } from "react-icons/ci";
 
-const Model = ({ handleToggleModal, handleAddProductCategory }) => {
+const Model = ({ setModalVisible, handleAddProductCategory }) => {
   const [newCategory, setNewCategory] = useState({
     name: "",
-    items: "",
     logo: <CiMobile3 />,
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewCategory((prevCategory) => ({
-      ...prevCategory,
-      [name]: value,
-    }));
+    const newCategoryName = e.target.value;
+    setNewCategory((prev) => ({ ...prev, name: newCategoryName }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     handleAddProductCategory(newCategory);
-    handleToggleModal();
+    setModalVisible(false);
   };
 
   return (

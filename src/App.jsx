@@ -26,6 +26,7 @@ import Viewproducts from "./Pages/viewproducts/viewproducts";
 import { useEffect } from "react";
 import OTP from "./Pages/SignUpPage/OTP";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
+import Payment from "./Pages/Payment/Payment";
 
 function App() {
   const location = window.location.pathname;
@@ -65,6 +66,7 @@ function App() {
         <Route path="/SellerAccount" element={<SellerAccount />} />
         <Route path="/AddProd" element={<AddProd />} />
         <Route path="/productdetail" element={<ProductDetail />} />
+        <Route path="/payment" element={<Payment />} />
         <Route />
       </Routes>
       {location === "/admin" ? null : <Footer />}

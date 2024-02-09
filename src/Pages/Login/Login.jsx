@@ -17,6 +17,7 @@ const Login = () => {
   // };
 
   const initialValues = {
+    email_id: "",
     mobile_number: "",
     password: "",
   };
@@ -103,7 +104,7 @@ const Login = () => {
               action="#"
               onSubmit={handleSubmit}
             >
-              <div className="flex flex-col gap-1">
+              {/* <div className="flex flex-col gap-1">
                 <label
                   htmlFor="mobile"
                   className=" text-sm  font-semibold text-gray-700"
@@ -136,8 +137,33 @@ const Login = () => {
                     {errors.mobile_number}
                   </p>
                 ) : null}
-              </div>
+              </div> */}
 
+              <div className="flex flex-col gap-1">
+                <label
+                  htmlFor="email"
+                  className=" text-sm  font-semibold text-gray-700"
+                >
+                  Email ID / username
+                </label>
+                <div className="flex items-center">
+                  <input
+                    type="text"
+                    name="email_id"
+                    id="email_id"
+                    className="bg-gray-50 border w-full text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 p-2.5 ml-2"
+                    placeholder="abc@abc.com / username123"
+                    value={values.email_id}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                </div>
+                {errors.mobile_number && touched.mobile_number ? (
+                  <p className="text-red-600 text-[0.75rem] capitalize">
+                    {errors.mobile_number}
+                  </p>
+                ) : null}
+              </div>
               <div className="flex flex-col gap-1">
                 <label
                   htmlFor="password"
@@ -181,7 +207,7 @@ const Login = () => {
                   </Link>
                 </div>
               </div>
-              <div className="flex items-start">
+              {/* <div className="flex items-start">
                 <div className="flex items-center h-5">
                   <input
                     id="terms"
@@ -202,20 +228,23 @@ const Login = () => {
                     </a>
                   </label>
                 </div>
+              </div> */}
+
+              <div className="flex items-center justify-between">
+                <button
+                  type="submit"
+                  className="w-[50%] text-slate-200 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center"
+                >
+                  Login
+                </button>
+                <button
+                  type="submit"
+                  className="  w-[20%] text-black bg-gray-200  focus:ring-3 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 "
+                  onClick={handleCancel}
+                >
+                  cancel
+                </button>
               </div>
-              <button
-                type="submit"
-                className="w-[50%] text-slate-200 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center"
-              >
-                Login
-              </button>
-              <button
-                type="submit"
-                className="  w-[30%] text-black bg-gray-200  focus:ring-3 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 "
-                onClick={handleCancel}
-              >
-                cancel
-              </button>
 
               <div className="flex">
                 {/* <span> or </span> */}
