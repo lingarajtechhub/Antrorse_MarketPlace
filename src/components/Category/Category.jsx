@@ -53,7 +53,6 @@ const Category = () => {
     arrows: true,
     infinite: true,
     speed: 800,
-    slidesToShow: 7,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,
@@ -62,20 +61,28 @@ const Category = () => {
     pauseOnFocus: true,
   };
 
+  if (window.innerWidth >= 320 && window.innerWidth <= 640) {
+    settings.slidesToShow = 2;
+  } else if (window.innerWidth > 640 && window.innerWidth <= 1024) {
+    settings.slidesToShow = 4;
+  } else {
+    settings.slidesToShow = 7;
+  }
+
   return (
     <div className="flex  flex-col items-center justify-center gap-4  py-6  ">
-      <h3 className="text-lg md:text-xl lg:text-2xl 2xl:text-3xl font-bold text-left w-full pt-5 pl-20">
+      <h3 className="text-lg md:text-xl lg:text-2xl 2xl:text-3xl font-bold text-left w-full pt-5 lg:pl-20 md:pl-14 pl-4">
         Shop By Category
       </h3>
 
-      <Slider {...settings} className="w-[90vw] h-fit ">
+      <Slider {...settings} className="w-[90vw] h-fit slide ">
         {categoryList.map((category) => (
           <Link
             to="/viewproducts"
             key={category.id}
             className=" w-[15rem] h-[15rem]  cursor-pointer transition-opacity duration-300 group-hover:bg-opacity-0"
           >
-            <div className="opacity-80 flex mr-2 items-center justify-center  hover:opacity-100 rounded-md h-full">
+            <div className="opacity-80 flex mr-3 items-center justify-center  hover:opacity-100 rounded-md h-full">
               <img
                 alt={category.title}
                 src={category.img}

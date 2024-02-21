@@ -14,7 +14,7 @@ const OTP = () => {
     try {
       // Make a fetch request to your backend API to verify the OTP
       const response = await fetch(
-        "http://localhost:3000/app/user/registration",
+        `${import.meta.env.VITE_BACKEND_URL}/app/user/registration`,
         {
           method: "POST",
           headers: {

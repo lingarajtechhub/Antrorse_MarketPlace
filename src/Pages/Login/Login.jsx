@@ -37,10 +37,13 @@ const Login = () => {
 
       onSubmit: async () => {
         try {
-          const res = await axios.post("http://localhost:3000/app/user/login", {
-            mobile_number: values.mobile_number,
-            password: values.password,
-          });
+          const res = await axios.post(
+            `${import.meta.env.VITE_BACKEND_URL}/app/user/login`,
+            {
+              mobile_number: values.mobile_number,
+              password: values.password,
+            }
+          );
 
           console.log(res.data);
 

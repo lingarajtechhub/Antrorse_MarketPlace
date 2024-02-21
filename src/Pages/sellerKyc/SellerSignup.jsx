@@ -1,16 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SellerSignUp = () => {
-  const [isVerificationSuccessful, setIsVerificationSuccessful] =
-    useState(false);
-  const [otpType, setOtpType] = useState("mobile");
   const [otp, setOtp] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isKycPopupVisible, setIsKycPopupVisible] = useState(false);
+  const [otpType, setOtpType] = useState("mobile");
+  const [resendTimer, setResendTimer] = useState(30);
+  const [isResendDisabled, setIsResendDisabled] = useState(false);
+  const navigate = useNavigate();
 
+  // Define initial form values
   const initialValues = {
     name: "",
     email: "",
@@ -19,6 +22,7 @@ const SellerSignUp = () => {
     gstNumber: "",
   };
 
+  // Define form validation schema
   const signUpSchema = Yup.object({
     name: Yup.string().min(3).required("Please enter your username"),
     email: Yup.string().email().required("Please enter your email"),
@@ -29,21 +33,36 @@ const SellerSignUp = () => {
     gstNumber: Yup.string().required("Please enter your company GST number"),
   });
 
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  // Initialize formik for form handling
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: initialValues,
       validationSchema: signUpSchema,
-      onSubmit: () => {
-        // Mock OTPs for testing
-        // const generatedMobileOtp = "654321";
-        // const generatedEmailOtp = "123456";
+      onSubmit: async () => {
+        try {
+          const response = await axios.post(
+            `${
+              import.meta.env.VITE_BACKEND_URL
+            }/app/seller/sendOtpForRegistration`,
+            {
+              fullName: values.name,
+              email_id: values.email,
+              mobile_number: values.mobile,
+              GST: values.gstNumber,
+            },
+            { headers }
+          );
 
-        // TODO: Send generatedMobileOtp to the user's mobile
-        // TODO: Send generatedEmailOtp to the user's email
+          const generatedOtp = response.data.otp;
 
-        // Set state to show OTP input boxes
-        setIsVerificationSuccessful(false);
-        setIsSubmitted(true);
+          setIsSubmitted(true);
+          setOtp(generatedOtp);
+        } catch (error) {
+          console.error("Error sending data to generate OTP:", error);
+        }
       },
     });
 
@@ -51,47 +70,89 @@ const SellerSignUp = () => {
     setIsKycPopupVisible(true);
   };
 
-  const closeKycPopup = () => {
-    setIsKycPopupVisible(true);
-  };
+  // const closeKycPopup = () => {
+  //   setIsKycPopupVisible(false);
+  // };
 
-  const handleVerify = () => {
-    // TODO: Add logic to verify mobile or email OTP with the server
-    if (otp === "654321" || otp === "123456") {
-      setIsVerificationSuccessful(true);
-      showKycPopup();
-    } else {
-      alert("Invalid OTP. Please try again.");
+  const handleVerify = async () => {
+    try {
+      const verificationResponse = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/app/seller/sellerRegistration`,
+        {
+          mobile_number: values.mobile,
+          fullName: values.name,
+          email_id: values.email,
+          GST: values.gstNumber,
+        },
+        { headers }
+      );
+
+      if (verificationResponse.data.success) {
+        setIsSubmitted(false);
+        showKycPopup();
+      } else {
+        alert("Your account has been created successfully..");
+      }
+    } catch (error) {
+      console.error("Error verifying OTP:", error);
     }
   };
 
-  const handleSwitchOtpType = () => {
-    setOtpType((prevType) => (prevType === "mobile" ? "email" : "mobile"));
+  const handleResendOtp = async () => {
+    try {
+      await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/app/seller/resendOtp`,
+        {
+          otpType: "mobile",
+          mobile: values.mobile,
+          email: values.email,
+        },
+        { headers }
+      );
+
+      setIsResendDisabled(true);
+      setResendTimer(30);
+    } catch (error) {
+      console.error("Error resending OTP:", error);
+    }
   };
 
-  const handleResendOtp = () => {
-    // TODO: Add logic to resend OTP to the user's selected option (email or mobile)
-    // For now, let's just alert for demonstration purposes
-    alert(`Resending OTP to ${otpType === "mobile" ? "mobile" : "email"}...`);
-  };
+  useEffect(() => {
+    let timer;
+
+    if (isResendDisabled) {
+      timer = setInterval(() => {
+        setResendTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [isResendDisabled]);
+
+  useEffect(() => {
+    if (resendTimer === 0) {
+      setIsResendDisabled(false);
+    }
+  }, [resendTimer]);
 
   return (
     <div className="flex flex-col">
-      <section className="bg-gray-50 h-screen flex-1 ">
-        <div className="flex flex-col items-center justify-center  px-6 py-8 mx-auto ">
-          <div className="w-full bg-white rounded-lg shadow  sm:max-w-md ">
+      <section className="bg-gray-50 h-screen flex-1">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto">
+          <div className="w-full bg-white rounded-lg shadow sm:max-w-md">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                 Register as a Seller
               </h1>
 
               {isSubmitted ? (
-                <form className="space-y-4 md:space-y-6">
-                  {/* OTP Input Field */}
+                <form className="space-y-2 md:space-y-4">
                   <div className="flex flex-col gap-1">
                     <label
                       htmlFor="otp"
-                      className=" text-sm font-medium text-gray-900 "
+                      className="text-sm font-medium text-gray-900"
                     >
                       Enter OTP sent to your{" "}
                       {otpType === "mobile" ? "mobile" : "email"}
@@ -99,40 +160,44 @@ const SellerSignUp = () => {
                     <input
                       type="text"
                       id="otp"
-                      className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5  "
+                      className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5"
                       value={otp}
                       onChange={(e) => setOtp(e.target.value)}
                     />
                   </div>
 
-                  {/* Switch OTP Type Button */}
-                  <div className="flex items-center justify-between">
+                  <div className="">
                     <button
                       type="button"
-                      className="text-sm text-blue-500 cursor-pointer hover:underline"
-                      onClick={handleSwitchOtpType}
+                      className="text-sm text-blue-500 cursor-pointer hover:underline "
+                      onClick={() =>
+                        setOtpType(otpType === "mobile" ? "email" : "mobile")
+                      }
                     >
                       Send OTP to {otpType === "mobile" ? "Email" : "Mobile"}
                     </button>
-                    {/* Resend OTP Button */}
-                    <button
-                      type="button"
-                      onClick={handleResendOtp}
-                      className="text-sm text-blue-500 cursor-pointer hover:underline"
-                    >
-                      Resend OTP
-                    </button>
-                  </div>
 
-                  {/* Verify OTP Button */}
-                  <div>
-                    <button
-                      type="button"
-                      onClick={handleVerify}
-                      className="w-full text-slate-200 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center mt-4"
-                    >
-                      Verify OTP
-                    </button>
+                    <div className=" mt-4 md:items-center md:justify-between space-y-4 md:space-y-0 md:space-x-2">
+                      <button
+                        type="button"
+                        onClick={handleVerify}
+                        className="w-full  text-slate-200 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center mt-4 md:mt-0 "
+                      >
+                        Verify OTP
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleResendOtp}
+                        disabled={isResendDisabled}
+                        className={`w-full py-2.5 px-5 text-sm mt-24 ${
+                          isResendDisabled ? "text-gray-500" : "text-blue-500"
+                        } cursor-pointer hover:underline`}
+                      >
+                        {isResendDisabled
+                          ? `Resend OTP in ${resendTimer}s`
+                          : "Resend OTP"}
+                      </button>
+                    </div>
                   </div>
                 </form>
               ) : (
@@ -144,11 +209,10 @@ const SellerSignUp = () => {
                     handleSubmit();
                   }}
                 >
-                  {/* Username */}
                   <div className="flex flex-col gap-1">
                     <label
                       htmlFor="text"
-                      className=" text-sm font-medium text-gray-900 "
+                      className="text-sm font-medium text-gray-900"
                     >
                       Name
                     </label>
@@ -156,7 +220,7 @@ const SellerSignUp = () => {
                       type="text"
                       name="name"
                       id="text"
-                      className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5  "
+                      className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5"
                       placeholder="John Doe"
                       value={values.name}
                       onChange={handleChange}
@@ -168,11 +232,11 @@ const SellerSignUp = () => {
                       </p>
                     ) : null}
                   </div>
-                  {/* Country Code and Mobile Number */}
+
                   <div className="flex flex-col gap-1">
                     <label
                       htmlFor="mobile"
-                      className=" text-sm font-medium text-gray-900 "
+                      className="text-sm font-medium text-gray-900"
                     >
                       Mobile Number
                     </label>
@@ -191,7 +255,7 @@ const SellerSignUp = () => {
                         type="text"
                         name="mobile"
                         id="mobile"
-                        className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 p-2.5 ml-2"
+                        className="bg-gray-50 border w-full text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 p-2.5 ml-2"
                         placeholder="1234567890"
                         value={values.mobile}
                         onChange={handleChange}
@@ -205,11 +269,10 @@ const SellerSignUp = () => {
                     ) : null}
                   </div>
 
-                  {/* Email */}
                   <div className="flex flex-col gap-1">
                     <label
                       htmlFor="email"
-                      className=" text-sm font-medium text-gray-900 "
+                      className="text-sm font-medium text-gray-900"
                     >
                       Email ID
                     </label>
@@ -217,8 +280,8 @@ const SellerSignUp = () => {
                       type="email"
                       name="email"
                       id="email"
-                      className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5  "
-                      placeholder="name@company.com "
+                      className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5"
+                      placeholder="name@company.com"
                       value={values.email}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -230,11 +293,10 @@ const SellerSignUp = () => {
                     ) : null}
                   </div>
 
-                  {/* Company GST Number */}
                   <div className="flex flex-col gap-1">
                     <label
                       htmlFor="gstNumber"
-                      className=" text-sm font-medium text-gray-900 "
+                      className="text-sm font-medium text-gray-900"
                     >
                       GSTIN (Goods and Services Tax Identification Number)
                     </label>
@@ -242,7 +304,7 @@ const SellerSignUp = () => {
                       type="text"
                       name="gstNumber"
                       id="gstNumber"
-                      className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5  "
+                      className="bg-gray-50 border text-gray-900 sm:text-sm rounded-md focus:ring-2 focus:outline-none focus:ring-slate-600 block w-full p-2.5"
                       placeholder="Enter your company GST number"
                       value={values.gstNumber}
                       onChange={handleChange}
@@ -255,18 +317,27 @@ const SellerSignUp = () => {
                     ) : null}
                   </div>
 
-                  {/* Submit Button */}
-                  <div>
+                  <div className="flex space-x-2">
                     <button
                       type="submit"
                       className="w-full text-slate-200 bg-red-500 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center mt-4"
                     >
                       Submit
                     </button>
+
+                    {/* Cancel Button */}
+                    <button
+                      type="button"
+                      onClick={() => navigate("/login")}
+                      className="w-full text-gray-600 border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center mt-4"
+                    >
+                      Cancel
+                    </button>
                   </div>
                 </form>
               )}
-              {isVerificationSuccessful && (
+
+              {/* {isSubmitted && (
                 <div className={`popup ${isKycPopupVisible ? "visible" : ""}`}>
                   <div className="popup-content">
                     <p className="py-2 px-2">
@@ -285,15 +356,13 @@ const SellerSignUp = () => {
                     >
                       Go to KYC Page
                     </Link>
-                    {/* <button onClick={closeKycPopup}>Close</button> */}
                   </div>
                 </div>
-              )}
+              )} */}
 
-              {/* Login Link */}
-              <p className="text-sm  text-gray-500   font-medium">
+              <p className="text-sm text-gray-500 font-medium">
                 Already have an account?{" "}
-                <Link to="/login" className=" text-red-600 hover:underline ">
+                <Link to="/login" className="text-red-600 hover:underline">
                   Login here
                 </Link>
               </p>

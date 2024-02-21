@@ -89,8 +89,8 @@ const ProductCard = ({ product, inCart, inWishlist }) => {
               </span>
             </p>
             <div className=" flex items-center">
-              <StarRating rating={product.rating.rate} />
-              <span>{`(${product.rating.count})`}</span>
+              <StarRating rating={product.rating.rate || 3} />
+              <span>{`(${product.rating.count || 300 })`}</span>
             </div>
           </div>
 

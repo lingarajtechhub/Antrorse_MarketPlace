@@ -5,17 +5,6 @@ import ProductMergeReview from "./ProductMergeReview";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
 
 const ProductDetail = () => {
-  // Define available sizes for the product
-  // const sizes = ["XS", "S", "M", "L", "XL"];
-
-  // // State to track the selected size
-  // const [selectedSize, setSelectedSize] = useState("");
-
-  // // Function to handle size selection
-  // const handleSizeClick = (size) => {
-  //   setSelectedSize(size);
-  // };
-
   const [product, setproduct] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -24,7 +13,9 @@ const ProductDetail = () => {
     async function fetchData() {
       try {
         const response = await fetch(
-          `http://localhost:3000/app/product/getProductById/65ae481ded57623de6f4a5fd?timestamp=${Date.now()}`
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }/app/product/getProductById/65ae481ded57623de6f4a5fd`
         );
 
         if (!response.ok) {
@@ -34,10 +25,15 @@ const ProductDetail = () => {
         setproduct(() => data.result); // Set product data in state
         setIsLoading(() => false);
       } catch (error) {
+        console.log(
+          `${
+            import.meta.env.VITE_BACKEND_URL
+          }/app/product/getProductById/65ae481ded57623de6f4a5fd`
+        );
         console.error("Error fetching data:", error);
       }
     }
-    console.log("inside the usefeefect");
+
     fetchData(); // Call the fetch function
   }, []);
 

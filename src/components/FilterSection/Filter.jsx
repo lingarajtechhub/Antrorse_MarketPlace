@@ -68,12 +68,12 @@ const initialSelectedFilter = {
   color: "",
   category: "",
   size: "",
-};
-const initialStateSections = {
-  color: false,
-  category: false,
-  size: false,
-};
+  };
+  const initialStateSections = {
+    color: false,
+    category: false,
+    size: false,
+  };
 
 const Filter = () => {
   const [selectedFilter, setSelectedFilter] = useState(initialSelectedFilter);

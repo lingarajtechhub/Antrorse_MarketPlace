@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { NavLink } from "react-router-dom";
-import Paypal from "../../components/paypal/Paypal";
 import { FaArrowLeft } from "react-icons/fa";
-import PhonePe from "../../components/Phonepe/Phonepe";
 
 const Checkout = () => {
   const addressOptions = [
@@ -27,6 +24,15 @@ const Checkout = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const quantitiesInCart = useSelector((state) => state.cart.quantities);
 
+  const [pricingBreakdown, setPricingBreakdown] = useState({
+    total: 0,
+    shipping: 0,
+    discount: 0,
+  });
+
+  const [discountPercent, setDiscountPercent] = useState(15);
+  const [ShippingPercent, setShippingPercent] = useState(5);
+
   const calculateSubtotal = () => {
     const totalItems = cartItems.map((item) => ({
       price: item.price,
@@ -38,21 +44,33 @@ const Checkout = () => {
       return acc + value.price * value.quantity;
     }, 0);
 
-    return totalPrice.toFixed(2);
+    const discountPrice = (totalPrice * discountPercent) / 100;
+    const shippingPrice = (totalPrice * ShippingPercent) / 100;
+
+    setPricingBreakdown((prev) => ({
+      ...prev,
+      total: totalPrice.toFixed(2),
+      discount: discountPrice.toFixed(2),
+      shipping: shippingPrice.toFixed(2),
+    }));
   };
+
+  useEffect(() => {
+    calculateSubtotal();
+  }, []);
 
   return (
     <div>
       <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-15 xl:px-20">
         <div className="flex justify-between w-full mt-4 p-2 text-xs  sm:text-base  ">
           <div className="left-0">
-            <NavLink
+            <Link
               to="/viewcart"
               className="text-gray-900 font-bold ml-auto flex items-center gap-2"
             >
               <FaArrowLeft />
               viewcart
-            </NavLink>
+            </Link>
           </div>
 
           <div className=" relative">
@@ -268,26 +286,29 @@ const Checkout = () => {
               <div className="flex items-center justify-between">
                 <p className="text-lg font-medium text-gray-900">Subtotal</p>
                 <p className="font-semibold text-lg  text-gray-900">
-                  &#8377;{calculateSubtotal()}
+                  &#8377;{pricingBreakdown.total}
                 </p>
               </div>
               <div className="flex items-center justify-between">
                 <p className="text-lg font-medium text-gray-900">Shipping</p>
                 <p className="font-semibold text-lg  text-gray-900">
-                  +&#8377;8.00
+                  + &#8377;{pricingBreakdown.shipping}
                 </p>
               </div>
               <div className="mt-6 flex items-center justify-between">
                 <p className="text-sm font-medium text-gray-900">Discount</p>
                 <p className="text-sm font-semibold text-gray-900">
-                  -&#8377;200.00
+                  - &#8377;{pricingBreakdown.discount}
                 </p>
               </div>
             </div>
             <div className="mt-6 flex items-center justify-between">
               <p className="text-xl font-medium text-gray-900">Total</p>
               <p className="text-xl font-semibold text-gray-900">
-                &#8377;408.00
+                &#8377;{" "}
+                {parseInt(pricingBreakdown.total) +
+                  parseInt(pricingBreakdown.shipping) -
+                  parseInt(pricingBreakdown.discount)}
               </p>
             </div>
           </div>
@@ -301,7 +322,8 @@ const Checkout = () => {
             </button>
           ) : (
             <Link
-              to="/Payment"
+              to={import.meta.env.VITE_PAYMENT_PAGE}
+              target="_blank"
               className=" flex flex-1 my-4 justify-center items-center w-full rounded-md  bg-gray-900 px-6 py-3 font-medium text-white"
             >
               Place Order

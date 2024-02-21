@@ -24,11 +24,18 @@ const ProductList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios("https://fakestoreapi.com/products");
-      setProducts(() => response.data);
+      const response = await axios(
+        `${import.meta.env.VITE_BACKEND_URL}/app/product/searchProducts`
+      );
+
+      console.log(response);
+      setProducts(() => response.data.result);
       setIsLoading(false);
       // fetchCartItemsId();
     } catch (error) {
+      console.log(
+        `${import.meta.env.VITE_BACKEND_URL}/app/product/searchProducts`
+      );
       console.error("Error fetching data:", error);
     }
   };

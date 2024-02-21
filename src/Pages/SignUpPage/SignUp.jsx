@@ -32,7 +32,9 @@ const SignUp = () => {
       onSubmit: async (values) => {
         try {
           const response = await fetch(
-            "http://localhost:3000/app/user/sendOtpForRegistration",
+            `${
+              import.meta.env.VITE_BACKEND_URL
+            }/app/user/sendOtpForRegistration`,
             {
               method: "POST",
               headers: {

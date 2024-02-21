@@ -16,6 +16,7 @@ const CartPage = () => {
   // State for managing the products in the cart
 
   const [taxpercent, setTaxpercent] = useState(15);
+  const [cartCleared, setCartCleared] = useState(false);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const quantitiesInCart = useSelector((state) => state.cart.quantities);
 
@@ -61,6 +62,12 @@ const CartPage = () => {
     return taxamt;
   }
 
+  const handleClearCart = () => {
+    localStorage.removeItem("cart");
+    setCartCleared(true)
+  };
+
+  useEffect(() => {}, []);
   // JSX code for the shopping cart page
 
   return cartItems.length === 0 ? (
@@ -68,10 +75,16 @@ const CartPage = () => {
   ) : (
     <div className="bg-gray-100 py-8 ">
       <div className="flex-auto">
-        <div className="container mx-auto px-14 ">
+        <div className="container mx-auto px-14 flex items-center justify-between">
           <h1 className="text-2xl font-semibold mb-4">
             Your Cart {cartItems.length} Items
           </h1>
+          <button
+            className="bg-slate-300 font-bold px-4 py-1 text-md rounded-md"
+            onClick={handleClearCart}
+          >
+            Clear items from cart
+          </button>
         </div>
       </div>
       <div className="flex flex-col md:flex-row justify-between gap-4">

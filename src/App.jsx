@@ -15,7 +15,6 @@ import SellerSignUp from "./Pages/sellerKyc/SellerSignup";
 import AddProduct from "./Pages/addProduct/AddProduct";
 import NotFound from "./components/404/NotFound";
 import OrderCompleted from "./Pages/OrderComplete/OrderCompleted";
-import viewproducts from "./Pages/viewproducts/viewproducts";
 import Orders from "./Pages/Order/Order";
 import SellerAccount from "./Pages/sellerAccount/SellerAcount";
 import AddProd from "./Pages/addProduct/Addprod";
@@ -27,6 +26,7 @@ import { useEffect } from "react";
 import OTP from "./Pages/SignUpPage/OTP";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Payment from "./Pages/Payment/Payment";
+import PhonepeStatus from "./components/Phonepe/PhonepeStatus";
 
 function App() {
   const location = window.location.pathname;
@@ -67,6 +67,7 @@ function App() {
         <Route path="/AddProd" element={<AddProd />} />
         <Route path="/productdetail" element={<ProductDetail />} />
         <Route path="/payment" element={<Payment />} />
+        <Route path="/api/status/:transactionID" element={<PhonepeStatus />} />
         <Route />
       </Routes>
       {location === "/admin" ? null : <Footer />}

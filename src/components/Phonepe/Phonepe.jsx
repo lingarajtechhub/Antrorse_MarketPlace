@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const PhonePe = ({ totalPrice }) => {
+const PhonePe = ({ totalPrice = 1 }) => {
   const handlePayment = async (e) => {
     e.preventDefault();
     const buyerData = {
@@ -10,7 +10,7 @@ const PhonePe = ({ totalPrice }) => {
       transactionId: "T" + Date.now(),
       merchantOrderId: "ORDER" + Date.now(),
       email: "test123@gmail.com",
-      message: `${`2 Dress, 3 Shirt order`} + ${Date.now()}`,
+      message: `${"Antrorse Marketplace"}+ ${"2 Dress, 3 Shirt order"} + ${Date.now()}`,
     };
 
     const response = await axios.post(
