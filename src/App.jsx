@@ -21,7 +21,7 @@ import AddProd from "./Pages/addProduct/Addprod";
 import CartPage from "./Pages/CartPage/CartPage";
 import Login from "./Pages/Login/Login";
 import SignUp from "./Pages/SignUpPage/SignUp";
-import Viewproducts from "./Pages/viewproducts/viewproducts";
+import Viewproducts from "./Pages/Viewproducts/Viewproducts";
 import { useEffect } from "react";
 import OTP from "./Pages/SignUpPage/OTP";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
