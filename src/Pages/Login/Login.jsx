@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
 import { auth } from "../../redux/features/User/UserSlice";
+import axios from "axios";
 
 const Login = () => {
   // const credentials = {
@@ -107,7 +108,7 @@ const Login = () => {
               action="#"
               onSubmit={handleSubmit}
             >
-              {/* <div className="flex flex-col gap-1">
+               <div className="flex flex-col gap-1">
                 <label
                   htmlFor="mobile"
                   className=" text-sm  font-semibold text-gray-700"
@@ -140,9 +141,9 @@ const Login = () => {
                     {errors.mobile_number}
                   </p>
                 ) : null}
-              </div> */}
+              </div> 
 
-              <div className="flex flex-col gap-1">
+              {/* <div className="flex flex-col gap-1">
                 <label
                   htmlFor="email"
                   className=" text-sm  font-semibold text-gray-700"
@@ -166,7 +167,7 @@ const Login = () => {
                     {errors.mobile_number}
                   </p>
                 ) : null}
-              </div>
+              </div> */}
               <div className="flex flex-col gap-1">
                 <label
                   htmlFor="password"

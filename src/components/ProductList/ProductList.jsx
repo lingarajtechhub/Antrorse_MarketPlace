@@ -28,7 +28,10 @@ const ProductList = () => {
         `${import.meta.env.VITE_BACKEND_URL}/app/product/searchProducts`
       );
 
-      console.log(response);
+      console.log(response.data.result);
+      console.log(
+        `${import.meta.env.VITE_BACKEND_URL}/app/product/searchProducts`
+      );
       setProducts(() => response.data.result);
       setIsLoading(false);
       // fetchCartItemsId();
@@ -100,10 +103,10 @@ const ProductList = () => {
               ))
             : products.map((product) => (
                 <ProductCard
-                  key={product.id}
+                  key={product._id}
                   product={product}
-                  inCart={itemsInCartId.includes(product.id)}
-                  inWishlist={itemsInWishlistId.includes(product.id)}
+                  inCart={itemsInCartId.includes(product._id)}
+                  inWishlist={itemsInWishlistId.includes(product._id)}
                 />
               ))}
         </div>

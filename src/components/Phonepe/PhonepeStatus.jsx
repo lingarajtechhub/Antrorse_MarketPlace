@@ -23,6 +23,8 @@ const PhonepeStatus = () => {
 
   useEffect(() => {
     checkTransactionStatus();
+    console.log("here")
+
   }, []);
 
   return <div>{transactionId}</div>;

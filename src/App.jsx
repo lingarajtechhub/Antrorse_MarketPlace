@@ -27,6 +27,7 @@ import OTP from "./Pages/SignUpPage/OTP";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Payment from "./Pages/Payment/Payment";
 import PhonepeStatus from "./components/Phonepe/PhonepeStatus";
+import CreatePassword from "./Pages/SignUpPage/CreatePassword";
 
 function App() {
   const location = window.location.pathname;
@@ -43,6 +44,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/otp" element={<OTP />} />
+        <Route path="/createPassword" element={<CreatePassword />} />
         <Route path="/viewproducts" element={<Viewproducts />} />
 
         <Route path="/wishlist" element={<Wishlist />} />

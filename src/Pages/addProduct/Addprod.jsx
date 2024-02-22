@@ -305,6 +305,70 @@ const AddProd = () => {
                 </div>
               </div>
 
+              <div className="flex gap-x-2">
+                <div className="text-start flex flex-col">
+                  <label
+                    className="block text-gray-700 text-md   mb-2"
+                    htmlFor="price"
+                  >
+                    Height
+                  </label>
+                  <input
+                    type="number"
+                    id="height"
+                    name="height"
+                    className="w-full border border-gray-300 p-2 rounded-sm"
+                    required
+                  />
+                </div>
+                <div className="text-start flex flex-col">
+                  <label
+                    className="block text-gray-700 text-md whitespace-nowrap  mb-2"
+                    htmlFor="discountPercent"
+                  >
+                    Width
+                  </label>
+                  <input
+                    type="number"
+                    id="width"
+                    name="width"
+                    className="w-full border border-gray-300 p-2 rounded-md"
+                    required
+                  />
+                </div>
+
+                <div className="text-start flex flex-col">
+                  <label
+                    className="block text-gray-700 text-md   mb-2"
+                    htmlFor="stock"
+                  >
+                    Length
+                  </label>
+                  <input
+                    type="number"
+                    id="weight"
+                    name="weight"
+                    className="w-full border border-gray-300 p-2 rounded-md"
+                    required
+                  />
+                </div>
+                <div className="text-start flex flex-col">
+                  <label
+                    className="block text-gray-700 text-md   mb-2"
+                    htmlFor="stock"
+                  >
+                    Weight
+                  </label>
+                  <input
+                    type="number"
+                    id="weight"
+                    name="weight"
+                    className="w-full border border-gray-300 p-2 rounded-md"
+                    required
+                  />
+                </div>
+              </div>
+
               {/* //Description */}
               <div className="">
                 <div>
@@ -356,9 +420,7 @@ const AddProd = () => {
         {/* right section */}
         <div className="w-1/2">
           <div className="">
-            <ProductType
-              handleChange={handleChange}
-            />
+            <ProductType handleChange={handleChange} />
           </div>
 
           <div className="">

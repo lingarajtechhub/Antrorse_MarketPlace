@@ -88,7 +88,7 @@ const Hero = () => {
           ))}
         </Slider>
       </div>
-      <div className="col-span-2 bg-Hero1 bg-cover bg-center bg-no-repeat rounded-lg p-10 ">
+      <div className="col-span-2  bg-cover bg-center bg-no-repeat rounded-lg p-10 side-image ">
         <p className="text-sm md:text-sm font-bold font-sans">
           Sale of the month
         </p>
@@ -97,11 +97,11 @@ const Hero = () => {
         </h3>
         <p className="text-sm font-sans">From Rs.29999</p>
       </div>
-      <div className="bg-Hero2 bg-cover bg-center bg-no-repeat rounded-lg min-h-40 sm:p-10 hidden sm:block">
+      <div className="side-image1 bg-cover bg-center bg-no-repeat rounded-lg min-h-40 sm:p-10 hidden sm:block">
         <h3 className="text-lg lg:text-xl font-semibold">Smart Watch 7</h3>
         <p className="text-sm font-sans">From Rs.29999</p>
       </div>
-      <div className="bg-Hero3 bg-cover bg-center bg-no-repeat rounded-lg min-h-40 sm:p-10 hidden sm:block">
+      <div className="side-image2 bg-cover bg-center bg-no-repeat rounded-lg min-h-40 sm:p-10 hidden sm:block">
         <h3 className="text-lg lg:text-xl font-semibold ">AirPods Max</h3>
         <p className="text-sm font-sans">From Rs.29999</p>
       </div>

@@ -62,3 +62,23 @@ input::-webkit-inner-spin-button {
   left: -50%;
   transform: translate(25%, 52.5%);
 }
+
+
+.side-image {
+  background: url(./assets/images/big-banner.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.side-image1 {
+  background: url(./assets/images/small-img2.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.side-image2 {
+  background: url(./assets/images/small-img.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}  

@@ -22,9 +22,9 @@ const OTP = () => {
           },
           body: JSON.stringify({
             otp: otp,
-            name: userData?.name,
+            user_name: userData?.name,
             email: userData?.email,
-            mobile: userData?.mobile,
+            mobile_number: userData?.mobile,
             // Add any other required parameters here
           }),
         }
@@ -35,7 +35,7 @@ const OTP = () => {
         // For now, let's alert a success message
         alert("Registration successful!");
         // Redirect to the home page or any other page after successful registration
-        navigate("/");
+        navigate("/createPassword", { state: { userData } });
       } else {
         // Handle the case where registration failed
         console.error("Registration failed");
