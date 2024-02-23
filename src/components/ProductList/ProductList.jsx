@@ -25,7 +25,7 @@ const ProductList = () => {
   const fetchData = async () => {
     try {
       const response = await axios(
-        `${import.meta.env.VITE_BACKEND_URL}/app/product/searchProducts`
+        `${import.meta.env.VITE_BACKEND_URL}/app/product/getAllProduct`
       );
 
       console.log(response.data.result);
@@ -37,7 +37,7 @@ const ProductList = () => {
       // fetchCartItemsId();
     } catch (error) {
       console.log(
-        `${import.meta.env.VITE_BACKEND_URL}/app/product/searchProducts`
+        `${import.meta.env.VITE_BACKEND_URL}/app/product/getAllProduct`
       );
       console.error("Error fetching data:", error);
     }

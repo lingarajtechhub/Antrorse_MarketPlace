@@ -63,19 +63,19 @@ const ProductCard = ({ product, inCart, inWishlist }) => {
       <Link to="/productdetail">
         <div className="flex items-center justify-center h-[11.25rem] p-2 overflow-hidden group-hover:scale-105 transition-transform">
           <img
-            className="object-contain h-full"
-            src={product.image}
-            alt={product.title}
+            className="object-cover w-full h-full rounded-t-sm"
+            src={product.images[0]}
+            alt={product.name}
           />
-          <span className="absolute top-0 left-0 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
-            39% OFF
+          <span className="absolute top-1 left-1 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
+            {`${product.discount}`}% OFF
           </span>
         </div>
       </Link>
 
       <div className="mt-4 px-3 pb-4 flex flex-col flex-1  ">
         <h5 className="text-md tracking-tight text-slate-900 h-12 line-clamp-2">
-          {product.title}
+          {product.name}
         </h5>
 
         <div className=" flex flex-col flex-1 justify-end ">
@@ -89,8 +89,8 @@ const ProductCard = ({ product, inCart, inWishlist }) => {
               </span>
             </p>
             <div className=" flex items-center">
-              <StarRating rating={product.rating.rate || 3} />
-              <span>{`(${product.rating.count || 300 })`}</span>
+              <StarRating rating={3} />
+              <span>{`(${300})`}</span>
             </div>
           </div>
 
