@@ -10,6 +10,7 @@ import {
   manualIncrementQuantity,
   removeFromCart,
 } from "../../redux/features/Cart/CartSlice";
+import axios from "axios";
 
 // Functional component for the shopping cart page
 const CartPage = () => {
@@ -17,7 +18,8 @@ const CartPage = () => {
 
   const [taxpercent, setTaxpercent] = useState(15);
   const [cartCleared, setCartCleared] = useState(false);
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  const [cartItems, setCartItems] = useState([]);
+  // const cartItems = useSelector((state) => state.cart.cartItems);
   const quantitiesInCart = useSelector((state) => state.cart.quantities);
 
   const dispatch = useDispatch();
@@ -64,10 +66,25 @@ const CartPage = () => {
 
   const handleClearCart = () => {
     localStorage.removeItem("cart");
-    setCartCleared(true)
+    setCartCleared(true);
   };
 
-  useEffect(() => {}, []);
+  const fetchCartData = async () => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/app/cart/getCartData`,
+      {
+        headers: {
+          token: localStorage.getItem("authToken"),
+        },
+      }
+    );
+
+    setCartItems(response.data.result);
+  };
+
+  useEffect(() => {
+    fetchCartData();
+  }, []);
   // JSX code for the shopping cart page
 
   return cartItems.length === 0 ? (
@@ -106,27 +123,34 @@ const CartPage = () => {
 
                 {/* Table body - mapping through products */}
                 <tbody>
-                  {cartItems.map((product) => (
-                    <tr key={product.id}>
+                  {cartItems?.map((product) => (
+                    <tr key={product._id}>
+                      {console.log(product, "product")}
                       {/* Product details */}
                       <td className="py-4 ">
                         <div className="flex items-center">
-                          <img className="h-16 w-16 mr-4" src={product.image} />
+                          <img
+                            className="h-16 w-16 mr-4"
+                            src={product.productDetails.images[0]}
+                          />
                           <div className="flex flex-col flex-1 max-w-[80%]">
                             <p className="text-sm font-semibold text-gray-700">
-                              {product.title || "Brand name unavailable"}
+                              {product.productDetails?.name ||
+                                "Brand name unavailable"}
                             </p>
                             <span className="font-semibold">
-                              {product.category}
+                              {product.productDetails?.subCategory}
                             </span>
                             <p className="text-xs text-gray-500 flex flex-col">
                               <span>
                                 Color:{" "}
-                                {product.color || "product color unavailable"}{" "}
+                                {product.productDetails.variations?.color[0] ||
+                                  "product color unavailable"}{" "}
                               </span>
                               <span>
                                 size:{" "}
-                                {product.size || "product size unavailable"}
+                                {product.productDetails.variations?.sizes[0]
+                                  .XS || "product size unavailable"}
                               </span>
                             </p>
                           </div>
@@ -142,25 +166,26 @@ const CartPage = () => {
                         </div>
                       </td>
                       <td className="py-4 text-sm  text-gray-500">
-                        {product.seller || "seller info unavailable"}
+                        {product.productDetails.variations?.brand_name ||
+                          "seller info unavailable"}
                       </td>
 
                       {/* Price, Quantity, and Total */}
-                      <td className="py-4">₹{product.price}</td>
+                      <td className="py-4">₹{product.productDetails?.price}</td>
                       <td className="py-4">
                         <div className="flex items-center">
                           <button
                             className={`border rounded-md py-2 px-4 mr-2 ${
                               quantitiesInCart.find(
-                                (item) => item.id === product.id
+                                (item) => item.id === product._id
                               )?.quantity === 1
                                 ? "bg-slate-300"
                                 : ""
                             } `}
-                            onClick={() => decrement(product.id)}
+                            onClick={() => decrement(product._id)}
                             disabled={
                               quantitiesInCart.find(
-                                (item) => item.id === product.id
+                                (item) => item.id === product._id
                               )?.quantity === 1
                             }
                           >
@@ -171,26 +196,26 @@ const CartPage = () => {
                             type="number"
                             value={
                               quantitiesInCart.find(
-                                (item) => item.id === product.id
+                                (item) => item.id === product._id
                               )?.quantity || 1
                             }
                             onChange={(e) =>
-                              manualIncrement(product.id, e.target.value)
+                              manualIncrement(product._id, e.target.value)
                             }
                           />
 
                           <button
                             className={`border rounded-md py-2 px-4 mr-2 ${
                               quantitiesInCart.find(
-                                (item) => item.id === product.id
+                                (item) => item.id === product._id
                               )?.quantity === 5
                                 ? "bg-slate-300"
                                 : ""
                             } `}
-                            onClick={() => increment(product.id)}
+                            onClick={() => increment(product._id)}
                             disabled={
                               quantitiesInCart.find(
-                                (item) => item.id === product.id
+                                (item) => item.id === product._id
                               )?.quantity === 5
                             }
                           >

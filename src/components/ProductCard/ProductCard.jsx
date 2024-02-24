@@ -12,17 +12,42 @@ import {
 
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const ProductCard = ({ product, inCart, inWishlist }) => {
   const [cartIconHovered, setCartIconHovered] = useState(false);
   const [wishlistIconHovered, setWishlistIconHovered] = useState(false);
   const dispatch = useDispatch();
 
-  const addItemToCart = (product) => {
+  const addItemToCart = async (product) => {
     console.log("clicked");
+
+    await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/app/cart/createCart`,
+      { product_id: product._id },
+
+      {
+        headers: {
+          token: localStorage.getItem("authToken"),
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
     dispatch(addToCart(product._id));
   };
-  const removeItemFromCart = (product) => {
+  const removeItemFromCart = async (product) => {
+    await axios.delete(
+      `${import.meta.env.VITE_BACKEND_URL}/app/cart/deleteCart`,
+      {
+        data: { product_id: product._id },
+        headers: {
+          token: localStorage.getItem("authToken"),
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
     dispatch(removeFromCart(product._id));
   };
   const addItemToWishlist = (product) => {
@@ -91,7 +116,7 @@ const ProductCard = ({ product, inCart, inWishlist }) => {
             </p>
             <div className=" flex items-center">
               <StarRating rating={product.ratingAVG} />
-              <span>{product.ratingAVG || 0`(${300})`}</span>
+              <span>{`${product.count ?? `(0)`}`}</span>
             </div>
           </div>
 

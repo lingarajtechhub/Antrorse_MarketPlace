@@ -13,14 +13,9 @@ export const WishlistSlice = createSlice({
 
       //check if product exists
       const itemExist = state.wishlistItems.find(
-        (item) =>
-          item.id === product.id &&
-          item.size === product.size &&
-          item.color === product.color
+        (productID) => productID === product
       );
-
-      console.log(state.wishlistItems );
-
+x``
       if (itemExist) {
         console.log("Item already exists in the cart");
       } else {
@@ -32,7 +27,7 @@ export const WishlistSlice = createSlice({
     removeFromWishlist(state, action) {
       const product = action.payload;
       const itemRemove = state.wishlistItems.filter(
-        (item) => item.id !== product.id
+        (item) => item !== product
       );
       state.wishlistItems = itemRemove;
       localStorage.setItem("wishlist", JSON.stringify(state.wishlistItems));
