@@ -9,6 +9,7 @@ import Banner from "../../components/marketingbanner/Banner";
 import Category from "../../components/Category/Category";
 
 const Home = () => {
+  console.log("pipeline working?")
   return (
     <>
       <Hero />

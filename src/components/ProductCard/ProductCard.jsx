@@ -19,16 +19,17 @@ const ProductCard = ({ product, inCart, inWishlist }) => {
   const dispatch = useDispatch();
 
   const addItemToCart = (product) => {
-    dispatch(addToCart(product));
+    console.log("clicked");
+    dispatch(addToCart(product._id));
   };
   const removeItemFromCart = (product) => {
-    dispatch(removeFromCart(product));
+    dispatch(removeFromCart(product._id));
   };
   const addItemToWishlist = (product) => {
-    dispatch(addToWishlist(product));
+    dispatch(addToWishlist(product._id));
   };
   const removeItemFromWishlist = (product) => {
-    dispatch(removeFromWishlist(product));
+    dispatch(removeFromWishlist(product._id));
   };
 
   const alertCartItemAdded = (message) => {
@@ -89,8 +90,8 @@ const ProductCard = ({ product, inCart, inWishlist }) => {
               </span>
             </p>
             <div className=" flex items-center">
-              <StarRating rating={3} />
-              <span>{`(${300})`}</span>
+              <StarRating rating={product.ratingAVG} />
+              <span>{product.ratingAVG || 0`(${300})`}</span>
             </div>
           </div>
 

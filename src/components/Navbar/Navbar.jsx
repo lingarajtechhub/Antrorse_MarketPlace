@@ -112,11 +112,7 @@ const Navbar = () => {
   });
 
   return (
-    <header
-      ref={trigger}
-      onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-      className="header sticky top-0 bg-white shadow-sm flex items-center justify-between  z-[90000]"
-    >
+    <header className="header sticky top-0 bg-white shadow-sm flex items-center justify-between  z-[90000]">
       <section className="relative mx-auto flex flex-1 ">
         <nav className="flex justify-between w-full ">
           <div className="px-5 xl:px-12 py-6 flex w-full items-center">
@@ -216,31 +212,30 @@ const Navbar = () => {
               {/* userProfile or login */}
               <div className="flex items-center justify-center gap-2">
                 {isUserLoggedIn ? (
-                  <>
-                    <span className="flex items-center gap-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6 "
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                      <RiArrowDropDownLine
-                        className="w-6   h-6 cursor-pointer"
-                        onClick={() =>
-                          setIsProfileDropdownOpen(!isProfileDropdownOpen)
-                        }
+                  <span
+                    className="flex items-center gap-0"
+                    ref={trigger}
+                    onClick={() =>
+                      setIsProfileDropdownOpen(!isProfileDropdownOpen)
+                    }
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 "
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
-                      {isProfileDropdownOpen && <UserProfileDropdown />}
-                    </span>
-                  </>
+                    </svg>
+                    <RiArrowDropDownLine className="w-6   h-6 cursor-pointer" />
+                    {isProfileDropdownOpen && <UserProfileDropdown />}
+                  </span>
                 ) : (
                   <Link
                     className=" text-black px-4 py-1  flex flex-1 h-full border  border-black rounded-sm"

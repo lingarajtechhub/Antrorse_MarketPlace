@@ -16,10 +16,13 @@ const ProductList = () => {
   const sorting = useSelector((state) => state.sort.sorting);
 
   const fetchCartItemsId = () => {
-    const cartItemIds = itemsInCart.map((item) => item.id) || [];
-    const wishlistItemIds = itemsInWishlist.map((item) => item.id) || [];
+    const cartItemIds = itemsInCart?.map((item) => item) || [];
+    const wishlistItemIds = itemsInWishlist?.map((item) => item) || [];
     setItemsInCartId(() => cartItemIds);
     setItemsInWishlistId(() => wishlistItemIds);
+
+
+    console.log(cartItemIds,wishlistItemIds)
   };
 
   const fetchData = async () => {
@@ -34,7 +37,6 @@ const ProductList = () => {
       );
       setProducts(() => response.data.result);
       setIsLoading(false);
-      // fetchCartItemsId();
     } catch (error) {
       console.log(
         `${import.meta.env.VITE_BACKEND_URL}/app/product/searchProducts`
@@ -48,7 +50,7 @@ const ProductList = () => {
 
     switch (sorting) {
       case 1:
-        sortedProducts.sort((a, b) => b.rating.count - a.rating.count);
+        // sortedProducts.sort((a, b) => b.rating.count - a.rating.count);
         break;
       case 2:
         sortedProducts.sort((a, b) => {

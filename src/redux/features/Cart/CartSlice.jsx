@@ -13,12 +13,7 @@ export const CartSlice = createSlice({
       const product = action.payload;
 
       //check if product exists
-      const itemExist = state.cartItems.find(
-        (item) =>
-          item.id === product.id &&
-          item.size === product.size &&
-          item.color === product.color
-      );
+      const itemExist = state.cartItems.find((productID) => productID === product);
 
       if (itemExist) {
         console.log("Item already exists in the cart");
@@ -41,7 +36,7 @@ export const CartSlice = createSlice({
     removeFromCart(state, action) {
       const product = action.payload;
       const itemRemove = state.cartItems.filter(
-        (item) => item.id !== product.id
+        (item) => item.id !== product
       );
       state.cartItems = itemRemove; //updated here on 29012024
       localStorage.setItem("cart", JSON.stringify(state.cartItems));
