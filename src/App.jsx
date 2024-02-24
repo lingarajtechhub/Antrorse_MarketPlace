@@ -70,6 +70,7 @@ function App() {
         <Route path="/productdetail" element={<ProductDetail />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/api/status/:transactionID" element={<PhonepeStatus />} />
+        <Route path="*" element={<NotFound />} />
         <Route />
       </Routes>
       {location === "/admin" ? null : <Footer />}

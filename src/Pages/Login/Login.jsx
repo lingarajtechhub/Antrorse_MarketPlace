@@ -46,19 +46,14 @@ const Login = () => {
             }
           );
 
-          console.log(res.data);
-
           console.log(res.data.result);
           if (res.data.responseCode === 200) {
             toast.success(res.data.responseMessage);
             localStorage.setItem("authToken", res.data.result);
             // Dispatch to Redux store if needed
 
-            dispatch(auth({ authorized: true, user: res.data.result }));
+            dispatch(auth(true));
             navigate("/");
-            // dispatch(auth(res))
-            // dispatch(auth({ authorized: true, user: res.data.result }));
-            navigate("");
           } else {
             toast.error(res.data.responseMessage);
           }
@@ -108,7 +103,7 @@ const Login = () => {
               action="#"
               onSubmit={handleSubmit}
             >
-               <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1">
                 <label
                   htmlFor="mobile"
                   className=" text-sm  font-semibold text-gray-700"
@@ -141,7 +136,7 @@ const Login = () => {
                     {errors.mobile_number}
                   </p>
                 ) : null}
-              </div> 
+              </div>
 
               {/* <div className="flex flex-col gap-1">
                 <label

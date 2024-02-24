@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { RiArrowDropDownLine } from "react-icons/ri";
 
 import { CiLogout } from "react-icons/ci";
@@ -22,10 +22,15 @@ const SubMenu = ({ items }) => (
 );
 
 const Navbar = () => {
-  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const isUserLoggedIn = useSelector((state) => state.user.authorized);
-
   const cartItems = useSelector((state) => state.cart.cartItems);
+
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+
+  const trigger = useRef(null);
+  const dropdown = useRef(null);
+
+  console.log(isUserLoggedIn);
 
   const mainMenu = [
     {
@@ -57,16 +62,23 @@ const Navbar = () => {
   ];
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     // Dispatch the logout action to clear user data
-    dispatch(auth({ authorized: false, user: null }));
+    dispatch(auth(false));
+    navigate("/");
     // Optionally, you can clear the user data from local storage
     localStorage.removeItem("user");
   };
 
   const UserProfileDropdown = () => (
-    <div className="absolute  mt-40 ml-3 w-32 space-y-2 bg-white border rounded-md">
+    <div
+      ref={dropdown}
+      className={`absolute  mt-40 ml-3 w-32 space-y-2 bg-white border rounded-md ${
+        isProfileDropdownOpen === true ? "block" : "hidden"
+      }`}
+    >
       {/* Add menu items for the user profile dropdown */}
       <Link to="/account" className="block px-4 py-1 text-gray-800">
         My Profile
@@ -84,8 +96,27 @@ const Navbar = () => {
     </div>
   );
 
+  useEffect(() => {
+    const clickHandler = ({ target }) => {
+      if (!dropdown.current) return;
+      if (
+        !isProfileDropdownOpen ||
+        dropdown.current.contains(target) ||
+        trigger.current.contains(target)
+      )
+        return;
+      setIsProfileDropdownOpen(false);
+    };
+    document.addEventListener("click", clickHandler);
+    return () => document.removeEventListener("click", clickHandler);
+  });
+
   return (
-    <header className="header sticky top-0 bg-white shadow-sm flex items-center justify-between  z-[90000]">
+    <header
+      ref={trigger}
+      onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+      className="header sticky top-0 bg-white shadow-sm flex items-center justify-between  z-[90000]"
+    >
       <section className="relative mx-auto flex flex-1 ">
         <nav className="flex justify-between w-full ">
           <div className="px-5 xl:px-12 py-6 flex w-full items-center">
