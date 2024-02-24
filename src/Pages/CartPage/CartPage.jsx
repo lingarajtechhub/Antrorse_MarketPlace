@@ -25,6 +25,7 @@ const CartPage = () => {
   const dispatch = useDispatch();
 
   const increment = (productId) => {
+    console.log(productId);
     dispatch(incrementQuantity(productId));
   };
 
@@ -41,16 +42,17 @@ const CartPage = () => {
   };
 
   const removeItemFromCart = (product) => {
-    console.log(product);
+    // console.log(product);
     dispatch(removeFromCart(product));
   };
 
   // Function to calculate subtotal
   const calculateSubtotal = () => {
     const totalItems = cartItems.map((item) => ({
-      price: item.price,
-      quantity: quantitiesInCart.find((product) => product.id === item.id)
-        ?.quantity,
+      price: item.productDetails.price,
+      quantity: quantitiesInCart.find(
+        (product) => product.id === item.productDetails._id
+      )?.quantity,
     }));
 
     const totalPrice = totalItems.reduce((acc, value) => {
@@ -125,8 +127,8 @@ const CartPage = () => {
                 <tbody>
                   {cartItems?.map((product) => (
                     <tr key={product._id}>
-                      {console.log(product, "product")}
                       {/* Product details */}
+                      {console.log(product)}
                       <td className="py-4 ">
                         <div className="flex items-center">
                           <img
@@ -177,15 +179,17 @@ const CartPage = () => {
                           <button
                             className={`border rounded-md py-2 px-4 mr-2 ${
                               quantitiesInCart.find(
-                                (item) => item.id === product._id
+                                (item) => item.id === product.productDetails._id
                               )?.quantity === 1
                                 ? "bg-slate-300"
                                 : ""
                             } `}
-                            onClick={() => decrement(product._id)}
+                            onClick={() =>
+                              decrement(product.productDetails._id)
+                            }
                             disabled={
                               quantitiesInCart.find(
-                                (item) => item.id === product._id
+                                (item) => item.id === product.productDetails._id
                               )?.quantity === 1
                             }
                           >
@@ -196,26 +200,31 @@ const CartPage = () => {
                             type="number"
                             value={
                               quantitiesInCart.find(
-                                (item) => item.id === product._id
+                                (item) => item.id === product.productDetails._id
                               )?.quantity || 1
                             }
                             onChange={(e) =>
-                              manualIncrement(product._id, e.target.value)
+                              manualIncrement(
+                                product.productDetails._id,
+                                e.target.value
+                              )
                             }
                           />
 
                           <button
                             className={`border rounded-md py-2 px-4 mr-2 ${
                               quantitiesInCart.find(
-                                (item) => item.id === product._id
+                                (item) => item.id === product.productDetails._id
                               )?.quantity === 5
                                 ? "bg-slate-300"
                                 : ""
                             } `}
-                            onClick={() => increment(product._id)}
+                            onClick={() =>
+                              increment(product.productDetails._id)
+                            }
                             disabled={
                               quantitiesInCart.find(
-                                (item) => item.id === product._id
+                                (item) => item.id === product.productDetails._id
                               )?.quantity === 5
                             }
                           >
@@ -226,9 +235,9 @@ const CartPage = () => {
                       <td className="py-4">
                         ₹
                         {(
-                          product.price *
+                          product.productDetails.price *
                           (quantitiesInCart.find(
-                            (item) => item.id === product.id
+                            (item) => item.id === product.productDetails._id
                           )?.quantity || 1)
                         ).toFixed(2)}
                       </td>
@@ -279,7 +288,10 @@ const CartPage = () => {
             <div className="flex justify-between mb-4">
               <span className="font-semibold">Total</span>
               <span className="font-semibold">
-                ₹{calculateSubtotal() + 1} {/* Taxes */}
+                ₹
+                {parseInt(calculateSubtotal()) +
+                  parseInt(tax(calculateSubtotal()))}{" "}
+                {/* Taxes */}
               </span>
             </div>
             <Link

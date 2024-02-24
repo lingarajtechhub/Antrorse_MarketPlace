@@ -1,9 +1,9 @@
 import PhonePe from "../../components/Phonepe/Phonepe";
 
-const Payment = ({ totalPrice = 1 }) => {
+const Payment = () => {
   return (
     <div className="h-56 flex items-center justify-center ">
-      <PhonePe totalPrice={totalPrice} />
+      <PhonePe />
     </div>
   );
 };

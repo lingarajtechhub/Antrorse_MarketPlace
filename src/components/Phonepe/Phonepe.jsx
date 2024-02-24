@@ -1,11 +1,14 @@
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
-const PhonePe = ({ totalPrice = 1 }) => {
+const PhonePe = () => {
+  const { total } = useParams();
+
   const handlePayment = async (e) => {
     e.preventDefault();
     const buyerData = {
       buyerName: "testingName",
-      amount: totalPrice * 100,
+      amount: total * 100,
       merchantUserId: "MUID" + Date.now(),
       transactionId: "T" + Date.now(),
       merchantOrderId: "ORDER" + Date.now(),
@@ -20,6 +23,7 @@ const PhonePe = ({ totalPrice = 1 }) => {
 
     window.open(response.data.redirectURL, "_blank");
   };
+
   return (
     <button
       className="flex  items-center justify-center rounded-lg bg-slate-300 px-5 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-slate-400 focus:ring-4 focus:ring-[#F7BE38]/50 dark:focus:ring-[#F7BE38]/50"
@@ -53,7 +57,7 @@ const PhonePe = ({ totalPrice = 1 }) => {
       <span className=" whitespace-nowrap text-xl">
         Check out with PhonePe
         <br />
-        <small>totalPrice: {totalPrice} [Dummy total Price]</small>
+        <small>totalPrice: {total}</small>
       </span>
     </button>
   );

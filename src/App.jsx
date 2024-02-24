@@ -68,7 +68,7 @@ function App() {
         <Route path="/SellerAccount" element={<SellerAccount />} />
         <Route path="/AddProd" element={<AddProd />} />
         <Route path="/productdetail" element={<ProductDetail />} />
-        <Route path="/payment" element={<Payment />} />
+        <Route path="/payment/:total" element={<Payment />} />
         <Route path="/api/status/:transactionID" element={<PhonepeStatus />} />
         <Route path="*" element={<NotFound />} />
         <Route />

@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import { FaArrowLeft } from "react-icons/fa";
+import axios from "axios";
+import Payment from "../Payment/Payment";
 
 const Checkout = () => {
   const addressOptions = [
@@ -21,7 +23,8 @@ const Checkout = () => {
 
   const [selectedAddress, setSelectedAddress] = useState(null);
 
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  const [cartItems, setCartItems] = useState([]);
+
   const quantitiesInCart = useSelector((state) => state.cart.quantities);
 
   const [pricingBreakdown, setPricingBreakdown] = useState({
@@ -30,14 +33,17 @@ const Checkout = () => {
     discount: 0,
   });
 
+  console.log(cartItems, "checkout");
+
   const [discountPercent, setDiscountPercent] = useState(15);
   const [ShippingPercent, setShippingPercent] = useState(5);
 
   const calculateSubtotal = () => {
     const totalItems = cartItems.map((item) => ({
-      price: item.price,
-      quantity: quantitiesInCart.find((product) => product.id === item.id)
-        ?.quantity,
+      price: item.productDetails.price,
+      quantity: quantitiesInCart.find(
+        (product) => product.id === item.productDetails._id
+      )?.quantity,
     }));
 
     const totalPrice = totalItems.reduce((acc, value) => {
@@ -55,9 +61,32 @@ const Checkout = () => {
     }));
   };
 
+  const fetchCartData = async () => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/app/cart/getCartData`,
+      {
+        headers: {
+          token: localStorage.getItem("authToken"),
+        },
+      }
+    );
+
+    setCartItems(() => response.data.result);
+  };
+
+  const totalPrice = () => {
+    return (
+      parseInt(pricingBreakdown.total) +
+      parseInt(pricingBreakdown.shipping) -
+      parseInt(pricingBreakdown.discount)
+    );
+  };
+  useEffect(() => {
+    fetchCartData();
+  }, []);
   useEffect(() => {
     calculateSubtotal();
-  }, []);
+  }, [cartItems]);
 
   return (
     <div>
@@ -155,27 +184,29 @@ const Checkout = () => {
             {cartItems?.map((item) => {
               return (
                 <div
-                  key={item.id}
+                  key={item._id}
                   className="flex flex-col rounded-lg bg-white sm:flex-row"
                 >
                   <img
                     className="m-2 h-16 w-16 rounded-md border object-cover object-center"
-                    src={item.image}
-                    alt={item.title}
+                    src={item.productDetails.images[0]}
+                    alt={item.productDetails?.name}
                   />
                   <div className="flex max-w-5xl w-full flex-col px-4 py-2">
-                    <span className="font-semibold text-sm">{item.title}</span>
+                    <span className="font-semibold text-sm">
+                      {item.productDetails?.name}
+                    </span>
                     <span className="float-right text-gray-400 text-sm">
-                      42EU - 8.5US
+                      {item.productDetails.variations?.sizes[0].XS}
                     </span>
                     <p className="mt-auto text-sm font-bold ">
                       &#8377;
-                      {item.price *
-                        (
-                          quantitiesInCart.find(
-                            (product) => item.id === product.id
-                          )?.quantity || 1
-                        ).toFixed(2)}
+                      {(
+                        item.productDetails.price *
+                        (quantitiesInCart.find(
+                          (product) => product.id === item.productDetails._id
+                        )?.quantity || 1)
+                      ).toFixed(2)}
                     </p>
                   </div>
                 </div>
@@ -305,10 +336,7 @@ const Checkout = () => {
             <div className="mt-6 flex items-center justify-between">
               <p className="text-xl font-medium text-gray-900">Total</p>
               <p className="text-xl font-semibold text-gray-900">
-                &#8377;{" "}
-                {parseInt(pricingBreakdown.total) +
-                  parseInt(pricingBreakdown.shipping) -
-                  parseInt(pricingBreakdown.discount)}
+                &#8377; {totalPrice()}
               </p>
             </div>
           </div>
@@ -322,8 +350,9 @@ const Checkout = () => {
             </button>
           ) : (
             <Link
-              to={import.meta.env.VITE_PAYMENT_PAGE}
+              to={`${import.meta.env.VITE_PAYMENT_PAGE}/${totalPrice()}`}
               target="_blank"
+              totalPrice={totalPrice}
               className=" flex flex-1 my-4 justify-center items-center w-full rounded-md  bg-gray-900 px-6 py-3 font-medium text-white"
             >
               Place Order
