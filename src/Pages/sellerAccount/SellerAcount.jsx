@@ -7,7 +7,7 @@ const SellerAccount = () => {
 
   const [email, setEmail] = useState("john.doe@example.com");
   const [mobileNumber, setMobileNumber] = useState("123-456-7890");
-  const [dob, setDob] = useState("MM/DD/YYYY");
+  const [dob, setDob] = useState("DD/MM/YYYY");
 
   const [emailSavedNotification, setEmailSavedNotification] = useState(false);
   const [mobileSavedNotification, setMobileSavedNotification] = useState(false);

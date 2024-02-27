@@ -1,13 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../../redux/features/Cart/CartSlice";
 import { removeFromWishlist } from "../../redux/features/Wishlist/WishlistSlice";
 import toast, { Toaster } from "react-hot-toast";
 import StarRating from "../../components/StartRating/StartRating"; // Make sure to import your StarRating component
+import axios from "axios";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
-  const wishlistItems = useSelector((state) => state.wishlist.wishlistItems);
+  // const wishlistItems = useSelector((state) => state.wishlist.wishlistItems);
+  const [wishlistItems, setWishlistItems] = useState([]);
 
   const removeItemFromWishlist = (product) => {
     dispatch(removeFromWishlist(product));
@@ -15,7 +17,8 @@ const Wishlist = () => {
   };
 
   function formatPrice(price) {
-    return "₹" + price.toLocaleString("en-IN");
+    // return "₹" + price.toLocaleString("en-IN");
+    return "₹" + price;
   }
 
   const addItemToCart = (product) => {
@@ -29,18 +32,36 @@ const Wishlist = () => {
   //   dispatch(setWishlistItems(storedWishItems));
   // }, [dispatch]);
 
+  const fetchWishlistData = async () => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/app/cart/getCartData`,
+      {
+        headers: {
+          token: localStorage.getItem("authToken"),
+        },
+      }
+    );
+
+    setWishlistItems(response.data.result);
+  };
+
+  useEffect(() => {
+    fetchWishlistData();
+  }, []);
+
   return (
     <div className="container mx-auto p-4 sm:px-6 lg:px-8">
       <h1 className="text-2xl font-bold my-4 sm:text-3xl">
         My Wishlist {wishlistItems.length} items
       </h1>
+      {console.log(wishlistItems)}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {wishlistItems.map((product) => (
-          <div className="border border-gray-200 rounded-md" key={product.id}>
+          <div className="border border-gray-200 rounded-md" key={product._id}>
             <div className="">
               <a href="#" className="object-contain">
                 <img
-                  src={product.image}
+                  src={product.productDetails.images[0]}
                   alt=""
                   className="object-fill w-[100%] h-52 "
                 />
@@ -49,11 +70,12 @@ const Wishlist = () => {
 
             <div className="p-3 bg-gray-50">
               <h5 className="text-lg font-bold tracking-tight h-16 line-clamp-2">
-                {product.title}
+                {product.productDetails?.name}
               </h5>
               <div className="mb-2 flex justify-between">
                 <h2 className="text-sm overflow-hidden overflow-ellipsis whitespace-nowrap">
                   {product.description}
+                  {product.productDetails?.subCategory}
                 </h2>
               </div>
 

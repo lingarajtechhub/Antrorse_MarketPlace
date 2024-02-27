@@ -2,32 +2,32 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 // Array of messages to display when the cart is empty
-const emptyCartMessages =[
-    "Your cart's feeling light—time to add delight!",
-    "Cart's on a diet. Feed it with fabulous finds!",
-    "Cart's taking a break. Let's give it some joy!",
-    "Cart's shy today. Let's fill it up with smiles!",
-    "Empty cart? No worries! Your future favorites await.",
-    "Cart: 'Is it lonely in here?' You: 'Not for long!'",
-    "Cart's asking for friends. Time to add some!",
-    "Empty cart blues? We've got the remedy—shop now!",
-    "Cart's hinting: 'Add something amazing, please!'",
-    "Your cart's a canvas; paint it with your favorites!",
-    "Cart's calling—answer with trendy additions!",
-    "Empty carts are like blank pages—let's write a story!",
-    "Cart's giving puppy eyes. Fill it up with goodies!",
-    "Cart's on standby. Your picks will wake it up!",
-    "Cart's on a hunger strike. Feed it with fashion!",
-    "Empty cart? Time to play personal shopper!",
-    "Cart's whispering, 'I miss you.' Fill the void!",
-    "Cart's saying, 'I'm a bit empty.' You: 'Challenge accepted!'",
-    "Cart's waiting for treasures. Ready, set, shop!",
-    "Cart's waving. Give it a high-five with new additions!",
-  ];
+const emptyCartMessages = [
+  "Your cart's feeling light—time to add delight!",
+  "Cart's on a diet. Feed it with fabulous finds!",
+  "Cart's taking a break. Let's give it some joy!",
+  "Cart's shy today. Let's fill it up with smiles!",
+  "Empty cart? No worries! Your future favorites await.",
+  "Cart: 'Is it lonely in here?' You: 'Not for long!'",
+  "Cart's asking for friends. Time to add some!",
+  "Empty cart blues? We've got the remedy—shop now!",
+  "Cart's hinting: 'Add something amazing, please!'",
+  "Your cart's a canvas; paint it with your favorites!",
+  "Cart's calling—answer with trendy additions!",
+  "Empty carts are like blank pages—let's write a story!",
+  "Cart's giving puppy eyes. Fill it up with goodies!",
+  "Cart's on standby. Your picks will wake it up!",
+  "Cart's on a hunger strike. Feed it with fashion!",
+  "Empty cart? Time to play personal shopper!",
+  "Cart's whispering, 'I miss you.' Fill the void!",
+  "Cart's saying, 'I'm a bit empty.' You: 'Challenge accepted!'",
+  "Cart's waiting for treasures. Ready, set, shop!",
+  "Cart's waving. Give it a high-five with new additions!",
+];
 
 // Function to get a random message from the array
 const getRandomMessage = () => {
-  const randomIndex = Math.floor(Math.random() * emptyCartMessages.length);
+  const randomIndex = Math.floor(Math.random() * emptyCartMessages.length - 1);
   return emptyCartMessages[randomIndex];
 };
 
@@ -55,9 +55,7 @@ const Emptycart = () => {
           </svg>
 
           {/* Display a message about the empty shopping cart */}
-          <p className="text-gray-600 text-lg font-semibold mb-4">
-           {message}
-          </p>
+          <p className="text-gray-600 text-lg font-semibold mb-4">{message}</p>
 
           {/* Button to encourage users to go shopping */}
           <button className="px-6 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 transition-colors duration-300">

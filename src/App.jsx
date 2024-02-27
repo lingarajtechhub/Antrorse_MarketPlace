@@ -28,6 +28,7 @@ import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Payment from "./Pages/Payment/Payment";
 import PhonepeStatus from "./components/Phonepe/PhonepeStatus";
 import CreatePassword from "./Pages/SignUpPage/CreatePassword";
+import Accounts from "./Pages/Account/Accounts";
 
 function App() {
   const location = window.location.pathname;
@@ -53,10 +54,9 @@ function App() {
         <Route path="/orderCompleted" element={<OrderCompleted />} />
 
         <Route path="/orders" element={<Orders />} />
-        <Route path="/account" element={<Account />} />
+        <Route path="/account" element={<Accounts />} />
 
         <Route path="/productPage" element={<ProductPage />} />
-        <Route path="/account" element={<Account />} />
         <Route path="/Invoice" element={<Invoice />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/sellerSupport" element={<SellerSupport />} />
