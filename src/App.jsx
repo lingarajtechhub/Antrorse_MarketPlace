@@ -29,6 +29,8 @@ import Payment from "./Pages/Payment/Payment";
 import PhonepeStatus from "./components/Phonepe/PhonepeStatus";
 import CreatePassword from "./Pages/SignUpPage/CreatePassword";
 import Accounts from "./Pages/Account/Accounts";
+import SellerCreatePassword from "./Pages/sellerKyc/SellerCreatePassword";
+import SellerLogin from "./Pages/sellerKyc/SellerLogin";
 
 function App() {
   const location = window.location.pathname;
@@ -47,6 +49,7 @@ function App() {
         <Route path="/otp" element={<OTP />} />
         <Route path="/createPassword" element={<CreatePassword />} />
         <Route path="/viewproducts" element={<Viewproducts />} />
+        <Route path="/productdetail/:id" element={<ProductDetail />} />
 
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/viewcart" element={<CartPage />} />
@@ -61,8 +64,15 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/sellerSupport" element={<SellerSupport />} />
         <Route path="/profile" element={<AdminProfile />} />
+
+        <Route path="/sellerLogin" element={<SellerLogin />} />
         <Route path="/sellersignup" element={<SellerSignUp />} />
+        <Route
+          path="/sellercreatepassword"
+          element={<SellerCreatePassword />}
+        />
         <Route path="/kycform" element={<KYCForm />} />
+
         <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/404" element={<NotFound />} />
         <Route path="/SellerAccount" element={<SellerAccount />} />
@@ -70,6 +80,7 @@ function App() {
         <Route path="/productdetail" element={<ProductDetail />} />
         <Route path="/payment/:total" element={<Payment />} />
         <Route path="/api/status/:transactionID" element={<PhonepeStatus />} />
+
         <Route path="*" element={<NotFound />} />
         <Route />
       </Routes>

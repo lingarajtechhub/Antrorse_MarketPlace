@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 const TableThree = ({ activeComponent }) => {
   const [data, setData] = useState([]);
 
@@ -11,14 +11,16 @@ const TableThree = ({ activeComponent }) => {
   const fetchData = async () => {
     try {
       // Make GET request to your backend API to fetch data
-      const response = await axios.get('http://localhost:3000/app/admin/totalSeller');
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACKEND_URL}/app/admin/totalSeller`
+      );
       setData(response.data.result); // Assuming response.data is an array of objects
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
-  console.log(data)
+  console.log(data);
   console.log(activeComponent);
   return (
     <div className="rounded-sm border border-gray-200 bg-white px-5 pt-2 pb-2.5 shadow-lg   sm:px-7.5 xl:pb-1">
@@ -43,13 +45,11 @@ const TableThree = ({ activeComponent }) => {
             </tr>
           </thead>
           <tbody>
-         
-             {data.map((item, _id) => (
+            {data.map((item, _id) => (
               <tr key={item._id}>
                 {/* {console.log(item._id)} */}
                 <td className="border-b border-[#eee] py-5 px-4 pl-9  xl:pl-11">
                   <h5 className="font-medium text-black">{item.fullName}</h5>
-                 
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 ">
                   <p className="text-black ">{item.createdAt}</p>
@@ -62,8 +62,6 @@ const TableThree = ({ activeComponent }) => {
                 </td>
               </tr>
             ))}
-          
-         
           </tbody>
         </table>
       </div>

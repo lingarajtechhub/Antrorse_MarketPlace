@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 const SellerSignUp = () => {
@@ -12,6 +12,8 @@ const SellerSignUp = () => {
   const [resendTimer, setResendTimer] = useState(30);
   const [isResendDisabled, setIsResendDisabled] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { userData } = location.state || {};
 
   // Define initial form values
   const initialValues = {
@@ -70,10 +72,6 @@ const SellerSignUp = () => {
     setIsKycPopupVisible(true);
   };
 
-  // const closeKycPopup = () => {
-  //   setIsKycPopupVisible(false);
-  // };
-
   const handleVerify = async () => {
     try {
       const verificationResponse = await axios.post(
@@ -92,6 +90,11 @@ const SellerSignUp = () => {
         showKycPopup();
       } else {
         alert("Your account has been created successfully..");
+        // navigate("/sellercreatepassword", { state: { userData, mobile: values.mobile } });
+        // navigate("/sellercreatepassword", { state: { userData, mobile: values.mobile } });
+        navigate("/sellercreatepassword", {
+          state: { userData, mobile: values.mobile },
+        });
       }
     } catch (error) {
       console.error("Error verifying OTP:", error);
@@ -328,7 +331,7 @@ const SellerSignUp = () => {
                     {/* Cancel Button */}
                     <button
                       type="button"
-                      onClick={() => navigate("/login")}
+                      onClick={() => navigate("/sellerlogin")}
                       className="w-full text-gray-600 border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-md text-sm px-5 py-2.5 text-center mt-4"
                     >
                       Cancel
@@ -362,7 +365,10 @@ const SellerSignUp = () => {
 
               <p className="text-sm text-gray-500 font-medium">
                 Already have an account?{" "}
-                <Link to="/login" className="text-red-600 hover:underline">
+                <Link
+                  to="/sellerlogin"
+                  className="text-red-600 hover:underline"
+                >
                   Login here
                 </Link>
               </p>

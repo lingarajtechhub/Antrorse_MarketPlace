@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
-const ProductDescription = () => {
+const ProductDescription = ({product}) => {
+
+  // const {  brand_name, mater } = product;
+  // console.log( brand_name, mater);
+  const productDetails = product[0]?.productDetails[0];
+  console.log(productDetails.description)
+
   const [showDescription, setShowDescription] = useState(true);
   const [showSpecialization, setShowSpecialization] = useState(false);
 
@@ -21,39 +27,43 @@ const ProductDescription = () => {
           <h2 className="font-bold text-lg">Description</h2>
         </div>
         <div className="cursor-pointer" onClick={toggleSpecialization}>
-          <h3 className="font-bold text-lg">Specialization</h3>
+          <h3 className="font-bold text-lg">Specification</h3>
         </div>
       </div>
 
       <div className={showDescription ? "block" : "hidden"}>
         <h2 className="text-gray-500 font-bold text-lg mb-3">Description</h2>
         <p className="text-gray-500 text-md">
-          Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut
-          loret fugit, sed quia consequuntur magni dolores eos qui ratione
-          voluptatem sequi nesciunt loret. Neque porro lorem quisquam est, qui
-          dolorem ipsum quia dolor si. Nemo enim ipsam voluptatem quia voluptas
-          sit aspernatur aut odit aut loret fugit, sed quia ipsu consequuntur
-          magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-          consequat massa quis enim. Lorem ipsum dolor sit amet, consectetuer
-          adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum
-          sociis natoque penatibus et magnis dis parturient montes, nascetur
-          ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu,
-          pretium quis, sem.
+          {productDetails.description}
         </p>
       </div>
       <div className={showSpecialization ? "block" : "hidden"}>
         <h1 className="text-gray-500  font-bold text-lg mb-3">
-          Specialization
+          Specification
+        
+{/* 
+ 
+  <div class="w-1/3 pr-4">
+    <h1 class="text-sm font-semibold"></h1>
+    <h1 class="text-gray-500  font-bold text-lg mb-3">Product category:{product_category}</h1>
+  </div>
+  <div class="w-1/3 pr-4">
+ 
+    <p class="text-gray-500  font-bold text-lg mb-3">Brand Name:{brand_name}</p>
+  </div>
+  <div class="w-1/3">
+   
+    <p class="text-gray-500  font-bold text-lg mb-3">Material:{material}</p>
+  </div> */}
+
+
+
+
+
+
         </h1>
         <p className="text-gray-500 text-md">
-          Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut
-          loret fugit, sed quia consequuntur magni dolores eos qui ratione
-          voluptatem sequi nesciunt loret. Neque porro lorem quisquam est, qui
-          dolorem ipsum quia dolor si. Nemo enim ipsam voluptatem quia voluptas
-          sit aspernatur aut odit aut loret fugit, sed quia ipsu consequuntur
-          magni dolores eos qui ratione voluptatem sequi nesciunt. Nulla
-          consequat massa quis enim. Lorem ipsum dolor sit amet, consectetuer
-          adipiscing elit.
+         
         </p>
       </div>
     </div>

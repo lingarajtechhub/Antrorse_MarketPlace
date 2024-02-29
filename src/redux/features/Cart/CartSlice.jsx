@@ -97,6 +97,13 @@ export const CartSlice = createSlice({
 
       // console.log(productId, quantity, manualUpdate);
     },
+
+    clearCart(state, action) {
+      state.cartItems = [];
+      state.quantities = [];
+      localStorage.removeItem("cart");
+      localStorage.removeItem("quantity");
+    },
   },
 });
 
@@ -106,6 +113,7 @@ export const {
   incrementQuantity,
   decrementQuantity,
   manualIncrementQuantity,
+  clearCart,
 } = CartSlice.actions;
 
 export default CartSlice.reducer;

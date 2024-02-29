@@ -28,7 +28,7 @@ const Address = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/app/user/createAddress",
+        `${import.meta.env.VITE_BACKEND_URL}/app/user/createAddress`,
         formData,
         {
           headers: {

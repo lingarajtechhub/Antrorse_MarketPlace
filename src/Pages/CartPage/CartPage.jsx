@@ -9,6 +9,7 @@ import {
   incrementQuantity,
   manualIncrementQuantity,
   removeFromCart,
+  clearCart
 } from "../../redux/features/Cart/CartSlice";
 import axios from "axios";
 
@@ -41,9 +42,28 @@ const CartPage = () => {
     );
   };
 
-  const removeItemFromCart = (product) => {
-    // console.log(product);
-    dispatch(removeFromCart(product));
+  const removeItemFromCart = async (productID) => {
+
+  try {
+    await axios.put(
+      `${import.meta.env.VITE_BACKEND_URL}/app/cart/removeItemsToCart/${productID}`,
+      // Or if you're using environment variables
+      // `${import.meta.env.VITE_BACKEND_URL}/app/cart/removeItemsToCart/${product._id}`,
+      {},
+      {
+        headers: {
+          token: localStorage.getItem("authToken"),
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    dispatch(removeFromCart(productID));
+    fetchCartData()
+  } catch (error) {
+    console.error("Error removing item from cart:", error);
+    // Handle errors here
+  }
+  
   };
 
   // Function to calculate subtotal
@@ -66,7 +86,28 @@ const CartPage = () => {
     return taxamt;
   }
 
-  const handleClearCart = () => {
+  const handleClearCart = async (productID) => {
+    
+    try {
+      await axios.delete(
+       
+        `${import.meta.env.VITE_BACKEND_URL}/app/cart/removeCart/${productID}`,
+       
+        {
+          headers: {
+            token: localStorage.getItem("authToken"),
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      dispatch(removeFromCart(productID));
+      dispatch(clearCart())
+      fetchCartData()
+    } catch (error) {
+      console.error("Error removing item from cart:", error);
+      // Handle errors here
+    }
+    
     localStorage.removeItem("cart");
     setCartCleared(true);
   };
@@ -98,12 +139,15 @@ const CartPage = () => {
           <h1 className="text-2xl font-semibold mb-4">
             Your Cart {cartItems.length} Items
           </h1>
+         
           <button
-            className="bg-slate-300 font-bold px-4 py-1 text-md rounded-md"
-            onClick={handleClearCart}
-          >
-            Clear items from cart
-          </button>
+    className="bg-slate-300 font-bold px-4 py-1 text-md rounded-md"
+    onClick={() => handleClearCart(cartItems[0]._id)}
+      
+>
+    Clear items from cart
+</button>
+
         </div>
       </div>
       <div className="flex flex-col md:flex-row justify-between gap-4">
@@ -160,7 +204,7 @@ const CartPage = () => {
                             {/* Remove product button */}
                             <p
                               className="text-xs leading-3 underline text-red-500 pr-5 cursor-pointer"
-                              onClick={() => removeItemFromCart(product)}
+                              onClick={() => removeItemFromCart(product.items.product_id)}
                             >
                               Remove
                             </p>

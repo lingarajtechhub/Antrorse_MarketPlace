@@ -106,7 +106,7 @@ const TableTwo = () => {
     const fetchOrders = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/app/admin/totalOrder"
+          `${import.meta.env.VITE_BACKEND_URL}/app/admin/totalOrder`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch orders");

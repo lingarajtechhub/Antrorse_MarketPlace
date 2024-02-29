@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import StarRating from "../StartRating/StartRating";
 
 import { HiOutlineShoppingCart } from "react-icons/hi";
@@ -37,19 +37,26 @@ const ProductCard = ({ product, inCart, inWishlist }) => {
     dispatch(addToCart(product._id));
   };
   const removeItemFromCart = async (product) => {
-    await axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/app/cart/deleteCart`,
-      {
-        data: { product_id: product._id },
-        headers: {
-          token: localStorage.getItem("authToken"),
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    dispatch(removeFromCart(product._id));
+    try {
+      await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/app/cart/removeItemsToCart/${
+          product._id
+        }`,
+        {},
+        {
+          headers: {
+            token: localStorage.getItem("authToken"),
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      dispatch(removeFromCart(product._id));
+    } catch (error) {
+      console.error("Error removing item from cart:", error);
+      // Handle errors here
+    }
   };
+
   const addItemToWishlist = (product) => {
     dispatch(addToWishlist(product._id));
   };
@@ -86,7 +93,7 @@ const ProductCard = ({ product, inCart, inWishlist }) => {
 
   return (
     <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md group">
-      <Link to="/productdetail">
+      <Link to={`/productdetail/${product._id}`}>
         <div className="flex items-center justify-center h-[11.25rem] p-2 overflow-hidden group-hover:scale-105 transition-transform">
           <img
             className="object-cover w-full h-full rounded-t-sm"
