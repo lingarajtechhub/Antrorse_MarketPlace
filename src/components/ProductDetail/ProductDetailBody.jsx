@@ -241,12 +241,19 @@ import axios from "axios";
 import { addToCart, removeFromCart } from "../../redux/features/Cart/CartSlice";
 import { Link } from "react-router-dom";
 const ProductDetailBody = ({ product, productId }) => {
-  const productDetails = product[0]?.productDetails[0];
-  const images = productDetails?.images || [];
+  //  const productDetails = product[0]?.productDetails[0];
+
+  const productDetails =
+    product && product.length > 0 ? product[0]?.productDetails[0] : null;
+
+  const images = productDetails ? productDetails.images || [] : [];
+
+  // const images = productDetails?.images || [];
   console.log(productDetails);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
+  console.log(product);
   const prevImage = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
@@ -304,15 +311,15 @@ const ProductDetailBody = ({ product, productId }) => {
   // console.log(product[0])
   console.log("heloo");
   return (
-    <section className=" flex justify-center">
+    <section className=" flex justify-center mt-5">
       <div className="grid grid-cols-2 gap-4 max-w-7xl max-h-[80vh] overflow-hidden">
         <div className="px-4 bg-white md:mb-0 flex gap-2">
-          <div className="flex flex-col w-1/5 items-center gap-4 mx-2 md:flex">
+          <div className="flex flex-col w-1/5 items-center gap-4 justify-center mx-2 md:flex">
             {images &&
-              images.map((imageUrl, index) => (
+              images?.map((imageUrl, index) => (
                 <div
                   key={index}
-                  className="w-20 h-28 flex items-center justify-center gap-4 hover:border-sky-400"
+                  className="w-20 h-28 flex items-center justify-center cursor-pointer gap-4 hover:border-sky-400"
                   onClick={() => handleSmallImageClick(index)}
                 >
                   <img
@@ -470,19 +477,21 @@ const ProductDetailBody = ({ product, productId }) => {
             <div className="mb-4 flex">
               <h2 className="mb-1 mr-10 text-md font-bold">Available Size :</h2>
               <div className="flex flex-wrap -mb-2">
-                {Object.keys(productDetails.variations.sizes[0]).map(
-                  (size, index) => (  
-                    <button
-                      key={index}
-                      className="py-1 mb-2 mr-1 border w-11 hover:border-blue-400 hover:text-blue-600"
-                    >
-                      {size}
-                    </button>
-                  )
-                )}
+                {productDetails?.variations?.sizes[0] &&
+                  Object.keys(productDetails?.variations?.sizes[0])?.map(
+                    (size, index) => (
+                      <button
+                        key={index}
+                        className="py-1 mb-2 mr-1 border w-11 hover:border-blue-400 hover:text-blue-600"
+                      >
+                        {size}
+                      </button>
+                    )
+                  )}
               </div>
             </div>
           </div>
+          {!productDetails && <div className="text-center">Loading...</div>}
         </div>
         <Toaster position="top-right" containerStyle={{ zIndex: "99999" }} />
       </div>

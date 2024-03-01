@@ -17,7 +17,7 @@ import GroceryForm from "../selllerform/GroceryForm";
 
 // ... (import statements)
 
-const ProductType = ({ handleChange }) => {
+const ProductType = ({ handleVariation }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [category, setCategory] = useState({});
 
@@ -45,13 +45,13 @@ const ProductType = ({ handleChange }) => {
     photos: [],
   });
 
-  const handleVariation = (e) => {
-    const { name, value } = e.target;
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      [name]: value,
-    }));
-  };
+  // const handleVariation = (e) => {
+  //   const { name, value } = e.target;
+  //   setProduct((prevProduct) => ({
+  //     ...prevProduct,
+  //     [name]: value,
+  //   }));
+  // };
 
   return (
     <div className="rounded-md shadow-md m-2 mr-20 w-full border p-2 bg-white ">

@@ -97,9 +97,10 @@ const ProductCard = ({ product, inCart, inWishlist }) => {
         <div className="flex items-center justify-center h-[11.25rem] p-2 overflow-hidden group-hover:scale-105 transition-transform">
           <img
             className="object-cover w-full h-full rounded-t-sm"
-            src={product.images[0]}
+            src={product.images[0] || "https://placehold.co/450x600"}
             alt={product.name}
           />
+
           <span className="absolute top-1 left-1 m-2 rounded-full bg-black px-2 text-center text-sm font-medium text-white">
             {`${product.discount}`}% OFF
           </span>

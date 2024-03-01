@@ -1,56 +1,72 @@
 import React, { useState } from "react";
 import Modal from "../Modal/Modal";
-function ClothingForm({ product, handleChange }) {
+function ClothingForm({ handleVariation }) {
   const [isInputVisible, setIsInputVisible] = useState(false);
-  const [newSize, setNewSize] = useState("");
-  const [sizes, setSizes] = useState(["XS", "S", "M", "L", "XL"]);
-  const [selectedSizes, setSelectedSizes] = useState([]);
-
-  const [suggestions, setSuggestions] = useState([
-    { value: "shirt", label: "Shirt" },
-    { value: "jeans", label: "Jeans" },
-    { value: "mobile", label: "Mobile" },
-    { value: "laptop", label: "Laotop" },
-    { value: "watch", label: "Watch" },
-    { value: "jacket", label: "Jeans" },
-    { value: "joggers", label: "Joogers" },
-    // Add more suggestions as needed
-  ]);
-
-  const handleSizeClick = (size) => {
-    // Toggle selection of sizes
-    setSelectedSizes((prevSelectedSizes) =>
-      prevSelectedSizes.includes(size)
-        ? prevSelectedSizes.filter((s) => s !== size)
-        : [...prevSelectedSizes, size]
-    );
-  };
-
-  const handleAddSizeClick = (newSize) => {
-    // Add new size to the sizes array
-    if (newSize.trim() !== "" && !sizes.includes(newSize)) {
-      setSizes([...sizes, newSize]);
-      setNewSize("");
-    }
-  };
+  const [material, setmaterial] = useState([]);
 
   const [color, setColor] = useState("");
   const [colors, setColors] = useState([]);
 
+  const [sizes, setSizes] = useState([
+    { label: "XS", value: 0 },
+    { label: "S", value: 0 },
+    { label: "M", value: 0 },
+    { label: "L", value: 0 },
+    { label: "XL", value: 0 },
+  ]);
+
+  const handleMaterial = (newMaterial) => {
+    if (!material.includes(newMaterial)) {
+      setmaterial((prev) => [...prev, newMaterial.toLowerCase()]);
+      handleVariation(material);
+    }
+  };
+
+  const handleSizeClick = (label, value) => {
+    setSizes((prevSizes) =>
+      prevSizes.map((size) =>
+        size.label === label ? { ...size, value: parseInt(value, 10) } : size
+      )
+    );
+
+    handleVariation("sizes", sizes);
+  };
+
+  const handleAddSizeClick = (newSize) => {
+    if (
+      !sizes.find((size) => size.label.toLowerCase() === newSize.toLowerCase())
+    ) {
+      setSizes((prevSizes) => [...prevSizes, { label: newSize, value: 0 }]);
+      handleVariation("sizes", sizes);
+    }
+  };
+
   const handleChangecolor = (e) => {
     setColor(e.target.value);
+
+    handleVariation("color", color);
   };
 
   const handleKeyPress = (e) => {
     if (color.trim() !== "") {
       setColors([...colors, color.trim()]);
       setColor("");
+      handleVariation("color", color);
     }
+  };
+
+  const handleMaterialKeydown = (e) => {
+    if (e.key === "Enter") {
+      handleVariation("Material", material);
+    }
+    e.target.value = "";
   };
 
   const onCancel = () => {
     setIsInputVisible(false);
   };
+
+  const Submit = () => {};
 
   return (
     <div>
@@ -71,7 +87,9 @@ function ClothingForm({ product, handleChange }) {
               id="productType"
               name="productType"
               // value={product.productType}
-              onChange={handleChange}
+              onChange={(e) =>
+                handleVariation("category_selection", e.target.value)
+              }
               className="w-full border border-gray-300 p-2 rounded-md placeholder:text-xs"
             />
             <div className="flex gap-x-2">
@@ -86,8 +104,9 @@ function ClothingForm({ product, handleChange }) {
                   type="text"
                   id="discount"
                   name="discount"
-                  // value={product.discount}
-                  onChange={handleChange}
+                  onChange={(e) =>
+                    handleVariation("brand_name", e.target.value)
+                  }
                   className="w-full border border-gray-300 p-2 rounded-md"
                 />
               </div>
@@ -106,9 +125,22 @@ function ClothingForm({ product, handleChange }) {
                   id="material"
                   name="material"
                   // value={product.productName}
-                  onChange={handleChange}
+
+                  onKeyDown={handleMaterialKeydown}
                   className="w-full border border-gray-300 p-2 rounded-md"
                 />
+
+                {/* Display selected material */}
+                <div className="my-2">
+                  {material.map((mats, index) => (
+                    <span
+                      key={index}
+                      className="px-2 py-1 mr-2 gap-2 rounded-md ring-2 text-black color-square"
+                    >
+                      {mats}
+                    </span>
+                  ))}
+                </div>
 
                 {/* <CreatableSelect
                   isMulti
@@ -129,41 +161,34 @@ function ClothingForm({ product, handleChange }) {
               <p className="block text-gray-700 text-md mb-2">Select Size</p>
 
               {/* Size buttons */}
-              <div className="flex flex-col justify-start gap-2 w-full mt-2">
+              <div className="flex flex-col justify-start gap-2 w-full my-2">
                 {sizes.map((size) => (
                   <div className="w-full flex gap-2">
                     <span
                       key={size}
-                      onClick={() => handleSizeClick(size)}
-                      className={`p-1 text-center cursor-pointer w-12 border rounded-md ${
-                        selectedSizes.includes(size)
-                          ? "ring-2 ring-blue-500 bg-gray-200"
-                          : "bg-gray-200"
-                      }`}
+                      className={`p-1 text-center cursor-pointer w-12 border rounded-md bg-gray-200`}
                     >
-                      {size}
+                      {size.label}
                     </span>
                     <input
-                      disabled={selectedSizes.includes(size)}
                       type="number"
-                      defaultValue={1}
-                      className={`px-2 ring-2 ring-gray-200 bg-gray-200 rounded-md ${
-                        selectedSizes.includes(size)
-                          ? "ring-blue-200 bg-white "
-                          : ""
-                      } `}
+                      value={size.value}
+                      onChange={(e) =>
+                        handleSizeClick(size.label, e.target.value)
+                      }
+                      className={`px-2 ring-2 ring-gray-200 bg-gray-200 rounded-md`}
                     />
                   </div>
                 ))}
               </div>
 
               {/* Button to add a new size */}
-              <button
+              <span
                 onClick={() => setIsInputVisible(true)}
-                className="mt-2 p-2  text-black rounded-md 0"
+                className="py-1 px-2 bg-red-300  text-black rounded-md"
               >
                 + Add Size
-              </button>
+              </span>
 
               {isInputVisible ? (
                 <Modal
@@ -194,7 +219,7 @@ function ClothingForm({ product, handleChange }) {
               )} */}
             </div>
 
-            <div className="text-start w-full">
+            <div className="text-start w-full mt-2">
               <label
                 className="block text-gray-700 text-md mb-2"
                 htmlFor="color"
@@ -210,8 +235,8 @@ function ClothingForm({ product, handleChange }) {
                   name="color"
                   value={color}
                   onChange={handleChangecolor}
-                  // onKeyDown={handleKeyPress}
-                  placeholder="Enter hex code or use color picker"
+                  onKeyDown={handleKeyPress}
+                  placeholder="Enter hex code or use color picker and then press enter"
                   className="w-full border border-gray-300 p-2 rounded-md"
                 />
 

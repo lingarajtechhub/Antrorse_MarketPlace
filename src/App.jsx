@@ -49,7 +49,7 @@ function App() {
         <Route path="/otp" element={<OTP />} />
         <Route path="/createPassword" element={<CreatePassword />} />
         <Route path="/viewproducts" element={<Viewproducts />} />
-        <Route path="/productdetail/:id" element={<ProductDetail />} />
+        <Route path="/productdetail/:productId" element={<ProductDetail />} />
 
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/viewcart" element={<CartPage />} />

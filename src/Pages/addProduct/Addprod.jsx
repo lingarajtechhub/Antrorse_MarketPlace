@@ -9,12 +9,24 @@ const AddProd = () => {
     description: "",
     tags: [],
     images: [],
-    productName: "",
+    name: "",
     productType: "",
-    price: "",
-    discountPercent: "",
-    stock: "",
-    variation: {},
+    price: null,
+    discountPercent: null,
+    stock: null,
+    dimensions: {
+      height: null,
+      width: null,
+      length: null,
+      weight: null,
+    },
+    variation: {
+      category_selection: "",
+      brand_name: "",
+      Material: [],
+      sizes: [],
+      color: [],
+    },
   });
 
   const maxAllowedImages = 5;
@@ -46,7 +58,6 @@ const AddProd = () => {
       }
     });
   };
-  console.log(product.images);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -142,6 +153,16 @@ const AddProd = () => {
       ...styles,
       color: "black", // Change the text color of selected tags here
     }),
+  };
+
+  const handleVariation = (type, value) => {
+    setProduct((prev) => ({
+      ...prev,
+      variation: {
+        ...prev.variation,
+        [type]: value,
+      },
+    }));
   };
 
   return (
@@ -420,7 +441,7 @@ const AddProd = () => {
         {/* right section */}
         <div className="w-1/2">
           <div className="">
-            <ProductType handleChange={handleChange} />
+            <ProductType handleVariation={handleVariation} />
           </div>
 
           <div className="">
