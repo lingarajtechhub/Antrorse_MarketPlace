@@ -11,14 +11,14 @@ const AddProd = () => {
     images: [],
     name: "",
     productType: "",
-    price: null,
-    discountPercent: null,
-    stock: null,
+    price: "",
+    discountPercent: "",
+    stock: "",
     dimensions: {
-      height: null,
-      width: null,
-      length: null,
-      weight: null,
+      height: "",
+      width: "",
+      length: "",
+      weight: "",
     },
     variation: {
       category_selection: "",
@@ -59,37 +59,37 @@ const AddProd = () => {
     });
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (
-      name === "productName" ||
-      name === "productType" ||
-      name === "description"
-    ) {
-      // String validation
-      if (!/^[a-zA-Z\s]*$/.test(value)) {
-        alert(
-          `Please enter a valid ${name}. Only letters and spaces are allowed.`
-        );
-        return;
-      }
-    } else if (
-      name === "price" ||
-      name === "discountPrice" ||
-      name === "stock"
-    ) {
-      // Number validation
-      if (!/^\d+$/.test(value)) {
-        alert(`Please enter a valid ${name}. Only numbers are allowed.`);
-        return;
-      }
-    }
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   if (
+  //     name === "productName" ||
+  //     name === "productType" ||
+  //     name === "description"
+  //   ) {
+  //     // String validation
+  //     if (!/^[a-zA-Z\s]*$/.test(value)) {
+  //       alert(
+  //         `Please enter a valid ${name}. Only letters and spaces are allowed.`
+  //       );
+  //       return;
+  //     }
+  //   } else if (
+  //     name === "price" ||
+  //     name === "discountPrice" ||
+  //     name === "stock"
+  //   ) {
+  //     // Number validation
+  //     if (!/^\d+$/.test(value)) {
+  //       alert(`Please enter a valid ${name}. Only numbers are allowed.`);
+  //       return;
+  //     }
+  //   }
 
-    setProduct((prevProduct) => ({
-      ...prevProduct,
-      [name]: value,
-    }));
-  };
+  //   setProduct((prevProduct) => ({
+  //     ...prevProduct,
+  //     [name]: value,
+  //   }));
+  // };
 
   const handleRemoveImage = (index) => {
     console.log(index, "index");
@@ -156,6 +156,8 @@ const AddProd = () => {
   };
 
   const handleVariation = (type, value) => {
+    console.log(type, value);
+
     setProduct((prev) => ({
       ...prev,
       variation: {
@@ -178,18 +180,18 @@ const AddProd = () => {
             <div className="w-full  bg-white  flex flex-col p-6 gap-y-2 border shadow-lg rounded-md ">
               <label
                 className="block text-gray-700 text-md font-bold   mb-2"
-                htmlFor="productName"
+                htmlFor="name"
               >
                 Product Name
               </label>
               <input
                 type="text"
-                id="productName"
-                name="productName"
-                value={product.productName}
+                id="name"
+                name="name"
+                value={product.name}
                 onChange={(e) => {
                   setProduct((prev) => {
-                    return { ...prev, productName: e.target.value };
+                    return { ...prev, name: e.target.value };
                   });
                 }}
                 className="w-full border border-gray-300 p-2 rounded-md placeholder:text-ls"
@@ -340,6 +342,16 @@ const AddProd = () => {
                     name="height"
                     className="w-full border border-gray-300 p-2 rounded-sm"
                     required
+                    value={product.dimensions.height}
+                    onChange={(e) => {
+                      setProduct((prev) => ({
+                        ...prev,
+                        dimensions: {
+                          ...prev.dimensions,
+                          height: Number(e.target.value),
+                        },
+                      }));
+                    }}
                   />
                 </div>
                 <div className="text-start flex flex-col">
@@ -355,6 +367,16 @@ const AddProd = () => {
                     name="width"
                     className="w-full border border-gray-300 p-2 rounded-md"
                     required
+                    value={product.dimensions.width}
+                    onChange={(e) => {
+                      setProduct((prev) => ({
+                        ...prev,
+                        dimensions: {
+                          ...prev.dimensions,
+                          width: Number(e.target.value),
+                        },
+                      }));
+                    }}
                   />
                 </div>
 
@@ -371,6 +393,16 @@ const AddProd = () => {
                     name="weight"
                     className="w-full border border-gray-300 p-2 rounded-md"
                     required
+                    value={product.dimensions.length}
+                    onChange={(e) => {
+                      setProduct((prev) => ({
+                        ...prev,
+                        dimensions: {
+                          ...prev.dimensions,
+                          length: Number(e.target.value),
+                        },
+                      }));
+                    }}
                   />
                 </div>
                 <div className="text-start flex flex-col">
@@ -386,6 +418,16 @@ const AddProd = () => {
                     name="weight"
                     className="w-full border border-gray-300 p-2 rounded-md"
                     required
+                    value={product.dimensions.weight}
+                    onChange={(e) => {
+                      setProduct((prev) => ({
+                        ...prev,
+                        dimensions: {
+                          ...prev.dimensions,
+                          weight: Number(e.target.value),
+                        },
+                      }));
+                    }}
                   />
                 </div>
               </div>
@@ -407,6 +449,7 @@ const AddProd = () => {
                   rows="8"
                   className="bg-gray-50 border-2 border-gray-400 rounded-md p-2 w-full"
                   placeholder="Write product description"
+                  value={product.description}
                   onChange={(e) => {
                     setProduct((prev) => {
                       return { ...prev, description: e.target.value };

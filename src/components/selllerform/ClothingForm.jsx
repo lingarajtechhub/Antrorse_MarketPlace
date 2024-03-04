@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
 function ClothingForm({ handleVariation }) {
   const [isInputVisible, setIsInputVisible] = useState(false);
@@ -15,21 +15,12 @@ function ClothingForm({ handleVariation }) {
     { label: "XL", value: 0 },
   ]);
 
-  const handleMaterial = (newMaterial) => {
-    if (!material.includes(newMaterial)) {
-      setmaterial((prev) => [...prev, newMaterial.toLowerCase()]);
-      handleVariation(material);
-    }
-  };
-
   const handleSizeClick = (label, value) => {
     setSizes((prevSizes) =>
       prevSizes.map((size) =>
         size.label === label ? { ...size, value: parseInt(value, 10) } : size
       )
     );
-
-    handleVariation("sizes", sizes);
   };
 
   const handleAddSizeClick = (newSize) => {
@@ -37,36 +28,47 @@ function ClothingForm({ handleVariation }) {
       !sizes.find((size) => size.label.toLowerCase() === newSize.toLowerCase())
     ) {
       setSizes((prevSizes) => [...prevSizes, { label: newSize, value: 0 }]);
-      handleVariation("sizes", sizes);
     }
   };
 
   const handleChangecolor = (e) => {
     setColor(e.target.value);
-
-    handleVariation("color", color);
   };
 
-  const handleKeyPress = (e) => {
-    if (color.trim() !== "") {
-      setColors([...colors, color.trim()]);
-      setColor("");
-      handleVariation("color", color);
+  const handleColorKeydown = (e) => {
+    if (e.key === "Enter") {
+      const hexRegex = /^#([0-9A-F]{3}){1,2}$/i;
+
+      const newColor = e.target.value.trim().toLowerCase();
+
+      if (hexRegex.test(newColor) && newColor && !colors.includes(newColor)) {
+        setColors((prev) => [...prev, newColor]);
+        setColor("");
+      }
     }
   };
 
   const handleMaterialKeydown = (e) => {
     if (e.key === "Enter") {
-      handleVariation("Material", material);
+      const newMaterial = e.target.value.trim().toLowerCase();
+
+      if (newMaterial && !material.includes(newMaterial)) {
+        setmaterial((prev) => [...prev, newMaterial]);
+      }
+
+      e.target.value = "";
     }
-    e.target.value = "";
   };
 
   const onCancel = () => {
     setIsInputVisible(false);
   };
 
-  const Submit = () => {};
+  useEffect(() => {
+    handleVariation("Material", material);
+    handleVariation("colors", colors);
+    handleVariation("sizes", sizes);
+  }, [material, color,sizes]);
 
   return (
     <div>
@@ -125,7 +127,7 @@ function ClothingForm({ handleVariation }) {
                   id="material"
                   name="material"
                   // value={product.productName}
-
+                  // onChange={handleMaterial}
                   onKeyDown={handleMaterialKeydown}
                   className="w-full border border-gray-300 p-2 rounded-md"
                 />
@@ -134,8 +136,8 @@ function ClothingForm({ handleVariation }) {
                 <div className="my-2">
                   {material.map((mats, index) => (
                     <span
-                      key={index}
-                      className="px-2 py-1 mr-2 gap-2 rounded-md ring-2 text-black color-square"
+                      key={mats}
+                      className="px-2 py-1 mr-2 gap-2 rounded-md ring-1 ring-slate-200 text-black color-square bg-slate-100"
                     >
                       {mats}
                     </span>
@@ -162,10 +164,12 @@ function ClothingForm({ handleVariation }) {
 
               {/* Size buttons */}
               <div className="flex flex-col justify-start gap-2 w-full my-2">
-                {sizes.map((size) => (
-                  <div className="w-full flex gap-2">
+                {sizes.map((size, index) => (
+                  <div
+                    className="w-full flex gap-2"
+                    key={`${size.label} - ${index}`}
+                  >
                     <span
-                      key={size}
                       className={`p-1 text-center cursor-pointer w-12 border rounded-md bg-gray-200`}
                     >
                       {size.label}
@@ -235,7 +239,7 @@ function ClothingForm({ handleVariation }) {
                   name="color"
                   value={color}
                   onChange={handleChangecolor}
-                  onKeyDown={handleKeyPress}
+                  onKeyDown={handleColorKeydown}
                   placeholder="Enter hex code or use color picker and then press enter"
                   className="w-full border border-gray-300 p-2 rounded-md"
                 />
