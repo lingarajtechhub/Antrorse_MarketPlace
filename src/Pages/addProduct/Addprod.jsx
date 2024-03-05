@@ -26,6 +26,10 @@ const AddProd = () => {
       Material: [],
       sizes: [],
       color: [],
+      camera_pixel: "",
+      screen_size: "",
+      model_number: "",
+      warranty: "",
     },
   });
 
@@ -92,7 +96,6 @@ const AddProd = () => {
   // };
 
   const handleRemoveImage = (index) => {
-    console.log(index, "index");
     const updatedImages = [...product.images];
     updatedImages.splice(index, 1);
 
@@ -156,8 +159,6 @@ const AddProd = () => {
   };
 
   const handleVariation = (type, value) => {
-    console.log(type, value);
-
     setProduct((prev) => ({
       ...prev,
       variation: {
@@ -167,6 +168,9 @@ const AddProd = () => {
     }));
   };
 
+  const handleSubmit = async () => {
+    console.log(product);
+  };
   return (
     <div>
       <h2 className=" text-2xl shadow-sm font-bold text-center border-b mb-2 pb-4">
@@ -490,6 +494,7 @@ const AddProd = () => {
           <div className="">
             <div className="m-6 flex justify-center">
               <button
+                onClick={handleSubmit}
                 type="submit"
                 className="w-1/3 bg-green-500 text-white p-2 rounded-md hover:bg-blue-600"
               >

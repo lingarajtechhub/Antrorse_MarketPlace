@@ -231,29 +231,73 @@
 // };
 
 // export default ProductDetailBody;
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { IoHeartOutline } from "react-icons/io5";
 import StarRating from "../StartRating/StartRating";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { addToCart, removeFromCart } from "../../redux/features/Cart/CartSlice";
 import { Link } from "react-router-dom";
+
 const ProductDetailBody = ({ product, productId }) => {
-  //  const productDetails = product[0]?.productDetails[0];
-
-  const productDetails =
-    product && product.length > 0 ? product[0]?.productDetails[0] : null;
-
-  const images = productDetails ? productDetails.images || [] : [];
-
-  // const images = productDetails?.images || [];
-  console.log(productDetails);
+  const [itemsInCartId, setItemsInCartId] = useState([]);
+  const [itemsInWishlistId, setItemsInWishlistId] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
-  console.log(product);
+  const itemsInCart = useSelector((state) => state.cart.cartItems);
+  const itemsInWishlist = useSelector((state) => state.wishlist.wishlistItems);
+  const sorting = useSelector((state) => state.sort.sorting);
+  const dispatch = useDispatch();
+
+  const fetchCartItemsId = () => {
+    const cartItemIds = itemsInCart?.map((item) => item) || [];
+    const wishlistItemIds = itemsInWishlist?.map((item) => item) || [];
+    setItemsInCartId(() => cartItemIds);
+    setItemsInWishlistId(() => wishlistItemIds);
+  };
+
+  useEffect(() => {
+    fetchCartItemsId();
+  }, [itemsInCart, itemsInWishlist]);
+
+  const alertCartItemAdded = (message) => {
+    toast.success(message);
+  };
+
+  const addItemToCart = async (product) => {
+    console.log("clicked");
+    console.log(productId);
+    await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/app/cart/createCart`,
+      { product_id: productId },
+
+      {
+        headers: {
+          token: localStorage.getItem("authToken"),
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    dispatch(addToCart(productId));
+  };
+
+  const addItemToWishlist = (product) => {
+    dispatch(addItemToWishlist(productId));
+  };
+
+  const handleWishlistClick = () => {
+    if (inWishlist) {
+      // removeItemFromWishlist(product);
+      alertCartItemRemoved("Item removed from whislist!");
+    } else {
+      addItemToWishlist(productId);
+      alertCartItemAdded("Item added to wishlist!");
+    }
+  };
+
   const prevImage = () => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
@@ -265,51 +309,20 @@ const ProductDetailBody = ({ product, productId }) => {
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
     );
   };
-  const dispatch = useDispatch();
-
-  const addItemToCart = async (product) => {
-    try {
-      // Check if the item is already in the cart
-      const cartItems = getState().cart.items; // Assuming the state structure for cart is { items: [] }
-      const isItemInCart = cartItems.some(
-        (item) => item.productId === product._id
-      );
-
-      // If the item is already in the cart, show a message or handle it as needed
-      if (isItemInCart) {
-        toast.error("Item is already in the cart!");
-        return;
-      }
-
-      // If the item is not in the cart, proceed to add it
-      await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/app/cart/createCart`,
-        { product_id: product._id },
-        {
-          headers: {
-            token: localStorage.getItem("authToken"),
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      dispatch(addToCart(product._id));
-      toast.success("Item added to cart!");
-    } catch (error) {
-      console.error("already addes adding item to cart:", error);
-      toast.error("Already added to cart!");
-    }
-  };
 
   const handleSmallImageClick = (index) => {
     setCurrentIndex(index);
   };
+
   const handleCartClick = () => {
     addItemToCart(product);
-    // alertCartItemAdded("Item added to cart!");
   };
 
-  // console.log(product[0])
-  console.log("heloo");
+  const productDetails =
+    product && product.length > 0 ? product[0]?.productDetails[0] : null;
+
+  const images = productDetails ? productDetails.images || [] : [];
+
   return (
     <section className=" flex justify-center mt-5">
       <div className="grid grid-cols-2 gap-4 max-w-7xl max-h-[80vh] overflow-hidden">
@@ -381,7 +394,7 @@ const ProductDetailBody = ({ product, productId }) => {
           </div>
         </div>
 
-        {/* right section */}
+        {/* Right section */}
         <div className="bg-white px-4">
           <div className="lg:pl-6">
             <div className="mb-6">
@@ -435,7 +448,7 @@ const ProductDetailBody = ({ product, productId }) => {
                   </div>
                 </div>
               </div>
-              <div className="mb-4 lg:mb-0">
+              <div className="mb-4 lg:mb-0" onClick={handleWishlistClick}>
                 <button className="flex items-center justify-center w-full h-10 mr-2 text-gray-700 lg:w-11 hover:text-red-500 border rounded-full">
                   <IoHeartOutline className="text-xl w-6 h-7" />
                 </button>

@@ -87,7 +87,7 @@ const ProductType = ({ handleVariation }) => {
             <h1 className="text-md font-bold pr-4">Clothing</h1>
           </div>
         </div>
-        <div
+        {/* <div
           className={`px-2 py-1 flex items-center justify-center rounded-md shadow-sm gap-2 ${
             selectedCategory === "Grocery" ? "bg-blue-500" : "bg-slate-200"
           }`}
@@ -99,7 +99,7 @@ const ProductType = ({ handleVariation }) => {
           <div>
             <h1 className="text-md font-bold pr-4">Grocery</h1>
           </div>
-        </div>
+        </div> */}
 
         {category.name ? (
           <div
@@ -141,18 +141,13 @@ const ProductType = ({ handleVariation }) => {
       {/* new */}
       <div>
         {selectedCategory === "Clothing" && (
-          <ClothingForm
-            product={product}
-            handleVariation={handleVariation}
-            handleSubmit={handleSubmit}
-          />
+          <ClothingForm product={product} handleVariation={handleVariation} />
         )}
 
         {selectedCategory === "Electronics" && (
           <ElectronicsForm
             product={product}
             handleVariation={handleVariation}
-            handleSubmit={handleSubmit}
           />
         )}
 

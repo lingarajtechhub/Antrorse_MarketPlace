@@ -33,7 +33,7 @@ import SellerCreatePassword from "./Pages/sellerKyc/SellerCreatePassword";
 import SellerLogin from "./Pages/sellerKyc/SellerLogin";
 
 function App() {
-  const location = window.location.pathname;
+  const location = () => window.location.pathname;
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -41,7 +41,7 @@ function App() {
 
   return (
     <Router>
-      {location === "/admin" ? null : <Navbar />}
+      {location() === "/admin" ? null : <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -84,7 +84,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route />
       </Routes>
-      {location === "/admin" ? null : <Footer />}
+      {location() === "/admin" ? null : <Footer />}
     </Router>
   );
 }
