@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const RelatedProducts = () => {
   return (
@@ -8,7 +9,7 @@ const RelatedProducts = () => {
     >
       {/* <!--   ✅ Product card 1 - Starts Here 👇 --> */}
       <div class="w-64 bg-white  shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
-        <a href="#">
+        <Link to="/">
           <img
             src="https://images.unsplash.com/photo-1646753522408-077ef9839300?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8NjZ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
             alt="Product"
@@ -36,13 +37,13 @@ const RelatedProducts = () => {
               </div>
             </div>
           </div>
-        </a>
+        </Link>
       </div>
       {/* <!--   🛑 Product card 1 - Ends Here  --> */}
 
       {/* <!--   ✅ Product card 2 - Starts Here 👇 --> */}
       <div class="w-64 bg-white  shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
-        <a href="#">
+        <Link to="/">
           <img
             src="https://images.unsplash.com/photo-1651950519238-15835722f8bb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8Mjh8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
             alt="Product"
@@ -70,13 +71,13 @@ const RelatedProducts = () => {
               </div>
             </div>
           </div>
-        </a>
+        </Link>
       </div>
       {/* <!--   🛑 Product card 2- Ends Here  --> */}
 
       {/* <!--   ✅ Product card 3 - Starts Here 👇 --> */}
       <div class="w-64 bg-white  shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
-        <a href="#">
+        <Link to="/">
           <img
             src="https://images.unsplash.com/photo-1651950537598-373e4358d320?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8MjV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
             alt="Product"
@@ -104,13 +105,13 @@ const RelatedProducts = () => {
               </div>
             </div>
           </div>
-        </a>
+        </Link>
       </div>
       {/* <!--   🛑 Product card 3 - Ends Here  --> */}
 
       {/* <!--   ✅ Product card 4 - Starts Here 👇 --> */}
       <div class="w-64 bg-white  shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
-        <a href="#">
+        <Link to="/">
           <img
             src="https://images.unsplash.com/photo-1651950540805-b7c71869e689?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8Mjl8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
             alt="Product"
@@ -138,13 +139,13 @@ const RelatedProducts = () => {
               </div>
             </div>
           </div>
-        </a>
+        </Link>
       </div>
       {/* <!--   🛑 Product card 4 - Ends Here  --> */}
 
-       {/* <!--   ✅ Product card 4 - Starts Here 👇 --> */}
-       <div class="w-64 bg-white  shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
-        <a href="#">
+      {/* <!--   ✅ Product card 4 - Starts Here 👇 --> */}
+      <div class="w-64 bg-white  shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
+        <Link to="/">
           <img
             src="https://images.unsplash.com/photo-1651950540805-b7c71869e689?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwcm9maWxlLXBhZ2V8Mjl8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
             alt="Product"
@@ -172,7 +173,7 @@ const RelatedProducts = () => {
               </div>
             </div>
           </div>
-        </a>
+        </Link>
       </div>
       {/* <!--   🛑 Product card 4 - Ends Here  --> */}
     </section>

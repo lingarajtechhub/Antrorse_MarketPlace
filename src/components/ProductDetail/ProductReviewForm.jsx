@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios"; // Import Axios for making HTTP requests
 
-const ProductReviewForm = ({toggleForm,fetchData}) => {
+const ProductReviewForm = ({ toggleForm, fetchData }) => {
   const [Rating, setRating] = useState("");
   const [Review, setReview] = useState("");
 
@@ -9,8 +9,6 @@ const ProductReviewForm = ({toggleForm,fetchData}) => {
     setRating("");
     setReview("");
     toggleForm();
-
-   
   };
 
   const handleSubmit = async (e) => {
@@ -19,23 +17,24 @@ const ProductReviewForm = ({toggleForm,fetchData}) => {
     try {
       // Make POST request to the specified URL with the provided data and token
       const response = await axios.post(
-        "http://localhost:3000/app/product//add-review-ratings/65d83626ab9bd17215bf6368",
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/app/product//add-review-ratings/65d83626ab9bd17215bf6368`,
         {
           rating: Rating, // Assuming 'name' corresponds to the rating
-          review: Review // Assuming 'desc' corresponds to the review description
+          review: Review, // Assuming 'desc' corresponds to the review description
         },
         {
           headers: {
-            token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjVkNzI5MmU3N2E2NjdiMDA5NzhkNTllIiwiaWF0IjoxNzA4NjgwMDg3LCJleHAiOjE3MDg5MzkyODd9.llU1xeOtPGcPzNVh6QXCQgr9imhcIolhciXTUYXTiVQ" 
+            token: localStorage.getItem("authToken"),
             // Include the token in the request headers
-          }
+          },
         }
       );
 
       console.log("Response:", response.data); // Log the response data
       fetchData();
       toggleForm();
-      
     } catch (error) {
       console.error("Error:", error); // Log any errors that occur during the request
     }
@@ -48,9 +47,7 @@ const ProductReviewForm = ({toggleForm,fetchData}) => {
           Write Review
         </h1>
 
-        <form className="space-y-4 md:space-y-6"  
-        onSubmit={handleSubmit}
-        >
+        <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-1">
             <label htmlFor="name" className="text-sm font-medium text-gray-900">
               Rating
@@ -66,7 +63,10 @@ const ProductReviewForm = ({toggleForm,fetchData}) => {
             />
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="Review" className="text-sm font-medium text-gray-900">
+            <label
+              htmlFor="Review"
+              className="text-sm font-medium text-gray-900"
+            >
               Review
             </label>
             <textarea
@@ -100,7 +100,6 @@ const ProductReviewForm = ({toggleForm,fetchData}) => {
             </div>
           </div>
         </form>
-
       </div>
     </div>
   );

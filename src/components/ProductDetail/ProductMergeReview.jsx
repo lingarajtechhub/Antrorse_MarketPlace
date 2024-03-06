@@ -2,9 +2,7 @@ import React from "react";
 import ProductFeedback from "./ProductFeedback";
 import ProductReview from "./productReview";
 
-export default function ProductMergeReview({productReview,fetchData}) {
-
-  console.log(productReview,"product review")
+export default function ProductMergeReview({ productReview }) {
   return (
     <div className=" bg-white items-center">
       <div className="flex bg-white  justify-around">

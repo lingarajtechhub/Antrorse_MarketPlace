@@ -3,6 +3,7 @@ import CreatableSelect from "react-select/creatable";
 
 import "react-tagsinput/react-tagsinput.css";
 import ProductType from "../../components/ProductType/ProductType";
+import axios from "axios";
 
 const AddProd = () => {
   const [product, setProduct] = useState({
@@ -169,8 +170,21 @@ const AddProd = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(product);
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/app/product/AddProduct`,
+      {
+        headers: {
+          token: localStorage.getItem("authToken"),
+          "Content-Type": "application/json",
+        },
+      },
+
+      { body: JSON.stringify(product) }
+    );
+
+    console.log(response);
   };
+
   return (
     <div>
       <h2 className=" text-2xl shadow-sm font-bold text-center border-b mb-2 pb-4">
