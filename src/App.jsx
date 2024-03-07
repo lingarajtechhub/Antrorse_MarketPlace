@@ -31,6 +31,8 @@ import CreatePassword from "./Pages/SignUpPage/CreatePassword";
 import Accounts from "./Pages/Account/Accounts";
 import SellerCreatePassword from "./Pages/sellerKyc/SellerCreatePassword";
 import SellerLogin from "./Pages/sellerKyc/SellerLogin";
+import PaymentSucess from "./components/PaymentStatus/PaymentSucess";
+import SellerPanel from "./Pages/Seller/Seller";
 
 function App() {
   const location = () => window.location.pathname;
@@ -41,7 +43,7 @@ function App() {
 
   return (
     <Router>
-      {location() === "/admin" ? null : <Navbar />}
+      {location() === "/admin" || "/seller" ? null : <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -62,6 +64,8 @@ function App() {
         <Route path="/productPage" element={<ProductPage />} />
         <Route path="/Invoice" element={<Invoice />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/seller" element={<SellerPanel />} />
+
         <Route path="/sellerSupport" element={<SellerSupport />} />
         <Route path="/profile" element={<AdminProfile />} />
 
@@ -79,12 +83,15 @@ function App() {
         <Route path="/AddProd" element={<AddProd />} />
         <Route path="/productdetail" element={<ProductDetail />} />
         <Route path="/payment/:total" element={<Payment />} />
-        <Route path="/api/status/:transactionID" element={<PhonepeStatus />} />
+        <Route
+          path="/payment/validate/:transactionID"
+          element={<PhonepeStatus />}
+        />
 
         <Route path="*" element={<NotFound />} />
         <Route />
       </Routes>
-      {location() === "/admin" ? null : <Footer />}
+      {location() === "/admin" || "/seller" ? null : <Footer />}
     </Router>
   );
 }

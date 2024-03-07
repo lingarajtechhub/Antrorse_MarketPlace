@@ -19,7 +19,7 @@
 //         const response = await fetch(
 //           `http://localhost:3687/app/product/getProductByIdWithRating/${productId}`
 //         );
-        
+
 //         if (!response.ok) {
 //           throw new Error("Network response was not ok");
 //         } else {
@@ -33,7 +33,7 @@
 //         console.error("Error fetching data:", error);
 //       }
 //     }
-    
+
 //     console.log("inside the useEffect");
 //     fetchData(); // Call the fetch function
 
@@ -46,14 +46,14 @@
 
 //   const [productReview, setproductReview] = useState(null);
 //   // const [isLoadingReview, setisLoadingReview] = useState(true);
- 
+
 //   //   // Fetch data when the component mounts
 //   //   async function fetchData() {
 //   //     try {
 //   //       const response = await fetch(
-        
+
 //   //        " http://localhost:3000/app/product/review-ratings/65d83626ab9bd17215bf6368"
-       
+
 //   //       );
 
 //   //       if (!response.ok) {
@@ -69,7 +69,6 @@
 //   //   console.log("inside the usefeefect");
 //   //   fetchData(); // Call the fetch function
 //   // }, []);
-
 
 //   // useEffect(() => {
 //   //   fetchData();
@@ -92,7 +91,6 @@
 //   //   }
 //   // };
 
-
 //   return (
 //     <div >
 //       {isLoading ?
@@ -109,16 +107,11 @@
 //             </h2>
 //             <ProductDescription product={product} />
 //           </div>
-         
-       
-  
-             
+
 //              <div className=" flex flex-col gap-2">
 //              <h2 className="text-center text-4xl font-bold">Reviews</h2>
 //              <ProductMergeReview productReview={product} />
 //            </div>
-         
-         
 
 //           <div className=" flex flex-col gap-2">
 //             <h2 className="text-center text-4xl font-bold">
@@ -147,7 +140,6 @@ const ProductDetail = () => {
   const { productId } = useParams();
 
   useEffect(() => {
-    console.log(productId+"dsds")
     async function fetchData() {
       try {
         const response = await fetch(
@@ -185,9 +177,7 @@ const ProductDetail = () => {
             <ProductMergeReview productReview={product} />
           </div>
           <div className="flex flex-col gap-2">
-            <h2 className="text-center text-4xl font-bold">
-              Similar Products
-            </h2>
+            <h2 className="text-center text-4xl font-bold">Similar Products</h2>
             <RelatedProducts />
           </div>
         </div>

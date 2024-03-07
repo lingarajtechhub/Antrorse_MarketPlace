@@ -57,7 +57,19 @@ const ProductCard = ({ product, inCart, inWishlist }) => {
     }
   };
 
-  const addItemToWishlist = (product) => {
+  const addItemToWishlist = async (product) => {
+    await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/app/user/createWishList`,
+      { product_id: product._id },
+
+      {
+        headers: {
+          token: localStorage.getItem("authToken"),
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
     dispatch(addToWishlist(product._id));
   };
   const removeItemFromWishlist = (product) => {
@@ -93,7 +105,7 @@ const ProductCard = ({ product, inCart, inWishlist }) => {
 
   return (
     <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md group">
-      <Link to={`/productdetail/${product._id}`}>
+      <Link to={`/productdetail/${product._id}`} inWishlist={inWishlist}>
         <div className="flex items-center justify-center h-[11.25rem] p-2 overflow-hidden group-hover:scale-105 transition-transform">
           <img
             className="object-cover w-full h-full rounded-t-sm"

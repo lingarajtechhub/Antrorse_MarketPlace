@@ -21,6 +21,8 @@ const Checkout = () => {
     // Add more addresses as needed
   ];
 
+  const [address, setAddress] = useState([]);
+
   const [selectedAddress, setSelectedAddress] = useState(null);
 
   const [cartItems, setCartItems] = useState([]);
@@ -74,6 +76,21 @@ const Checkout = () => {
     setCartItems(() => response.data.result);
   };
 
+  const fetchAddressData = async () => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/app/user/getAddress`,
+      {
+        headers: {
+          token: localStorage.getItem("authToken"),
+        },
+      }
+    );
+
+    console.log(response.data)
+
+    setAddress(() => response.data.result);
+  };
+
   const totalPrice = () => {
     return (
       parseInt(pricingBreakdown.total) +
@@ -83,6 +100,7 @@ const Checkout = () => {
   };
   useEffect(() => {
     fetchCartData();
+    fetchAddressData()
   }, []);
   useEffect(() => {
     calculateSubtotal();

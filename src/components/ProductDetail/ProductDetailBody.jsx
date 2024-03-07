@@ -239,6 +239,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { addToCart, removeFromCart } from "../../redux/features/Cart/CartSlice";
 import { Link } from "react-router-dom";
+import { addToWishlist } from "../../redux/features/Wishlist/WishlistSlice";
 
 const ProductDetailBody = ({ product, productId }) => {
   const [itemsInCartId, setItemsInCartId] = useState([]);
@@ -248,7 +249,7 @@ const ProductDetailBody = ({ product, productId }) => {
 
   const itemsInCart = useSelector((state) => state.cart.cartItems);
   const itemsInWishlist = useSelector((state) => state.wishlist.wishlistItems);
-  const sorting = useSelector((state) => state.sort.sorting);
+  // const sorting = useSelector((state) => state.sort.sorting);
   const dispatch = useDispatch();
 
   const fetchCartItemsId = () => {
@@ -262,13 +263,7 @@ const ProductDetailBody = ({ product, productId }) => {
     fetchCartItemsId();
   }, [itemsInCart, itemsInWishlist]);
 
-  const alertCartItemAdded = (message) => {
-    toast.success(message);
-  };
-
   const addItemToCart = async (product) => {
-    console.log("clicked");
-    console.log(productId);
     await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/app/cart/createCart`,
       { product_id: productId },
@@ -284,13 +279,34 @@ const ProductDetailBody = ({ product, productId }) => {
     dispatch(addToCart(productId));
   };
 
-  const addItemToWishlist = (product) => {
-    dispatch(addItemToWishlist(productId));
+  const addItemToWishlist = async (product) => {
+    await axios.post(
+      `${import.meta.env.VITE_BACKEND_URL}/app/user/createWishList`,
+      { product_id: product._id },
+
+      {
+        headers: {
+          token: localStorage.getItem("authToken"),
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    dispatch(addToWishlist(product._id));
   };
 
+  const alertCartItemAdded = (message) => {
+    toast.success(message);
+  };
+  const alertCartItemRemoved = (message) => {
+    toast.error(message);
+  };
   const handleWishlistClick = () => {
+    let inWishlist = itemsInWishlistId.includes(product._id);
+
     if (inWishlist) {
       // removeItemFromWishlist(product);
+
       alertCartItemRemoved("Item removed from whislist!");
     } else {
       addItemToWishlist(productId);
