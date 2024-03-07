@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Grid } from "react-loader-spinner";
 import { useParams } from "react-router-dom";
 import PaymentSucess from "../PaymentStatus/PaymentSucess";
+import PaymentFailure from "../PaymentStatus/PaymentFailure";
 
 const PhonepeStatus = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [paymentStatus, setPaymentStatus] = useState(null);
+  const [tranasctionDetails, setTransactionDetails] = useState(null);
 
   const params = useParams();
   const transactionId = params.transactionID;
@@ -24,7 +27,13 @@ const PhonepeStatus = () => {
 
       if (response.data.success === true) {
         setIsLoading(false);
+        setTransactionDetails(response.data);
+        setPaymentStatus(response.data.success);
+      } else {
+        setPaymentStatus(response.data.success);
       }
+
+      console.log(response);
     } catch (error) {
       console.error(`ERROR OCCURED IN TRANSACATION: ${error.message}`);
     }
@@ -50,8 +59,10 @@ const PhonepeStatus = () => {
             wrapperClass="grid-wrapper"
           />
         </div>
+      ) : paymentStatus ? (
+        <PaymentSucess tranasctionDetails={tranasctionDetails} />
       ) : (
-        <PaymentSucess />
+        <PaymentFailure />
       )}
     </div>
   );

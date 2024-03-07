@@ -43,7 +43,7 @@ function App() {
 
   return (
     <Router>
-      {location() === "/admin" || "/seller" ? null : <Navbar />}
+      {location() === "/admin" || location() === "/seller" ? null : <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -91,7 +91,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
         <Route />
       </Routes>
-      {location() === "/admin" || "/seller" ? null : <Footer />}
+      {location() === "/admin" || location() === "/seller" ? null : <Footer />}
     </Router>
   );
 }
