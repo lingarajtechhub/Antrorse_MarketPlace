@@ -6,6 +6,7 @@ import ProductType from "../../components/ProductType/ProductType";
 import axios from "axios";
 
 const AddProd = () => {
+  const [imagesPreview, setImagesPreview] = useState([]);
   const [product, setProduct] = useState({
     description: "",
     tags: [],
@@ -50,15 +51,17 @@ const AddProd = () => {
   const handleMultiImageChange = (e) => {
     const files = e.target.files;
 
+    setProduct((prev) => ({
+      ...prev,
+      images: [...prev.images, ...Array.from(files)],
+    }));
+
     Array.from(files).forEach((file) => {
-      if (product.images.length < maxAllowedImages) {
+      if (imagesPreview.length < maxAllowedImages) {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = () => {
-          setProduct((prev) => ({
-            ...prev,
-            images: [...prev.images, reader.result],
-          }));
+          setImagesPreview((prev) => [...prev, reader.result]);
         };
       }
     });
@@ -172,17 +175,16 @@ const AddProd = () => {
   const handleSubmit = async () => {
     const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/app/product/AddProduct`,
+      product,
       {
         headers: {
-          token: localStorage.getItem("authToken"),
-          "Content-Type": "application/json",
+          token:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZWxsZXJfaWQiOiI2NWNhMDRiYmRjMjU5YzZiOWRiMmYwMTkiLCJpYXQiOjE3MDk3OTk2NTEsImV4cCI6MTcxMDA1ODg1MX0.9SijfeYphtbzD6VHOlLtnS7MlPb8VEty4FuJYFTi_QU",
+          "Content-Type": "multipart/form-data",
+          // "Content-Type": "application/json",
         },
-      },
-
-      { body: JSON.stringify(product) }
+      }
     );
-
-    console.log(response);
   };
 
   return (
@@ -226,7 +228,7 @@ const AddProd = () => {
 
                 {product.images.length > 0 && (
                   <div className="flex flex-wrap  border-dashed border-2 border-gray-300 rounded-md ">
-                    {product.images.map((image, index) => (
+                    {imagesPreview.map((image, index) => (
                       <div key={index} className=" w-1/6 m-2 relative">
                         <img
                           src={image}
@@ -294,7 +296,7 @@ const AddProd = () => {
                     value={product.price}
                     onChange={(e) => {
                       setProduct((prev) => {
-                        return { ...prev, price: e.target.value };
+                        return { ...prev, price: Number(e.target.value) };
                       });
                     }}
                     className="w-full border border-gray-300 p-2 rounded-sm"
@@ -315,7 +317,10 @@ const AddProd = () => {
                     value={product.discountPercent}
                     onChange={(e) => {
                       setProduct((prev) => {
-                        return { ...prev, discountPercent: e.target.value };
+                        return {
+                          ...prev,
+                          discountPercent: Number(e.target.value),
+                        };
                       });
                     }}
                     className="w-full border border-gray-300 p-2 rounded-md"
@@ -337,7 +342,7 @@ const AddProd = () => {
                     value={product.stock}
                     onChange={(e) => {
                       setProduct((prev) => {
-                        return { ...prev, stock: e.target.value };
+                        return { ...prev, stock: Number(e.target.value) };
                       });
                     }}
                     className="w-full border border-gray-300 p-2 rounded-md"

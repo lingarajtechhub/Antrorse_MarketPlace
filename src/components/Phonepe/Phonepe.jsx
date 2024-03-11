@@ -1,10 +1,12 @@
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const PhonePe = () => {
   const { total } = useParams();
+  const [items, setitems] = useState([]);
 
-  const handlePayment = async (e) => {
+  const handlePayment = async (e) => {  
     e.preventDefault();
     const buyerData = {
       buyerName: "testingName",
@@ -13,7 +15,7 @@ const PhonePe = () => {
       transactionId: "T" + Date.now(),
       merchantOrderId: "ORDER" + Date.now(),
       email: "test123@gmail.com",
-      message: `${"Antrorse Marketplace"}+ ${"2 Dress, 3 Shirt order"} + ${Date.now()}`,
+      message: items,
     };
 
     const response = await axios.post(
@@ -23,6 +25,11 @@ const PhonePe = () => {
 
     window.open(response.data.redirectURL, "_blank");
   };
+
+  useEffect(() => {
+    const fetchitems = localStorage.getItem("quantity");
+    setitems(fetchitems);
+  }, []);
 
   return (
     <button

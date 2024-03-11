@@ -123,6 +123,7 @@ const CartPage = () => {
     );
 
     setCartItems(response.data.result);
+    console.log(cartItems)
   };
 
   useEffect(() => {
@@ -196,7 +197,7 @@ const CartPage = () => {
                               <span>
                                 size:{" "}
                                 {product.productDetails.variations?.sizes[0]
-                                  .XS || "product size unavailable"}
+                                  ?.XS || "product size unavailable"}
                               </span>
                             </p>
                           </div>

@@ -9,9 +9,28 @@ const PhonepeStatus = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [paymentStatus, setPaymentStatus] = useState(null);
   const [tranasctionDetails, setTransactionDetails] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
 
   const params = useParams();
   const transactionId = params.transactionID;
+
+  const handleShipping = () => {};
+
+  const fetchCartData = async () => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/app/cart/getCartData`,
+      {
+        headers: {
+          token: localStorage.getItem("authToken"),
+        },
+      }
+    );
+
+    setCartItems(() => response.data.result);
+
+    console.log(cartItems)
+  };
+
   const checkTransactionStatus = async () => {
     const transactionData = {
       transactionId: transactionId,
@@ -29,6 +48,7 @@ const PhonepeStatus = () => {
         setIsLoading(false);
         setTransactionDetails(response.data);
         setPaymentStatus(response.data.success);
+        fetchCartData();
       } else {
         setPaymentStatus(response.data.success);
       }

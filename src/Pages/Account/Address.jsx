@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 
@@ -10,6 +10,8 @@ const Address = () => {
   const [country, setCountry] = useState("");
   const [pinCode, setPinCode] = useState("");
   const [type, setType] = useState("");
+
+  const [address, setAddress] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,8 +34,7 @@ const Address = () => {
         formData,
         {
           headers: {
-            token:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjViYjU2OTdhMzIzYzUxNTFlNzE4MzE5IiwiaWF0IjoxNzA3NzMxOTk1LCJleHAiOjE3MDc5OTExOTV9.ni6EUcXaRRWyt734qe0McvquG2eKMohBMl_U97KqY6E",
+            token: localStorage.getItem("authToken"),
           },
         }
       );
@@ -46,19 +47,62 @@ const Address = () => {
     }
   };
 
+  const fetchAddressData = async () => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_BACKEND_URL}/app/user/getAddress`,
+      {
+        headers: {
+          token: localStorage.getItem("authToken"),
+        },
+      }
+    );
+
+    console.log(response.data.result, "address");
+
+    setAddress(() => response.data.result);
+  };
+
+  useEffect(() => {
+    fetchAddressData();
+  }, []);
+
   return (
     <div className="p">
-      <div className="w-full md:w-3/4 md:max-w-full mx-auto p-1">
-        <h2 className="text-center text-2xl font-semibold mb-4">Add Address</h2>
-        <div className="p-6 border border-gray-100   bg-white sm:rounded-md">
-          <form onSubmit={handleSubmit}>
-            <div className="flex gap-2">
-              <label className="block mb-6 w-full">
-                <span className="text-gray-700">Type</span>
-                <input
-                  name="name"
-                  type="text"
-                  className="
+      <span>Available House address </span>
+      <div className="flex gap-2 my-4 ">
+        {address.map((add, index) => (
+          <div
+            key={index}
+            className={` flex flex-row-reverse rounded-md items-center justify-between px-2 ring-1  cursor-pointer ring-gray-700`}
+          >
+            <span className="font-semibold text-sm py-2 px-4">
+              {`${add.house} ${add.city} `}
+            </span>
+          </div>
+        ))}
+
+        {/* 
+          ""
+        ) : (
+          <span className=" ring-1 rounded-md flex items-center justify-center p-0">
+            + Create new address
+          </span>
+        )} */}
+      </div>
+      {address.length <= 2 ? (
+        <div className="w-full md:w-3/4 md:max-w-full mx-auto p-1">
+          <h2 className="text-center text-2xl font-semibold mb-4">
+            Add Address
+          </h2>
+          <div className="p-6 border border-gray-100   bg-white sm:rounded-md">
+            <form onSubmit={handleSubmit}>
+              <div className="flex gap-2">
+                <label className="block mb-6 w-full">
+                  <span className="text-gray-700">Type</span>
+                  <input
+                    name="name"
+                    type="text"
+                    className="
               block
               w-full
               mt-1
@@ -69,17 +113,17 @@ const Address = () => {
                 shadow-sm
                
                 "
-                  placeholder="Home ,office"
-                  value={type}
-                  onChange={(e) => setType(e.target.value)}
-                />
-              </label>
-              <label className="block mb-6 w-full">
-                <span className="text-gray-700">Mobile No</span>
-                <input
-                  name="telephone"
-                  type="text"
-                  className="
+                    placeholder="Home ,office"
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                  />
+                </label>
+                <label className="block mb-6 w-full">
+                  <span className="text-gray-700">Mobile No</span>
+                  <input
+                    name="telephone"
+                    type="text"
+                    className="
               block
               w-full p-3
               mt-1
@@ -92,20 +136,20 @@ const Address = () => {
               focus:ring-indigo-200
               focus:ring-opacity-50
               "
-                  placeholder=""
-                  value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
-                />
-              </label>
-            </div>
+                    placeholder=""
+                    value={mobile}
+                    onChange={(e) => setMobile(e.target.value)}
+                  />
+                </label>
+              </div>
 
-            <div className="flex gap-2">
-              <label className="block mb-6 w-full">
-                <span className="text-gray-700">Zip/Postal code</span>
-                <input
-                  name="zip"
-                  type="text"
-                  className="
+              <div className="flex gap-2">
+                <label className="block mb-6 w-full">
+                  <span className="text-gray-700">Zip/Postal code</span>
+                  <input
+                    name="zip"
+                    type="text"
+                    className="
               block
               w-full p-3
               mt-1
@@ -119,17 +163,17 @@ const Address = () => {
                 focus:ring-indigo-200
                 focus:ring-opacity-50
                 "
-                  placeholder=""
-                  value={pinCode}
-                  onChange={(e) => setPinCode(e.target.value)}
-                />
-              </label>
-              <label className="block mb-6 w-full">
-                <span className="text-gray-700">Country</span>
-                <input
-                  name="country"
-                  type="text"
-                  className="
+                    placeholder=""
+                    value={pinCode}
+                    onChange={(e) => setPinCode(e.target.value)}
+                  />
+                </label>
+                <label className="block mb-6 w-full">
+                  <span className="text-gray-700">Country</span>
+                  <input
+                    name="country"
+                    type="text"
+                    className="
               block
               w-full
               mt-1 p-3
@@ -143,18 +187,18 @@ const Address = () => {
               focus:ring-indigo-200
               focus:ring-opacity-50
               "
-                  placeholder=""
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                />
-              </label>
-            </div>
-            <label className="block mb-6">
-              <span className="text-gray-700">Address </span>
-              <input
-                name="address1"
-                type="text"
-                className="
+                    placeholder=""
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                  />
+                </label>
+              </div>
+              <label className="block mb-6">
+                <span className="text-gray-700">Address </span>
+                <input
+                  name="address1"
+                  type="text"
+                  className="
               block
               w-full
                 mt-1
@@ -170,19 +214,19 @@ const Address = () => {
                 focus:ring-opacity-50
                 
                 "
-                placeholder=" "
-                value={street}
-                onChange={(e) => setStreet(e.target.value)}
-              />
-            </label>
+                  placeholder=" "
+                  value={street}
+                  onChange={(e) => setStreet(e.target.value)}
+                />
+              </label>
 
-            <div className="flex gap-2">
-              <label className="block mb-6 w-full">
-                <span className="text-gray-700">city</span>
-                <input
-                  name="state"
-                  type="text"
-                  className="
+              <div className="flex gap-2">
+                <label className="block mb-6 w-full">
+                  <span className="text-gray-700">city</span>
+                  <input
+                    name="state"
+                    type="text"
+                    className="
               block
               w-full p-3
               mt-1
@@ -196,17 +240,17 @@ const Address = () => {
                 focus:ring-indigo-200
                 focus:ring-opacity-50
                 "
-                  placeholder=""
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                />
-              </label>
-              <label className="block mb-6 w-full">
-                <span className="text-gray-700">State</span>
-                <input
-                  name="state"
-                  type="text"
-                  className="
+                    placeholder=""
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                  />
+                </label>
+                <label className="block mb-6 w-full">
+                  <span className="text-gray-700">State</span>
+                  <input
+                    name="state"
+                    type="text"
+                    className="
               block
               w-full p-3
               mt-1
@@ -220,14 +264,14 @@ const Address = () => {
                 focus:ring-indigo-200
                 focus:ring-opacity-50
                 "
-                  placeholder=""
-                  value={state}
-                  onChange={(e) => setState(e.target.value)}
-                />
-              </label>
-            </div>
+                    placeholder=""
+                    value={state}
+                    onChange={(e) => setState(e.target.value)}
+                  />
+                </label>
+              </div>
 
-            {/* <label className="block mb-6">
+              {/* <label className="block mb-6">
             <span className="text-gray-700">Delivery information</span>
             <textarea
               name="message"
@@ -248,10 +292,10 @@ const Address = () => {
               placeholder="floor/door lock code/etc."
               ></textarea>
           </label> */}
-            <div className="mb-6">
-              <button
-                type="submit"
-                className="
+              <div className="mb-6">
+                <button
+                  type="submit"
+                  className="
               h-10
               px-5
               text-indigo-100
@@ -262,14 +306,15 @@ const Address = () => {
               focus:shadow-outline
               hover:bg-indigo-800
               "
-              >
-                Save
-              </button>
-            </div>
-            <div></div>
-          </form>
+                >
+                  Save
+                </button>
+              </div>
+              <div></div>
+            </form>
+          </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 };

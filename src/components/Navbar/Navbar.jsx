@@ -4,6 +4,9 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { CiLogout } from "react-icons/ci";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../../redux/features/User/UserSlice";
+
+import Antrorse from "../../assets/logo/Antrorse.png";
+
 const SubMenu = ({ items }) => (
   <ul className="absolute left-0 hidden mt-1 space-y-1 bg-white border rounded-md group-hover:block">
     {items.map((item, index) => (
@@ -105,11 +108,7 @@ const Navbar = () => {
         <nav className="flex justify-between w-full ">
           <div className="px-5 xl:px-12 py-6 flex w-full items-center">
             <Link to="/" className="text-3xl font-bold font-heading">
-              <img
-                className="h-9"
-                src="https://antrorse.org/img/logo.png"
-                alt="logo"
-              />
+              <img className="h-9" src={Antrorse} alt="logo" />
             </Link>
             <ul className="hidden md:flex px-3 mx-auto font-semibold font-heading space-x-12">
               {mainMenu.map((menuItem) => (

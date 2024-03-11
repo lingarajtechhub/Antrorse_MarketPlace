@@ -7,19 +7,19 @@ import axios from "axios";
 import Payment from "../Payment/Payment";
 
 const Checkout = () => {
-  const addressOptions = [
-    {
-      id: 1,
-      label: "123 Main St, CityA (Default)",
-      deliveryTime: "Delivery: 2-7 Days",
-    },
-    {
-      id: 2,
-      label: "456 Oak St, CityB",
-      deliveryTime: "Delivery: 3-5 Days",
-    },
-    // Add more addresses as needed
-  ];
+  // const addressOptions = [
+  //   {
+  //     id: 1,
+  //     label: "123 Main St, CityA (Default)",
+  //     deliveryTime: "Delivery: 2-7 Days",
+  //   },
+  //   {
+  //     id: 2,
+  //     label: "456 Oak St, CityB",
+  //     deliveryTime: "Delivery: 3-5 Days",
+  //   },
+  //   // Add more addresses as needed
+  // ];
 
   const [address, setAddress] = useState([]);
 
@@ -34,8 +34,6 @@ const Checkout = () => {
     shipping: 0,
     discount: 0,
   });
-
-  console.log(cartItems, "checkout");
 
   const [discountPercent, setDiscountPercent] = useState(15);
   const [ShippingPercent, setShippingPercent] = useState(5);
@@ -86,9 +84,9 @@ const Checkout = () => {
       }
     );
 
-    console.log(response.data)
+    console.log(response.data.result, "address");
 
-    setAddress(() => response.data.result);
+    setAddress(() => Array(response.data.result));
   };
 
   const totalPrice = () => {
@@ -100,7 +98,7 @@ const Checkout = () => {
   };
   useEffect(() => {
     fetchCartData();
-    fetchAddressData()
+    fetchAddressData();
   }, []);
   useEffect(() => {
     calculateSubtotal();
@@ -215,7 +213,7 @@ const Checkout = () => {
                       {item.productDetails?.name}
                     </span>
                     <span className="float-right text-gray-400 text-sm">
-                      {item.productDetails.variations?.sizes[0].XS}
+                      {item.productDetails.variations?.sizes[0]?.XS}
                     </span>
                     <p className="mt-auto text-sm font-bold ">
                       &#8377;
@@ -266,23 +264,23 @@ const Checkout = () => {
                 {/* <div className="grid grid-cols-2 gap-2">
                   {addressOptions.map((address) => (
                     <div
-                      key={address.id}
+                      key={add._id}
                       className=" mb-2 flex flex-row-reverse rounded-md justify-between items-center ring-1 ring-gray-400 peer-checked:ring-2 peer-checked:ring-gray-700"
                     >
                       <input
                         className="peer hidden"
-                        id={`radio_${address.id}`}
+                        id={`radio_${add._id}`}
                         type="radio"
                         name="radio"
-                        checked={selectedAddress === address.id}
-                        onClick={() => setSelectedAddress(address.id)}
+                        checked={selectedAddress === add._id}
+                        onClick={() => setSelectedAddress(add._id)}
                       />
                       <span className="peer-checked:ring-2 peer-checked:ring-gray-700 box-content block h-3 w-3 rounded-full border-8 border-gray-300 bg-white"></span>
                       <label
                         className={`peer-checked:ring-2 peer-checked:ring-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-2 ${
-                          selectedAddress === address.id ? "bg-gray-50" : ""
+                          selectedAddress === add._id ? "bg-gray-50" : ""
                         }`}
-                        htmlFor={`radio_${address.id}`}
+                        htmlFor={`radio_${add._id}`}
                       >
                         <div>
                           <span className="mt-1 font-semibold text-sm">
@@ -297,20 +295,20 @@ const Checkout = () => {
                   ))}
                 </div> */}
 
-                <div className="grid grid-cols-2 gap-2">
-                  {addressOptions.map((address) => (
+                <div className="grid grid-cols-2 gap-2 ">
+                  {address?.map((add, index) => (
                     <div
-                      key={address.id}
-                      className={`mb-2 flex flex-row-reverse rounded-md items-center justify-between px-2 ring-1 ring-gray-400 cursor-pointer ${
-                        selectedAddress === address.id
+                      key={index}
+                      className={` flex flex-row-reverse rounded-md items-center justify-between px-2 ring-1 ring-gray-400 cursor-pointer ${
+                        selectedAddress === add._id
                           ? "ring-2 ring-gray-700"
                           : ""
                       }`}
-                      onClick={() => setSelectedAddress(address.id)}
+                      onClick={() => setSelectedAddress(add._id)}
                     >
                       <span
                         className={`box-content block h-3 w-3 rounded-full border-8 border-gray-300 bg-white ${
-                          selectedAddress === address.id
+                          selectedAddress === add._id
                             ? "ring-2 ring-gray-700"
                             : "peer-checked:ring-2 peer-checked:ring-gray-700"
                         }`}
@@ -318,7 +316,7 @@ const Checkout = () => {
 
                       <div>
                         <span className="font-semibold text-sm">
-                          {address.label}
+                          {`${add.house} ${add.city} `}
                         </span>
                         <p className="text-slate-500 text-sm leading-6">
                           {address.deliveryTime}
@@ -326,6 +324,14 @@ const Checkout = () => {
                       </div>
                     </div>
                   ))}
+
+                  {address.length === 2 ? (
+                    ""
+                  ) : (
+                    <span className=" ring-1 rounded-md flex items-center justify-center p-0">
+                      + Create new address
+                    </span>
+                  )}
                 </div>
 
                 {/* new div for the cart */}
