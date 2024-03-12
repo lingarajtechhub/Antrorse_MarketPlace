@@ -9,14 +9,14 @@ import {
   incrementQuantity,
   manualIncrementQuantity,
   removeFromCart,
-  clearCart
+  clearCart,
 } from "../../redux/features/Cart/CartSlice";
 import axios from "axios";
 
 // Functional component for the shopping cart page
 const CartPage = () => {
   // State for managing the products in the cart
-
+  const isLoggedIn = localStorage.getItem("user") === "true";
   const [taxpercent, setTaxpercent] = useState(15);
   const [cartCleared, setCartCleared] = useState(false);
   const [cartItems, setCartItems] = useState([]);
@@ -43,27 +43,27 @@ const CartPage = () => {
   };
 
   const removeItemFromCart = async (productID) => {
-
-  try {
-    await axios.put(
-      `${import.meta.env.VITE_BACKEND_URL}/app/cart/removeItemsToCart/${productID}`,
-      // Or if you're using environment variables
-      // `${import.meta.env.VITE_BACKEND_URL}/app/cart/removeItemsToCart/${product._id}`,
-      {},
-      {
-        headers: {
-          token: localStorage.getItem("authToken"),
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    dispatch(removeFromCart(productID));
-    fetchCartData()
-  } catch (error) {
-    console.error("Error removing item from cart:", error);
-    // Handle errors here
-  }
-  
+    try {
+      await axios.put(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/app/cart/removeItemsToCart/${productID}`,
+        // Or if you're using environment variables
+        // `${import.meta.env.VITE_BACKEND_URL}/app/cart/removeItemsToCart/${product._id}`,
+        {},
+        {
+          headers: {
+            token: localStorage.getItem("authToken"),
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      dispatch(removeFromCart(productID));
+      fetchCartData();
+    } catch (error) {
+      console.error("Error removing item from cart:", error);
+      // Handle errors here
+    }
   };
 
   // Function to calculate subtotal
@@ -87,12 +87,10 @@ const CartPage = () => {
   }
 
   const handleClearCart = async (productID) => {
-    
     try {
       await axios.delete(
-       
         `${import.meta.env.VITE_BACKEND_URL}/app/cart/removeCart/${productID}`,
-       
+
         {
           headers: {
             token: localStorage.getItem("authToken"),
@@ -101,13 +99,13 @@ const CartPage = () => {
         }
       );
       dispatch(removeFromCart(productID));
-      dispatch(clearCart())
-      fetchCartData()
+      dispatch(clearCart());
+      fetchCartData();
     } catch (error) {
       console.error("Error removing item from cart:", error);
       // Handle errors here
     }
-    
+
     localStorage.removeItem("cart");
     setCartCleared(true);
   };
@@ -123,7 +121,7 @@ const CartPage = () => {
     );
 
     setCartItems(response.data.result);
-    console.log(cartItems)
+    console.log(cartItems);
   };
 
   useEffect(() => {
@@ -140,15 +138,13 @@ const CartPage = () => {
           <h1 className="text-2xl font-semibold mb-4">
             Your Cart {cartItems.length} Items
           </h1>
-         
-          <button
-    className="bg-slate-300 font-bold px-4 py-1 text-md rounded-md"
-    onClick={() => handleClearCart(cartItems[0]._id)}
-      
->
-    Clear items from cart
-</button>
 
+          <button
+            className="bg-slate-300 font-bold px-4 py-1 text-md rounded-md"
+            onClick={() => handleClearCart(cartItems[0]._id)}
+          >
+            Clear items from cart
+          </button>
         </div>
       </div>
       <div className="flex flex-col md:flex-row justify-between gap-4">
@@ -205,7 +201,9 @@ const CartPage = () => {
                             {/* Remove product button */}
                             <p
                               className="text-xs leading-3 underline text-red-500 pr-5 cursor-pointer"
-                              onClick={() => removeItemFromCart(product.items.product_id)}
+                              onClick={() =>
+                                removeItemFromCart(product.items.product_id)
+                              }
                             >
                               Remove
                             </p>
@@ -339,12 +337,22 @@ const CartPage = () => {
                 {/* Taxes */}
               </span>
             </div>
-            <Link
-              to="/checkout"
-              className="bg-blue-500 flex flex-1 text-center justify-center text-white py-2 px-4 rounded-lg "
-            >
-              Checkout
-            </Link>
+
+            {isLoggedIn ? (
+              <Link
+                to="/checkout"
+                className="bg-blue-500 flex flex-1 text-center justify-center text-white py-2 px-4 rounded-lg "
+              >
+                Checkout
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className="bg-blue-500 flex flex-1 text-center justify-center text-white py-2 px-4 rounded-lg "
+              >
+                Checkout
+              </Link>
+            )}
           </div>
         </div>
       </div>

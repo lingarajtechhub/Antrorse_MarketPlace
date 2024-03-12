@@ -42,7 +42,6 @@ const Wishlist = () => {
     dispatch(removeFromCart(product._id));
     toast.success("Moved to the cart");
     fetchWishlistData();
-
   };
 
   const removeItemFromWishlist = async (product) => {
@@ -93,12 +92,7 @@ const Wishlist = () => {
   return (
     <div className="container mx-auto p-4 sm:px-6 lg:px-8">
       <h1 className="text-2xl font-bold my-4 sm:text-3xl">
-        My Wishlist{" "}
-        {wishlistItems.reduce(
-          (total, item) => total + item.productDetails.length,
-          0
-        )}{" "}
-        items
+        My Wishlist {wishlistItems[0]?.productDetails.length} items
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {wishlistItems.map((wishlistItem) =>
