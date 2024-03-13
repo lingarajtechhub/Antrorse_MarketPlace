@@ -230,11 +230,11 @@ const CartPage = () => {
                             onClick={() =>
                               decrement(product.productDetails._id)
                             }
-                            disabled={
-                              quantitiesInCart.find(
-                                (item) => item.id === product.productDetails._id
-                              )?.quantity === 1
-                            }
+                            // disabled={
+                            //   quantitiesInCart.find(
+                            //     (item) => item.id === product.productDetails._id
+                            //   )?.quantity === 1
+                            // }
                           >
                             -
                           </button>
