@@ -84,9 +84,9 @@ const Checkout = () => {
       }
     );
 
-    console.log(response.data.result, "address");
+    console.log(response.data.result[0], "address");
 
-    setAddress(() => Array(response.data.result));
+    setAddress(() => Array(response.data.result[0]));
   };
 
   const totalPrice = () => {

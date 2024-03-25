@@ -95,56 +95,58 @@ const Wishlist = () => {
         My Wishlist {wishlistItems[0]?.productDetails.length} items
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-        {wishlistItems.map((wishlistItem) =>
-          wishlistItem.productDetails.map((product) => (
-            <div
-              className="border border-gray-200 rounded-md"
-              key={product._id}
-            >
-              <div className="">
-                <a href="#" className="object-contain">
-                  <img
-                    src={product.images[0]}
-                    alt=""
-                    className="object-fill w-[100%] h-52 "
-                  />
-                </a>
-              </div>
-              <div className="p-3 bg-gray-50">
-                <h5 className="text-lg font-bold tracking-tight h-16 line-clamp-2">
-                  {product.description}
-                </h5>
-                <div className="mb-2 flex justify-between">
-                  <h2 className="text-sm overflow-hidden overflow-ellipsis whitespace-nowrap">
-                    {product.subCategory
-                      ? product.subCategory
-                      : "Not Available"}
-                  </h2>
+        {wishlistItems.length > 0
+          ? wishlistItems.map((wishlistItem) =>
+              wishlistItem.productDetails.map((product) => (
+                <div
+                  className="border border-gray-200 rounded-md"
+                  key={product._id}
+                >
+                  <div className="">
+                    <a href="#" className="object-contain">
+                      <img
+                        src={product.images[0]}
+                        alt=""
+                        className="object-fill w-[100%] h-52 "
+                      />
+                    </a>
+                  </div>
+                  <div className="p-3 bg-gray-50">
+                    <h5 className="text-lg font-bold tracking-tight h-16 line-clamp-2">
+                      {product.description}
+                    </h5>
+                    <div className="mb-2 flex justify-between">
+                      <h2 className="text-sm overflow-hidden overflow-ellipsis whitespace-nowrap">
+                        {product.subCategory
+                          ? product.subCategory
+                          : "Not Available"}
+                      </h2>
+                    </div>
+                    <div className="mb-2 flex justify-between">
+                      <StarRating rating={3} />
+                      <p className="text-md font-semibold text-green-600">
+                        <span>{formatPrice(product.price)}</span>
+                      </p>
+                    </div>
+                    <div className="flex gap-3">
+                      <button
+                        className="flex justify-center px-2 py-2 text-blue-600 border border-blue-300 rounded-md hover:bg-blue-700 hover:text-gray-100 dark:hover:bg-gray-800 dark:hover:border-gray-900"
+                        onClick={() => addItemToCart(product)}
+                      >
+                        Move to cart
+                      </button>
+                      <button
+                        className="flex justify-center px-4 py-2 bg-blue-100 text-blue-600 border border-blue-300 rounded-md hover:bg-blue-700 hover:border-none hover:text-gray-100 dark:hover:bg-red-600"
+                        onClick={() => removeItemFromWishlist(product)}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className="mb-2 flex justify-between">
-                  <StarRating rating={3} />
-                  <p className="text-md font-semibold text-green-600">
-                    <span>{formatPrice(product.price)}</span>
-                  </p>
-                </div>
-                <div className="flex gap-3">
-                  <button
-                    className="flex justify-center px-2 py-2 text-blue-600 border border-blue-300 rounded-md hover:bg-blue-700 hover:text-gray-100 dark:hover:bg-gray-800 dark:hover:border-gray-900"
-                    onClick={() => addItemToCart(product)}
-                  >
-                    Move to cart
-                  </button>
-                  <button
-                    className="flex justify-center px-4 py-2 bg-blue-100 text-blue-600 border border-blue-300 rounded-md hover:bg-blue-700 hover:border-none hover:text-gray-100 dark:hover:bg-red-600"
-                    onClick={() => removeItemFromWishlist(product)}
-                  >
-                    Remove
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))
-        )}
+              ))
+            )
+          : null}
       </div>
       <Toaster position="top-right" containerStyle={{ zIndex: "99999" }} />
     </div>

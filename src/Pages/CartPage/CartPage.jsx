@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 import Emptycart from "./emptycart";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   decrementQuantity,
@@ -24,6 +24,7 @@ const CartPage = () => {
   const quantitiesInCart = useSelector((state) => state.cart.quantities);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const increment = (productId) => {
     console.log(productId);
@@ -125,7 +126,11 @@ const CartPage = () => {
   };
 
   useEffect(() => {
-    fetchCartData();
+    if (localStorage.getItem("authToken")) {
+      fetchCartData();
+    } else {
+      navigate("/login");
+    }
   }, []);
   // JSX code for the shopping cart page
 
@@ -230,11 +235,11 @@ const CartPage = () => {
                             onClick={() =>
                               decrement(product.productDetails._id)
                             }
-                            // disabled={
-                            //   quantitiesInCart.find(
-                            //     (item) => item.id === product.productDetails._id
-                            //   )?.quantity === 1
-                            // }
+                            disabled={
+                              quantitiesInCart.find(
+                                (item) => item.id === product.productDetails._id
+                              )?.quantity === 1
+                            }
                           >
                             -
                           </button>
