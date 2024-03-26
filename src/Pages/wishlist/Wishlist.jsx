@@ -58,7 +58,7 @@ const Wishlist = () => {
         }
       );
 
-      dispatch(removeFromWishlist(product));
+      dispatch(removeFromWishlist(product._id));
       toast.success("Item removed from the wishlist");
 
       // Fetch updated wishlist data after removal
